@@ -3,83 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMG.</title>
-
-    <link rel="icon" href="https://1.bp.blogspot.com/-CT4k0UxevHU/XwosTcP3lGI/AAAAAAACuFk/BRhXDeMVuscuY6t3SrqJNUh7U65zoqisACLcBGAsYHQ/s512/cube-minecraft-block.png" type="image/png">
-
+    <title>BSMP II</title>
+    
     <style>
+        /* --- ESTILOS CSS - MODO MISTERIO --- */
+
+        @font-face {
+            font-family: 'Minecraftory';
+            src: url('minercraftory.ttf');
+        }
+
+        html {
+            height: 100%;
+        }
+
         body {
-            background-color: black;
+            font-family: 'Minecraftory', monospace; 
+            background-color: #ffffff; /* Fondo blanco */
+            color: #000000;           /* Letras negras */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            text-align: center;
+            height: 100%;
             margin: 0;
-            overflow: hidden;
+            animation: fadeIn 2s ease-in;
         }
 
-        .logo {
-            width: 300px;
-            height: auto;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+        .container {
+            max-width: 90%;
         }
 
-        .logo img {
-            width: 100%;
-            height: 100%;
-            transition: opacity 0.3s ease;
+        h1 {
+            font-size: clamp(3rem, 15vw, 6rem);
+            font-weight: bold;
+            letter-spacing: 0.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            /* Animación de brillo oscuro que palpita */
+            animation: pulseGlow 4s infinite alternate ease-in-out;
         }
 
-        .glitch {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('bmg_glitch.png');
-            background-size: cover;
-            opacity: 0; 
-            pointer-events: none;
+        p {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: #888;
+            margin-top: 1rem;
         }
 
-        .logo:hover .glitch {
-            opacity: 1; 
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
         }
 
+        .time-card span {
+            display: block;
+            font-size: clamp(2rem, 10vw, 4rem);
+            font-weight: bold;
+            color: #000000;
+        }
         
-        .logo:hover img {
-            opacity: 0;
+        /* --- NUEVO ELEMENTO MISTERIOSO --- */
+        .blinking-cursor {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: #888;
+            animation: blink 1s step-end infinite;
         }
 
-        /* El secreto está aquí */
-        .secret {
-            display: none; 
+        /* --- Animaciones --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
+
+        /* Animación de brillo corregida para fondo claro */
+        @keyframes pulseGlow {
+            from {
+                text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+            }
+        }
+        
+        /* Nueva animación para el parpadeo */
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="logo" onclick="window.location.href='https://www.instagram.com/brauu_m?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=='">
-        <img src="bmg_normal.png" alt="BMG Logo">
-        <div class="glitch"></div>
-    </div>
-
-    
-    <div class="secret">
-        <p>que haces viendo esto.. Crees que encontraras algo?</p>
-    </div>
-
-    <div class="secret">
-        <p>BRAI ESTA CERCA...</p>
+    <div class="container">
+        <h1>II</h1>
+        <p><span class="blinking-cursor">...</span></p>
+        
+        <div id="countdown" class="countdown">
+            <div class="time-card">
+                <span id="days">0</span>
+            </div>
+            <div class="time-card">
+                <span id="hours">0</span>
+            </div>
+            <div class="time-card">
+                <span id="minutes">0</span>
+            </div>
+            <div class="time-card">
+                <span id="seconds">0</span>
+            </div>
+        </div>
     </div>
 
     <script>
-    
-        document.body.addEventListener('click', function() {
-            alert("BIENVENIDO AL COMIENZO DE LA BUSQUEDA");
-        });
+        // --- CÓDIGO JAVASCRIPT PARA EL CONTADOR ---
+        const countDownDate = new Date("Dec 1, 2025 00:00:00").getTime();
+
+        const countdownFunction = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                /* Corregido para que el texto sea negro y visible */
+                document.getElementById("countdown").innerHTML = "<p style='font-size: 2rem; color: black;'>EL MOMENTO HA LLEGADO.</p>";
+                return;
+            }
+
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+        }, 1000);
     </script>
 
 </body>

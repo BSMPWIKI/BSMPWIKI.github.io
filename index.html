@@ -5,19 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BSMP II</title>
     <link rel="icon" type="image/x-icon" href="https://www.nicepng.com/png/detail/30-307525_question-pixel-art.png">
-    
+
     <style>
         /* --- ESTILOS CSS - MODO MISTERIO --- */
-
         @font-face {
             font-family: 'Minecraftory';
-            src: url('minercraftory.ttf');
+            src: url(fonts/minercraftory.ttf);
         }
-
         html {
             height: 100%;
         }
-
         body {
             font-family: 'Minecraftory', monospace; 
             background-color: #ffffff; /* Fondo blanco */
@@ -30,11 +27,9 @@
             margin: 0;
             animation: fadeIn 2s ease-in;
         }
-
         .container {
             max-width: 90%;
         }
-
         h1 {
             font-size: clamp(3rem, 15vw, 6rem);
             font-weight: bold;
@@ -44,12 +39,29 @@
             /* Animación de brillo oscuro que palpita */
             animation: pulseGlow 4s infinite alternate ease-in-out;
         }
-
         p {
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: #888;
             margin-top: 1rem;
         }
+
+        /* --- ESTILOS MODIFICADOS PARA EL ENLACE --- */
+        .mystery-link {
+            display: block; 
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: #777;
+            text-decoration: underline; /* <--- AÑADIDO PARA QUE PAREZCA LINK */
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            margin-top: 2.5rem;
+            margin-bottom: -1rem;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .mystery-link:hover {
+            color: #000; 
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+        /* --- FIN DE ESTILOS NUEVOS --- */
 
         .countdown {
             display: flex;
@@ -58,27 +70,23 @@
             margin-top: 3rem;
             flex-wrap: wrap;
         }
-
         .time-card span {
             display: block;
             font-size: clamp(2rem, 10vw, 4rem);
             font-weight: bold;
             color: #000000;
         }
-        
         /* --- NUEVO ELEMENTO MISTERIOSO --- */
         .blinking-cursor {
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: #888;
             animation: blink 1s step-end infinite;
         }
-
         /* --- Animaciones --- */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         /* Animación de brillo corregida para fondo claro */
         @keyframes pulseGlow {
             from {
@@ -88,13 +96,11 @@
                 text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
             }
         }
-        
         /* Nueva animación para el parpadeo */
         @keyframes blink {
             from, to { opacity: 1; }
             50% { opacity: 0; }
         }
-
     </style>
 </head>
 <body>
@@ -102,7 +108,10 @@
     <div class="container">
         <h1>II</h1>
         <p><span class="blinking-cursor">...</span></p>
-        
+
+        <a class="mystery-link" href="https://forms.gle/r7iAV7P84LrSvxnX9" target="_blank" rel="noopener noreferrer">
+            BSMP ENTRY FORM
+        </a>
         <div id="countdown" class="countdown">
             <div class="time-card">
                 <span id="days">0</span>
@@ -130,7 +139,7 @@
             if (distance < 0) {
                 clearInterval(countdownFunction);
                 /* Corregido para que el texto sea negro y visible */
-                document.getElementById("countdown").innerHTML = "<p style='font-size: 2rem; color: black;'>EL MOMENTO HA LLEGADO.</p>";
+                document.getElementById("countdown").innerHTML = "<p style='font-size: 2rem; color: black;'>THE TIME HAS COME.</p>";
                 return;
             }
 
@@ -143,4 +152,3 @@
 
 </body>
 </html>
-

@@ -24,7 +24,8 @@
             text-align: center;
             min-height: 100vh; 
             margin: 0;
-            padding: 2rem 0;
+            /* AJUSTE MÓVIL: Menos padding arriba/abajo */
+            padding: 1rem 0; 
             animation: fadeIn 2s ease-in;
             flex-direction: column; 
             position: relative; 
@@ -35,7 +36,8 @@
             width: 100%;
         }
         h1 {
-            font-size: clamp(3rem, 15vw, 6rem);
+            /* AJUSTE MÓVIL: Ligero ajuste de tamaño mínimo para no saturar */
+            font-size: clamp(2.5rem, 15vw, 6rem); 
             font-weight: bold;
             letter-spacing: 0.5rem;
             margin: 0;
@@ -56,26 +58,30 @@
             text-decoration: underline;
             text-transform: uppercase;
             letter-spacing: 0.2rem;
-            margin-top: 2.5rem;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
+            margin-top: 2rem;
+            /* CAMBIO DE ANIMACIÓN: Añadido 'transform' a la transición */
+            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
             cursor: pointer; 
         }
         a.mystery-link {
             margin-bottom: -1rem;
         }
         span.mystery-link {
-             margin-top: 1.5rem; 
+             margin-top: 1rem; 
         }
         .mystery-link:hover {
             color: #000; 
             text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            /* CAMBIO DE ANIMACIÓN: Efecto flotante sutil al pasar el mouse */
+            transform: translateY(-3px);
         }
 
         .countdown {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 3rem;
+            /* AJUSTE MÓVIL: Menos gap entre tarjetas */
+            gap: 1.5rem; 
+            margin-top: 2rem; 
             flex-wrap: wrap;
         }
         .time-card span {
@@ -121,13 +127,26 @@
             0% { background-position: 0 0; }
             100% { background-position: 15% 10%; } 
         }
+
+        /* *** NUEVA ANIMACIÓN *** */
+        /* Animación para la carga escalonada de cabezas */
+        @keyframes fadeInHead {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
         /* --- FIN DE ANIMACIONES --- */
 
 
         /* --- ESTILOS PARA LA SECCIÓN DE STREAMERS --- */
         .streamers-container {
             width: 100%;
-            margin-top: 4rem;
+            margin-top: 3rem; 
             padding: 1rem;
         }                
         .streamers-container h2 {
@@ -135,7 +154,7 @@
             letter-spacing: 0.3rem;
             text-transform: uppercase;
             color: #333;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem; 
             cursor: pointer;             
             transition: color 0.3s ease;
         }
@@ -150,7 +169,8 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.5rem;
+            /* AJUSTE MÓVIL: Menos gap entre cabezas */
+            gap: 1rem; 
             max-width: 600px;
             margin: 0 auto;
         }
@@ -158,6 +178,11 @@
             position: relative;
             display: block;
             transition: transform 0.2s ease;
+
+            /* *** CAMBIO DE ANIMACIÓN: Aplicar la carga escalonada *** */
+            opacity: 0; /* Empezar oculto */
+            animation: fadeInHead 0.4s ease-out forwards;
+            /* El 'animation-delay' se añadirá con JavaScript */
         }
         .streamer-head:hover {
             transform: scale(1.1);
@@ -199,7 +224,7 @@
             display: flex;
             justify-content: center;
             gap: 1.5rem;             
-            margin-top: 3rem;         
+            margin-top: 2.5rem;
         }
         .social-icons a {
             color: #aaaaaa;             
@@ -216,8 +241,8 @@
         /* --- ESTILOS DEL FOOTER/CRÉDITO (AJUSTADOS) --- */
         footer {
             width: 100%;
-            margin-top: 1.5rem;             
-            padding-bottom: 2rem;
+            margin-top: 1rem; 
+            padding-bottom: 1rem;
         }
         footer p.powered-by {
             font-family: 'Minecraftory', monospace;
@@ -470,22 +495,25 @@ BRAUUSTUDIOS
                 { id: "Dylancho68", displayName: "Dylancho68", channelUrl: "https://www.twitch.tv/Dylancho68" },
                 { id: "K4mar1", displayName: "Ms_kamari", channelUrl: "https://www.twitch.tv/Ms_kamari" },
                 { id: "mikalcetin_", displayName: "mikalcetin_", channelUrl: "https://www.twitch.tv/mikalcetin_" },
+                { id: "quality_forever_", displayName: "Quality_forever_", channelUrl: "https://www.twitch.tv/quality_forever_" },
+                { id: "wallyvx", displayName: "Wallyvx", channelUrl: "https://www.twitch.tv/wallyvx" },
+                { id: "thatoneidiort", displayName: "PuvaPudim", channelUrl: "https://www.twitch.tv/puvapudim" },
 
                 // --- No-Premium (¡Usa el "perfilId" de Mineskin!) ---
                 { 
-                    id: "811d634750cf4d2492fd71a5bf6af271", // <-- ¡Este es el Perfil ID de Wendy!
+                    id: "811d634750cf4d2492fd71a5bf6af271", // Perfil ID de Wendysszx
                     displayName: "Wendysszx", 
-                    channelUrl: "https://www.twitch.tv/Wendysszx" // <-- (Pon aquí su canal)
+                    channelUrl: "https://www.twitch.tv/Wendysszx" 
                 },
                 { 
-                    id: "b66ba49eabec4bf99ea9f940c171a933", // <-- ¡Este es el Perfil ID de Wendy!
+                    id: "b66ba49eabec4bf99ea9f940c171a933", // Perfil ID de MateiLikesMinin (Ramirezz)
                     displayName: "Ramirezz", 
-                    channelUrl: "https://www.twitch.tv/ramirez_the_catt" // <-- (Pon aquí su canal)
+                    channelUrl: "https://www.twitch.tv/ramirez_the_catt" 
                 },
                 { 
-                    id: "be413f83f8ea42148c0294a2bc227e65", // <-- ¡Este es el Perfil ID de Wendy!
+                    id: "be413f83f8ea42148c0294a2bc227e65", // Perfil ID de Alessa_bna
                     displayName: "Alessa_bna", 
-                    channelUrl: "https://www.twitch.tv/alessaa_bna" // <-- (Pon aquí su canal)
+                    channelUrl: "https://www.twitch.tv/alessa_bna" 
                 },
                 
             ];
@@ -496,12 +524,12 @@ BRAUUSTUDIOS
             
             document.getElementById('streamer-count').innerText = streamers.length;
 
-            streamers.forEach(streamer => {
+            // *** CAMBIO DE ANIMACIÓN: Añadimos 'index' para el retraso escalonado ***
+            streamers.forEach((streamer, index) => {
                 
-                // Con esta lógica, TODOS se ven de frente (avatar)
-                // Funciona con usernames (premium) y con UUIDs (no-premium de Mineskin)
-                let headUrl = `https://minotar.net/avatar/${streamer.id}/64`;
-                let avatarUrl = `https://minotar.net/avatar/${streamer.id}/32`;
+                // Usamos "helm" para forzar la segunda capa 2D
+                let headUrl = `https://minotar.net/helm/${streamer.id}/64`;
+                let avatarUrl = `https://minotar.net/helm/${streamer.id}/32`;
 
                 // A. Crear las cabezas de la cuadrícula
                 const link = document.createElement('a');
@@ -510,6 +538,10 @@ BRAUUSTUDIOS
                 link.rel = "noopener noreferrer";
                 link.className = "streamer-head";
                 link.setAttribute('data-name', streamer.displayName);
+
+                // *** CAMBIO DE ANIMACIÓN: Aplicar el retraso escalonado ***
+                // Multiplica el índice (0, 1, 2...) por 80ms
+                link.style.animationDelay = `${index * 80}ms`;
 
                 const img = document.createElement('img');
                 img.src = headUrl; 
@@ -580,5 +612,3 @@ BRAUUSTUDIOS
 
 </body>
 </html>
-
-

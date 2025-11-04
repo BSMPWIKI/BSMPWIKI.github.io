@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BSMP II</title>
     <link rel="icon" type="image/x-icon" href="https://www.nicepng.com/png/detail/30-307525_question-pixel-art.png">
-
     <style>
         /* --- ESTILOS CSS - MODO MISTERIO --- */
         @font-face {
@@ -17,18 +16,21 @@
         }
         body {
             font-family: 'Minecraftory', monospace; 
-            background-color: #ffffff; /* Fondo blanco */
-            color: #000000;           /* Letras negras */
+            background-color: #ffffff;
+            color: #000000;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            height: 100%;
+            min-height: 100vh; 
             margin: 0;
+            padding: 2rem 0;
             animation: fadeIn 2s ease-in;
+            flex-direction: column; 
         }
         .container {
             max-width: 90%;
+            width: 100%;
         }
         h1 {
             font-size: clamp(3rem, 15vw, 6rem);
@@ -36,7 +38,6 @@
             letter-spacing: 0.5rem;
             margin: 0;
             text-transform: uppercase;
-            /* Animación de brillo oscuro que palpita */
             animation: pulseGlow 4s infinite alternate ease-in-out;
         }
         p {
@@ -50,18 +51,26 @@
             display: block; 
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: #777;
-            text-decoration: underline; /* <--- AÑADIDO PARA QUE PAREZCA LINK */
+            text-decoration: underline;
             text-transform: uppercase;
             letter-spacing: 0.2rem;
             margin-top: 2.5rem;
-            margin-bottom: -1rem;
             transition: color 0.3s ease, text-shadow 0.3s ease;
+            cursor: pointer; /* Añadido para los que abren modales */
         }
+        /* Ajuste para el primer link */
+        a.mystery-link {
+            margin-bottom: -1rem;
+        }
+        /* Ajuste para el segundo link */
+        span.mystery-link {
+             margin-top: 1.5rem; /* Menos espacio */
+        }
+
         .mystery-link:hover {
             color: #000; 
             text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
         }
-        /* --- FIN DE ESTILOS NUEVOS --- */
 
         .countdown {
             display: flex;
@@ -76,31 +85,254 @@
             font-weight: bold;
             color: #000000;
         }
-        /* --- NUEVO ELEMENTO MISTERIOSO --- */
+
         .blinking-cursor {
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: #888;
             animation: blink 1s step-end infinite;
         }
+
         /* --- Animaciones --- */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        /* Animación de brillo corregida para fondo claro */
         @keyframes pulseGlow {
-            from {
-                text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-            }
-            to {
-                text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-            }
+            from { text-shadow: 0 0 8px rgba(0, 0, 0, 0.2); }
+            to { text-shadow: 0 0 15px rgba(0, 0, 0, 0.4); }
         }
-        /* Nueva animación para el parpadeo */
         @keyframes blink {
             from, to { opacity: 1; }
             50% { opacity: 0; }
         }
+        @keyframes pulseGlowImage {
+            from { filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)); }
+            to { filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)); }
+        }
+        @keyframes pulseGlowFooter {
+            from { text-shadow: 0 0 3px rgba(0, 0, 0, 0.1); }
+            to { text-shadow: 0 0 6px rgba(0, 0, 0, 0.2); }
+        }
+        /* --- FIN DE ANIMACIONES --- */
+
+
+        /* --- ESTILOS PARA LA SECCIÓN DE STREAMERS --- */
+        .streamers-container {
+            width: 100%;
+            margin-top: 4rem;
+            padding: 1rem;
+        }
+        
+        .streamers-container h2 {
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            letter-spacing: 0.3rem;
+            text-transform: uppercase;
+            color: #333;
+            margin-bottom: 2rem;
+            cursor: pointer; 
+            transition: color 0.3s ease;
+        }
+        .streamers-container h2:hover {
+            color: #000; 
+        }
+        .streamers-container h2 span {
+            color: #888; 
+            font-size: clamp(1.2rem, 5vw, 2rem);
+        }
+
+        .streamers-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .streamer-head {
+            position: relative;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+        .streamer-head:hover {
+            transform: scale(1.1);
+        }
+        .streamer-head img {
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated;
+            background-color: #555;
+            border-radius: 4px;
+            animation: pulseGlowImage 4s infinite alternate ease-in-out;
+        }
+        .streamer-head[data-name]::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: 110%; 
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #000;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            letter-spacing: 0.1rem;
+            white-space: nowrap; 
+            opacity: 0; 
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            pointer-events: none; 
+            font-family: 'Minecraftory', monospace; 
+        }
+        .streamer-head[data-name]:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- ESTILOS PARA ICONOS DE REDES SOCIALES --- */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem; 
+            margin-top: 3rem; 
+        }
+        .social-icons a {
+            color: #aaaaaa; 
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: #000000; 
+        }
+        .social-icons svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* --- ESTILOS DEL FOOTER/CRÉDITO (AJUSTADOS) --- */
+        footer {
+            width: 100%;
+            margin-top: 1.5rem; 
+            padding-bottom: 2rem;
+        }
+        footer p.powered-by {
+            font-family: 'Minecraftory', monospace;
+            font-size: 0.8rem;
+            color: #ccc;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            margin: 0 0 0.5rem 0;
+        }
+        footer p.brand {
+            font-family: 'Minecraftory', monospace;
+            font-size: 1rem;
+            color: #aaaaaa;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            margin: 0;
+            animation: pulseGlowFooter 6s infinite alternate ease-in-out; 
+        }
+
+        /* --- ESTILOS PARA EL MODAL (VENTANA POP-UP) --- */
+        .modal-overlay {
+            display: none; 
+            position: fixed; 
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6); 
+            backdrop-filter: blur(5px); 
+            justify-content: center;
+            align-items: center;
+            font-family: 'Minecraftory', monospace;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh; 
+            overflow-y: auto; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            position: relative; 
+            animation: fadeIn 0.5s ease;
+            text-align: left; /* Alinea el texto del modal a la izquierda */
+        }
+        .modal-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            color: #aaa;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .modal-close:hover {
+            color: #000;
+        }
+        .modal-content h3 {
+            text-align: center; /* Centra el título del modal */
+            font-size: 1.5rem;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            margin-top: 0;
+        }
+        /* Párrafos de texto dentro del modal de "Info" */
+        .modal-text {
+            font-size: 1.1rem; 
+            color: #333;
+            line-height: 1.6; 
+            white-space: pre-wrap; /* Respeta saltos de línea y espacios */
+            text-align: center; /* Centra el texto de info */
+        }
+
+        #search-bar {
+            width: 100%;
+            box-sizing: border-box; 
+            padding: 12px;
+            margin-bottom: 1.5rem;
+            font-family: 'Minecraftory', monospace;
+            font-size: 1rem;
+            color: #333;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        #search-bar:focus {
+            outline: none;
+            border-color: #000;
+        }
+        #modal-streamer-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        #modal-streamer-list li a {
+            display: flex;
+            align-items: center;
+            gap: 15px; 
+            padding: 12px 10px;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+        #modal-streamer-list li:last-child a {
+            border-bottom: none;
+        }
+        #modal-streamer-list li a:hover {
+            background-color: #f9f9f9;
+        }
+        #modal-streamer-list img {
+            width: 32px;
+            height: 32px;
+            image-rendering: pixelated;
+            border-radius: 4px;
+            background-color: #eee;
+        }
+        /* --- FIN DE ESTILOS DEL MODAL --- */
+
     </style>
 </head>
 <body>
@@ -112,42 +344,182 @@
         <a class="mystery-link" href="https://forms.gle/r7iAV7P84LrSvxnX9" target="_blank" rel="noopener noreferrer">
             BSMP ENTRY FORM
         </a>
+        
+        <span class="mystery-link" id="open-about-btn">
+            BSMP INFO
+        </span>
+        
         <div id="countdown" class="countdown">
-            <div class="time-card">
-                <span id="days">0</span>
-            </div>
-            <div class="time-card">
-                <span id="hours">0</span>
-            </div>
-            <div class="time-card">
-                <span id="minutes">0</span>
-            </div>
-            <div class="time-card">
-                <span id="seconds">0</span>
-            </div>
+            <div class="time-card"><span id="days">0</span></div>
+            <div class="time-card"><span id="hours">0</span></div>
+            <div class="time-card"><span id="minutes">0</span></div>
+            <div class="time-card"><span id="seconds">0</span></div>
+        </div>
+
+        <div class="streamers-container">
+            <h2 id="open-streamer-btn">Streamers (<span id="streamer-count">0</span>)</h2>
+            <div id="streamers-grid" class="streamers-grid">
+                </div>
+        </div>
+    </div> 
+
+    <div class="social-icons">
+        <a href="https://www.twitch.tv/brauustudios" target="_blank" rel="noopener noreferrer" title="Twitch">
+            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg>
+        </a>
+        
+    </div>
+
+    <footer>
+        <p class="powered-by">POWERED BY</p>
+        <p class="brand">brauu studios</p>
+    </footer>
+
+    
+    <div id="streamer-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close streamer-close">&times;</span>
+            <h3>Lista de Streamers</h3>
+            <input type="text" id="search-bar" placeholder="Buscar streamer...">
+            <ul id="modal-streamer-list">
+                </ul>
         </div>
     </div>
+    
+    <div id="about-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close about-close">&times;</span>
+            <h3>¿QUÉ ES BSMP II?</h3>
+            
+            <p class="modal-text">
+BSMP II es el renacimiento de BrauuSMP.
+
+La primera edición unió a streamers pequeños, donde cada uno forjó un lore único y variado.
+
+Este año, una nueva era comienza. Si te apasiona el misterio, convivir en comunidad y transmitir tu propia leyenda... esta serie es para ti.
+
+BRAUUSTUDIOS 
+            </p>
+            </div>
+    </div>
+
 
     <script>
         // --- CÓDIGO JAVASCRIPT PARA EL CONTADOR ---
         const countDownDate = new Date("Dec 1, 2025 00:00:00").getTime();
-
         const countdownFunction = setInterval(function() {
             const now = new Date().getTime();
             const distance = countDownDate - now;
 
             if (distance < 0) {
                 clearInterval(countdownFunction);
-                /* Corregido para que el texto sea negro y visible */
                 document.getElementById("countdown").innerHTML = "<p style='font-size: 2rem; color: black;'>THE TIME HAS COME.</p>";
                 return;
             }
-
             document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
             document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
         }, 1000);
+    </script>
+
+    <script>
+        // --- SCRIPT PARA CABEZAS, CONTADOR, MODALES Y BÚSQUEDA ---
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- ¡IMPORTANTE! EDITA ESTA LISTA ---
+            const streamers = [
+                { username: "DaniTrembl4y", displayName: "DaniTremblay", channelUrl: "DaniTremblay" },
+                { username: "j4vu", displayName: "j4vuuuu", channelUrl: "https://www.twitch.tv/j4vuuuu" },
+                { username: "ItsBrauu", displayName: "ItsBrauu", channelUrl: "https://www.twitch.tv/ItsBrauu" },
+                { username: "Dylancho68", displayName: "Dylancho68", channelUrl: "https://www.twitch.tv/Dylancho68" },
+                { username: "K4mar1", displayName: "Ms_kamari", channelUrl: "https://www.twitch.tv/Ms_kamari" },
+                // --- Agrega más streamers aquí con ese formato ---
+                // { username: "NickDeMinecraft", displayName: "NombrePublico", channelUrl: "https://link-a-su-canal.com" },
+            ];
+
+            // --- 1. CONFIGURAR CONTADOR Y CUADRÍCULA DE CABEZAS ---
+            const grid = document.getElementById('streamers-grid');
+            const modalList = document.getElementById('modal-streamer-list');
+            
+            // Actualizar el contador
+            document.getElementById('streamer-count').innerText = streamers.length;
+
+            // Llenar ambas listas (cabezas y modal)
+            streamers.forEach(streamer => {
+                // A. Crear las cabezas de la cuadrícula
+                const link = document.createElement('a');
+                link.href = streamer.channelUrl;
+                link.target = "_blank"; 
+                link.rel = "noopener noreferrer";
+                link.className = "streamer-head";
+                link.setAttribute('data-name', streamer.displayName);
+
+                const img = document.createElement('img');
+                img.src = `https://minotar.net/helm/${streamer.username}/64`;
+                img.alt = `Cabeza de ${streamer.displayName}`;
+
+                link.appendChild(img);
+                grid.appendChild(link);
+
+                // B. Crear la lista del modal
+                const li = document.createElement('li');
+                const modalLink = document.createElement('a');
+                modalLink.href = streamer.channelUrl;
+                modalLink.target = "_blank";
+                modalLink.rel = "noopener noreferrer";
+                modalLink.innerHTML = `
+                    <img src="https://minotar.net/avatar/${streamer.username}/32" alt="${streamer.displayName}">
+                    ${streamer.displayName}
+                `;
+                li.appendChild(modalLink);
+                modalList.appendChild(li);
+            });
+
+
+            // --- 2. FUNCIONALIDAD DEL MODAL DE STREAMERS ---
+            const streamerModal = document.getElementById('streamer-modal');
+            const openStreamerBtn = document.getElementById('open-streamer-btn');
+            const closeStreamerBtn = document.querySelector('.streamer-close');
+
+            openStreamerBtn.onclick = function() { streamerModal.style.display = 'flex'; }
+            closeStreamerBtn.onclick = function() { streamerModal.style.display = 'none'; }
+            streamerModal.onclick = function(event) {
+                if (event.target == streamerModal) {
+                    streamerModal.style.display = 'none';
+                }
+            }
+
+            // --- 3. FUNCIONALIDAD DEL MODAL DE "INFO" ---
+            const aboutModal = document.getElementById('about-modal');
+            const openAboutBtn = document.getElementById('open-about-btn');
+            const closeAboutBtn = document.querySelector('.about-close');
+
+            openAboutBtn.onclick = function() { aboutModal.style.display = 'flex'; }
+            closeAboutBtn.onclick = function() { aboutModal.style.display = 'none'; }
+            aboutModal.onclick = function(event) {
+                if (event.target == aboutModal) {
+                    aboutModal.style.display = 'none';
+                }
+            }
+
+            // --- 4. FUNCIONALIDAD DE BÚSQUEDA ---
+            const searchBar = document.getElementById('search-bar');
+            searchBar.addEventListener('keyup', function() {
+                const filter = searchBar.value.toUpperCase();
+                const liItems = modalList.getElementsByTagName('li');
+
+                for (let i = 0; i < liItems.length; i++) {
+                    const a = liItems[i].getElementsByTagName('a')[0];
+                    const txtValue = a.textContent || a.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        liItems[i].style.display = "";
+                    } else {
+                        liItems[i].style.display = "none";
+                    }
+                }
+            });
+        });
     </script>
 
 </body>

@@ -27,6 +27,10 @@
             padding: 2rem 0;
             animation: fadeIn 2s ease-in;
             flex-direction: column; 
+            
+            /* --- CAMBIOS PARA EL EFECTO CRT --- */
+            position: relative; /* Necesario para el pseudo-elemento */
+            overflow-x: hidden; /* Evita scroll por los efectos */
         }
         .container {
             max-width: 90%;
@@ -56,17 +60,14 @@
             letter-spacing: 0.2rem;
             margin-top: 2.5rem;
             transition: color 0.3s ease, text-shadow 0.3s ease;
-            cursor: pointer; /* Añadido para los que abren modales */
+            cursor: pointer; 
         }
-        /* Ajuste para el primer link */
         a.mystery-link {
             margin-bottom: -1rem;
         }
-        /* Ajuste para el segundo link */
         span.mystery-link {
-             margin-top: 1.5rem; /* Menos espacio */
+             margin-top: 1.5rem; 
         }
-
         .mystery-link:hover {
             color: #000; 
             text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
@@ -113,6 +114,16 @@
             from { text-shadow: 0 0 3px rgba(0, 0, 0, 0.1); }
             to { text-shadow: 0 0 6px rgba(0, 0, 0, 0.2); }
         }
+        
+        /* --- NUEVAS ANIMACIONES PARA EL EFECTO CRT --- */
+        @keyframes crt-scanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; } 
+        }
+        @keyframes crt-noise {
+            0% { background-position: 0 0; }
+            100% { background-position: 10% 10%; } /* Ajustado para más movimiento del ruido */
+        }
         /* --- FIN DE ANIMACIONES --- */
 
 
@@ -121,25 +132,23 @@
             width: 100%;
             margin-top: 4rem;
             padding: 1rem;
-        }
-        
+        }                
         .streamers-container h2 {
             font-size: clamp(1.5rem, 6vw, 2.5rem);
             letter-spacing: 0.3rem;
             text-transform: uppercase;
             color: #333;
             margin-bottom: 2rem;
-            cursor: pointer; 
+            cursor: pointer;             
             transition: color 0.3s ease;
         }
         .streamers-container h2:hover {
-            color: #000; 
+            color: #000;         
         }
         .streamers-container h2 span {
-            color: #888; 
+            color: #888;             
             font-size: clamp(1.2rem, 5vw, 2rem);
         }
-
         .streamers-grid {
             display: flex;
             flex-wrap: wrap;
@@ -167,7 +176,7 @@
         .streamer-head[data-name]::after {
             content: attr(data-name);
             position: absolute;
-            bottom: 110%; 
+            bottom: 110%;             
             left: 50%;
             transform: translateX(-50%);
             background-color: #000;
@@ -176,12 +185,12 @@
             border-radius: 4px;
             font-size: 0.9rem;
             letter-spacing: 0.1rem;
-            white-space: nowrap; 
-            opacity: 0; 
+            white-space: nowrap;             
+            opacity: 0;             
             visibility: hidden;
             transition: opacity 0.2s ease, visibility 0.2s ease;
-            pointer-events: none; 
-            font-family: 'Minecraftory', monospace; 
+            pointer-events: none;             
+            font-family: 'Minecraftory', monospace;         
         }
         .streamer-head[data-name]:hover::after {
             opacity: 1;
@@ -192,15 +201,15 @@
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 1.5rem; 
-            margin-top: 3rem; 
+            gap: 1.5rem;             
+            margin-top: 3rem;         
         }
         .social-icons a {
-            color: #aaaaaa; 
+            color: #aaaaaa;             
             transition: color 0.3s ease;
         }
         .social-icons a:hover {
-            color: #000000; 
+            color: #000000;         
         }
         .social-icons svg {
             width: 24px;
@@ -210,7 +219,7 @@
         /* --- ESTILOS DEL FOOTER/CRÉDITO (AJUSTADOS) --- */
         footer {
             width: 100%;
-            margin-top: 1.5rem; 
+            margin-top: 1.5rem;             
             padding-bottom: 2rem;
         }
         footer p.powered-by {
@@ -228,20 +237,20 @@
             letter-spacing: 0.2rem;
             text-transform: uppercase;
             margin: 0;
-            animation: pulseGlowFooter 6s infinite alternate ease-in-out; 
+            animation: pulseGlowFooter 6s infinite alternate ease-in-out;         
         }
 
         /* --- ESTILOS PARA EL MODAL (VENTANA POP-UP) --- */
         .modal-overlay {
-            display: none; 
-            position: fixed; 
-            z-index: 100;
+            display: none;             
+            position: fixed;             
+            z-index: 100; /* Detrás del efecto CRT */
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6); 
-            backdrop-filter: blur(5px); 
+            background-color: rgba(0,0,0,0.6);             
+            backdrop-filter: blur(5px);             
             justify-content: center;
             align-items: center;
             font-family: 'Minecraftory', monospace;
@@ -252,12 +261,12 @@
             border-radius: 8px;
             max-width: 500px;
             width: 90%;
-            max-height: 80vh; 
-            overflow-y: auto; 
+            max-height: 80vh;             
+            overflow-y: auto;             
             box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            position: relative; 
+            position: relative;             
             animation: fadeIn 0.5s ease;
-            text-align: left; /* Alinea el texto del modal a la izquierda */
+            text-align: left; 
         }
         .modal-close {
             position: absolute;
@@ -273,24 +282,22 @@
             color: #000;
         }
         .modal-content h3 {
-            text-align: center; /* Centra el título del modal */
+            text-align: center; 
             font-size: 1.5rem;
             letter-spacing: 0.2rem;
             text-transform: uppercase;
             margin-top: 0;
         }
-        /* Párrafos de texto dentro del modal de "Info" */
         .modal-text {
-            font-size: 1.1rem; 
+            font-size: 1.1rem;             
             color: #333;
-            line-height: 1.6; 
-            white-space: pre-wrap; /* Respeta saltos de línea y espacios */
-            text-align: center; /* Centra el texto de info */
+            line-height: 1.6;             
+            white-space: pre-wrap; 
+            text-align: center; 
         }
-
         #search-bar {
             width: 100%;
-            box-sizing: border-box; 
+            box-sizing: border-box;             
             padding: 12px;
             margin-bottom: 1.5rem;
             font-family: 'Minecraftory', monospace;
@@ -311,7 +318,7 @@
         #modal-streamer-list li a {
             display: flex;
             align-items: center;
-            gap: 15px; 
+            gap: 15px;             
             padding: 12px 10px;
             text-decoration: none;
             color: #333;
@@ -332,6 +339,46 @@
             background-color: #eee;
         }
         /* --- FIN DE ESTILOS DEL MODAL --- */
+
+        
+        /* --- ¡NUEVO! EFECTO CRT COMPLETO Y MÁS INTENSO --- */
+        body::after {
+            content: "";
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; 
+            z-index: 200; 
+
+            /* 1. RUIDO (Noise) */
+            /* 2. LÍNEAS (Scanlines) */
+            background-image: 
+                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAgMAAAAP3yA/AAAACVBMVEUAAAAAAAA/Pz+9vb3rSHikAAAAA3RSTlMAIENmO/UAAAFI SURBVHja7NwhCsJAEEBBu+veBYo/CibGxiB/EFiI+I/Y2NjYWAhs/FcQ23e0UvifE1t3eB+yNMu2bNm2bVu2bX+KLRs2bNm2bdu2bds2x/uYI1/2Sfk2pS59+pT+P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2s2x7/k8v/Z+uDWfwD2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9T+wJNm3b9n+1/wBYpaEi1w0eEgAAAABJRU5ErkJggg=='),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0,0,0,0.2) 0px, /* Más opaco */
+                    rgba(0,0,0,0.2) 2px, /* Líneas más gruesas */
+                    transparent 2px,
+                    transparent 4px /* Mayor espacio entre líneas para hacerlas más visibles */
+                );
+            
+            background-size: 
+                150px 150px, /* Ruido más denso */
+                100% 4px;    /* Altura de las scanlines (se estira) */
+
+            animation:
+                crt-noise 0.2s steps(1) infinite, /* Ruido más rápido y "nervioso" */
+                crt-scanlines 0.3s linear infinite; /* Scanlines más rápidas */
+
+            /* 3. VIÑETA (Vignette) - Sombra interior más oscura y profunda */
+            box-shadow: inset 0 0 15rem rgba(0,0,0,0.6); /* Más oscura y grande */
+
+            /* Opacidad un poco más alta */
+            opacity: 0.7;
+        }
+        /* --- FIN DEL EFECTO CRT --- */
 
     </style>
 </head>
@@ -367,8 +414,7 @@
         <a href="https://www.twitch.tv/brauustudios" target="_blank" rel="noopener noreferrer" title="Twitch">
             <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg>
         </a>
-        
-    </div>
+        </div>
 
     <footer>
         <p class="powered-by">POWERED BY</p>
@@ -390,7 +436,6 @@
         <div class="modal-content">
             <span class="modal-close about-close">&times;</span>
             <h3>¿QUÉ ES BSMP II?</h3>
-            
             <p class="modal-text">
 BSMP II es el renacimiento de BrauuSMP.
 
@@ -400,9 +445,8 @@ Este año, una nueva era comienza. Si te apasiona el misterio, convivir en comun
 
 BRAUUSTUDIOS 
             </p>
-            </div>
+        </div>
     </div>
-
 
     <script>
         // --- CÓDIGO JAVASCRIPT PARA EL CONTADOR ---
@@ -525,4 +569,3 @@ BRAUUSTUDIOS
 
 </body>
 </html>
-

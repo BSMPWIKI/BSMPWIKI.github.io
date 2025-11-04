@@ -27,10 +27,8 @@
             padding: 2rem 0;
             animation: fadeIn 2s ease-in;
             flex-direction: column; 
-            
-            /* --- CAMBIOS PARA EL EFECTO CRT --- */
-            position: relative; /* Necesario para el pseudo-elemento */
-            overflow-x: hidden; /* Evita scroll por los efectos */
+            position: relative; 
+            overflow-x: hidden; 
         }
         .container {
             max-width: 90%;
@@ -115,14 +113,13 @@
             to { text-shadow: 0 0 6px rgba(0, 0, 0, 0.2); }
         }
         
-        /* --- NUEVAS ANIMACIONES PARA EL EFECTO CRT --- */
         @keyframes crt-scanlines {
             0% { background-position: 0 0; }
             100% { background-position: 0 100%; } 
         }
         @keyframes crt-noise {
             0% { background-position: 0 0; }
-            100% { background-position: 10% 10%; } /* Ajustado para más movimiento del ruido */
+            100% { background-position: 15% 10%; } 
         }
         /* --- FIN DE ANIMACIONES --- */
 
@@ -244,7 +241,7 @@
         .modal-overlay {
             display: none;             
             position: fixed;             
-            z-index: 100; /* Detrás del efecto CRT */
+            z-index: 100; 
             left: 0;
             top: 0;
             width: 100%;
@@ -341,7 +338,7 @@
         /* --- FIN DE ESTILOS DEL MODAL --- */
 
         
-        /* --- ¡NUEVO! EFECTO CRT COMPLETO Y MÁS INTENSO --- */
+        /* --- EFECTO CRT INTENSO --- */
         body::after {
             content: "";
             position: fixed; 
@@ -351,31 +348,22 @@
             height: 100%;
             pointer-events: none; 
             z-index: 200; 
-
-            /* 1. RUIDO (Noise) */
-            /* 2. LÍNEAS (Scanlines) */
             background-image: 
                 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAgMAAAAP3yA/AAAACVBMVEUAAAAAAAA/Pz+9vb3rSHikAAAAA3RSTlMAIENmO/UAAAFI SURBVHja7NwhCsJAEEBBu+veBYo/CibGxiB/EFiI+I/Y2NjYWAhs/FcQ23e0UvifE1t3eB+yNMu2bNm2bVu2bX+KLRs2bNm2bdu2bds2x/uYI1/2Sfk2pS59+pT+P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2s2x7/k8v/Z+uDWfwD2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9T+wJNm3b9n+1/wBYpaEi1w0eEgAAAABJRU5ErkJggg=='),
                 repeating-linear-gradient(
                     0deg,
-                    rgba(0,0,0,0.2) 0px, /* Más opaco */
-                    rgba(0,0,0,0.2) 2px, /* Líneas más gruesas */
+                    rgba(0,0,0,0.2) 0px, 
+                    rgba(0,0,0,0.2) 2px, 
                     transparent 2px,
-                    transparent 4px /* Mayor espacio entre líneas para hacerlas más visibles */
+                    transparent 4px 
                 );
-            
             background-size: 
-                150px 150px, /* Ruido más denso */
-                100% 4px;    /* Altura de las scanlines (se estira) */
-
+                150px 150px, 
+                100% 4px;    
             animation:
-                crt-noise 0.2s steps(1) infinite, /* Ruido más rápido y "nervioso" */
-                crt-scanlines 0.3s linear infinite; /* Scanlines más rápidas */
-
-            /* 3. VIÑETA (Vignette) - Sombra interior más oscura y profunda */
-            box-shadow: inset 0 0 15rem rgba(0,0,0,0.6); /* Más oscura y grande */
-
-            /* Opacidad un poco más alta */
+                crt-noise 0.2s steps(1) infinite, 
+                crt-scanlines 0.3s linear infinite; 
+            box-shadow: inset 0 0 15rem rgba(0,0,0,0.6); 
             opacity: 0.7;
         }
         /* --- FIN DEL EFECTO CRT --- */
@@ -472,26 +460,44 @@ BRAUUSTUDIOS
         document.addEventListener('DOMContentLoaded', function() {
 
             // --- ¡IMPORTANTE! EDITA ESTA LISTA ---
+            // 'id': Para premium, es el username.
+            //       Para no-premium, es el "perfilId" (UUID) de Mineskin.
             const streamers = [
-                { username: "DaniTrembl4y", displayName: "DaniTremblay", channelUrl: "https://www.twitch.tv/Danitremblay" },
-                { username: "j4vu", displayName: "j4vuuuu", channelUrl: "https://www.twitch.tv/j4vuuuu" },
-                { username: "ItsBrauu", displayName: "ItsBrauu", channelUrl: "https://www.twitch.tv/ItsBrauu" },
-                { username: "Dylancho68", displayName: "Dylancho68", channelUrl: "https://www.twitch.tv/Dylancho68" },
-                { username: "K4mar1", displayName: "Ms_kamari", channelUrl: "https://www.twitch.tv/Ms_kamari" },
-                { username: "mikalcetin_", displayName: "mikalcetin_", channelUrl: "https://www.twitch.tv/mikalcetin_" },
-                // --- Agrega más streamers aquí con ese formato ---
-                // { username: "NickDeMinecraft", displayName: "NombrePublico", channelUrl: "https://link-a-su-canal.com" },
+                // --- Premium (usa username) ---
+                { id: "ItsBrauu", displayName: "ItsBrauu", channelUrl: "https://www.twitch.tv/ItsBrauu" },
+                { id: "DaniTrembl4y", displayName: "DaniTremblay", channelUrl: "https://www.twitch.tv/Danitremblay" },
+                { id: "j4vu", displayName: "j4vuuuu", channelUrl: "https://www.twitch.tv/j4vuuuu" },
+                { id: "Dylancho68", displayName: "Dylancho68", channelUrl: "https://www.twitch.tv/Dylancho68" },
+                { id: "K4mar1", displayName: "Ms_kamari", channelUrl: "https://www.twitch.tv/Ms_kamari" },
+                { id: "mikalcetin_", displayName: "mikalcetin_", channelUrl: "https://www.twitch.tv/mikalcetin_" },
+
+                // --- No-Premium (¡Usa el "perfilId" de Mineskin!) ---
+                { 
+                    id: "811d634750cf4d2492fd71a5bf6af271", // <-- ¡Este es el Perfil ID de Wendy!
+                    displayName: "Wendysszx", 
+                    channelUrl: "https://www.twitch.tv/Wendysszx" // <-- (Pon aquí su canal)
+                },
+                { 
+                    id: "b66ba49eabec4bf99ea9f940c171a933", // <-- ¡Este es el Perfil ID de Wendy!
+                    displayName: "Ramirezz", 
+                    channelUrl: "https://www.twitch.tv/ramirez_the_catt" // <-- (Pon aquí su canal)
+                },
+                
             ];
 
             // --- 1. CONFIGURAR CONTADOR Y CUADRÍCULA DE CABEZAS ---
             const grid = document.getElementById('streamers-grid');
             const modalList = document.getElementById('modal-streamer-list');
             
-            // Actualizar el contador
             document.getElementById('streamer-count').innerText = streamers.length;
 
-            // Llenar ambas listas (cabezas y modal)
             streamers.forEach(streamer => {
+                
+                // Con esta lógica, TODOS se ven de frente (avatar)
+                // Funciona con usernames (premium) y con UUIDs (no-premium de Mineskin)
+                let headUrl = `https://minotar.net/avatar/${streamer.id}/64`;
+                let avatarUrl = `https://minotar.net/avatar/${streamer.id}/32`;
+
                 // A. Crear las cabezas de la cuadrícula
                 const link = document.createElement('a');
                 link.href = streamer.channelUrl;
@@ -501,7 +507,7 @@ BRAUUSTUDIOS
                 link.setAttribute('data-name', streamer.displayName);
 
                 const img = document.createElement('img');
-                img.src = `https://minotar.net/helm/${streamer.username}/64`;
+                img.src = headUrl; 
                 img.alt = `Cabeza de ${streamer.displayName}`;
 
                 link.appendChild(img);
@@ -514,7 +520,7 @@ BRAUUSTUDIOS
                 modalLink.target = "_blank";
                 modalLink.rel = "noopener noreferrer";
                 modalLink.innerHTML = `
-                    <img src="https://minotar.net/avatar/${streamer.username}/32" alt="${streamer.displayName}">
+                    <img src="${avatarUrl}" alt="${streamer.displayName}">
                     ${streamer.displayName}
                 `;
                 li.appendChild(modalLink);

@@ -24,7 +24,6 @@
             text-align: center;
             min-height: 100vh; 
             margin: 0;
-            /* AJUSTE MÓVIL: Menos padding arriba/abajo */
             padding: 1rem 0; 
             animation: fadeIn 2s ease-in;
             flex-direction: column; 
@@ -36,7 +35,6 @@
             width: 100%;
         }
         h1 {
-            /* AJUSTE MÓVIL: Ligero ajuste de tamaño mínimo para no saturar */
             font-size: clamp(2.5rem, 15vw, 6rem); 
             font-weight: bold;
             letter-spacing: 0.5rem;
@@ -49,8 +47,6 @@
             color: #888;
             margin-top: 1rem;
         }
-
-        /* --- ESTILOS MODIFICADOS PARA EL ENLACE --- */
         .mystery-link {
             display: block; 
             font-size: clamp(1rem, 4vw, 1.2rem);
@@ -59,7 +55,6 @@
             text-transform: uppercase;
             letter-spacing: 0.2rem;
             margin-top: 2rem;
-            /* CAMBIO DE ANIMACIÓN: Añadido 'transform' a la transición */
             transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
             cursor: pointer; 
         }
@@ -72,14 +67,11 @@
         .mystery-link:hover {
             color: #000; 
             text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-            /* CAMBIO DE ANIMACIÓN: Efecto flotante sutil al pasar el mouse */
             transform: translateY(-3px);
         }
-
         .countdown {
             display: flex;
             justify-content: center;
-            /* AJUSTE MÓVIL: Menos gap entre tarjetas */
             gap: 1.5rem; 
             margin-top: 2rem; 
             flex-wrap: wrap;
@@ -90,14 +82,11 @@
             font-weight: bold;
             color: #000000;
         }
-
         .blinking-cursor {
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: #888;
             animation: blink 1s step-end infinite;
         }
-
-        /* --- Animaciones --- */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -118,7 +107,6 @@
             from { text-shadow: 0 0 3px rgba(0, 0, 0, 0.1); }
             to { text-shadow: 0 0 6px rgba(0, 0, 0, 0.2); }
         }
-        
         @keyframes crt-scanlines {
             0% { background-position: 0 0; }
             100% { background-position: 0 100%; } 
@@ -127,9 +115,6 @@
             0% { background-position: 0 0; }
             100% { background-position: 15% 10%; } 
         }
-
-        /* *** NUEVA ANIMACIÓN *** */
-        /* Animación para la carga escalonada de cabezas */
         @keyframes fadeInHead {
             from {
                 opacity: 0;
@@ -140,10 +125,6 @@
                 transform: scale(1);
             }
         }
-        /* --- FIN DE ANIMACIONES --- */
-
-
-        /* --- ESTILOS PARA LA SECCIÓN DE STREAMERS --- */
         .streamers-container {
             width: 100%;
             margin-top: 3rem; 
@@ -169,7 +150,6 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            /* AJUSTE MÓVIL: Menos gap entre cabezas */
             gap: 1rem; 
             max-width: 600px;
             margin: 0 auto;
@@ -178,11 +158,8 @@
             position: relative;
             display: block;
             transition: transform 0.2s ease;
-
-            /* *** CAMBIO DE ANIMACIÓN: Aplicar la carga escalonada *** */
-            opacity: 0; /* Empezar oculto */
+            opacity: 0; 
             animation: fadeInHead 0.4s ease-out forwards;
-            /* El 'animation-delay' se añadirá con JavaScript */
         }
         .streamer-head:hover {
             transform: scale(1.1);
@@ -218,8 +195,6 @@
             opacity: 1;
             visibility: visible;
         }
-
-        /* --- ESTILOS PARA ICONOS DE REDES SOCIALES --- */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -237,8 +212,6 @@
             width: 24px;
             height: 24px;
         }
-
-        /* --- ESTILOS DEL FOOTER/CRÉDITO (AJUSTADOS) --- */
         footer {
             width: 100%;
             margin-top: 1rem; 
@@ -261,8 +234,6 @@
             margin: 0;
             animation: pulseGlowFooter 6s infinite alternate ease-in-out;         
         }
-
-        /* --- ESTILOS PARA EL MODAL (VENTANA POP-UP) --- */
         .modal-overlay {
             display: none;             
             position: fixed;             
@@ -360,10 +331,6 @@
             border-radius: 4px;
             background-color: #eee;
         }
-        /* --- FIN DE ESTILOS DEL MODAL --- */
-
-        
-        /* --- EFECTO CRT INTENSO --- */
         body::after {
             content: "";
             position: fixed; 
@@ -391,8 +358,6 @@
             box-shadow: inset 0 0 15rem rgba(0,0,0,0.6); 
             opacity: 0.7;
         }
-        /* --- FIN DEL EFECTO CRT --- */
-
     </style>
 </head>
 <body>
@@ -484,11 +449,9 @@ BRAUUSTUDIOS
         // --- SCRIPT PARA CABEZAS, CONTADOR, MODALES Y BÚSQUEDA ---
         document.addEventListener('DOMContentLoaded', function() {
 
-            // --- ¡IMPORTANTE! EDITA ESTA LISTA ---
-            // 'id': Para premium, es el username.
-            //       Para no-premium, es el "perfilId" (UUID) de Mineskin.
+            // --- ¡LISTA HÍBRIDA! (Premium = nombre, No-Premium = URL) ---
             const streamers = [
-                // --- Premium (usa username) ---
+                // --- Premium (Usa username) ---
                 { id: "ItsBrauu", displayName: "ItsBrauu", channelUrl: "https://www.twitch.tv/ItsBrauu" },
                 { id: "DaniTrembl4y", displayName: "DaniTremblay", channelUrl: "https://www.twitch.tv/Danitremblay" },
                 { id: "j4vu", displayName: "j4vuuuu", channelUrl: "https://www.twitch.tv/j4vuuuu" },
@@ -498,24 +461,31 @@ BRAUUSTUDIOS
                 { id: "quality_forever_", displayName: "Quality_forever_", channelUrl: "https://www.twitch.tv/quality_forever_" },
                 { id: "wallyvx", displayName: "Wallyvx", channelUrl: "https://www.twitch.tv/wallyvx" },
                 { id: "thatoneidiort", displayName: "PuvaPudim", channelUrl: "https://www.twitch.tv/puvapudim" },
-
-                // --- No-Premium (¡Usa el "perfilId" de Mineskin!) ---
+                { id: "idkaxi_", displayName: "IdkAxi", channelUrl: "https://www.twitch.tv/idk_axi" },
                 { 
-                    id: "811d634750cf4d2492fd71a5bf6af271", // Perfil ID de Wendysszx
+                    // ¡OJO! ¡DEBES ENCONTRAR EL UUID DE ALESSA Y PEGARLO AQUÍ!
+                    id: "https://mc-heads.net/avatar/376ae796b2c56bec52edb9ef02e9d25256db6af031b4f12d52c30ebb97c58f33", // URL de Alessa_bna
+                    displayName: "elwhitexr", 
+                    channelUrl: "https://www.twitch.tv/elwhitexr" 
+                },
+
+                // --- No-Premium (Usa la URL de la textura DIRECTA) ---
+                { 
+                    id: "https://mc-heads.net/avatar/adc2c78bedc9a9f72b3e1ec9b87abb4c72254c2a37169d1dee7db0a776343cbd", // URL de Wendysszx
                     displayName: "Wendysszx", 
                     channelUrl: "https://www.twitch.tv/Wendysszx" 
                 },
                 { 
-                    id: "b66ba49eabec4bf99ea9f940c171a933", // Perfil ID de MateiLikesMinin (Ramirezz)
+                    id: "https://mc-heads.net/avatar/f165565b6bbd7bf3ec2395cc957bad9a4c4cd0f946f762fa63bfd8aa94aaf3c8", // URL de Ramirezz
                     displayName: "Ramirezz", 
                     channelUrl: "https://www.twitch.tv/ramirez_the_catt" 
                 },
                 { 
-                    id: "be413f83f8ea42148c0294a2bc227e65", // Perfil ID de Alessa_bna
+                    // ¡OJO! ¡DEBES ENCONTRAR EL UUID DE ALESSA Y PEGARLO AQUÍ!
+                    id: "https://mc-heads.net/avatar/30ba014652cb959dfe713085f5cae6e11a79e9ec0ef3b0a85ec08339e7258936", // URL de Alessa_bna
                     displayName: "Alessa_bna", 
                     channelUrl: "https://www.twitch.tv/alessa_bna" 
-                },
-                
+                }
             ];
 
             // --- 1. CONFIGURAR CONTADOR Y CUADRÍCULA DE CABEZAS ---
@@ -524,12 +494,21 @@ BRAUUSTUDIOS
             
             document.getElementById('streamer-count').innerText = streamers.length;
 
-            // *** CAMBIO DE ANIMACIÓN: Añadimos 'index' para el retraso escalonado ***
             streamers.forEach((streamer, index) => {
                 
-                // Usamos "helm" para forzar la segunda capa 2D
-                let headUrl = `https://minotar.net/helm/${streamer.id}/64`;
-                let avatarUrl = `https://minotar.net/helm/${streamer.id}/32`;
+                let headUrl;
+                let avatarUrl;
+
+                // *** ¡ESTA ES LA LÓGICA QUE PEDISTE! ***
+                if (streamer.id.startsWith('http')) {
+                    // Es No-Premium, usa la URL directa que pusimos
+                    headUrl = streamer.id; // Ya tiene el /64
+                    avatarUrl = streamer.id.replace('/64', '/32'); // Cambiamos a 32
+                } else {
+                    // Es Premium, armamos la URL con la API
+                    headUrl = `https://mc-heads.net/avatar/${streamer.id}/64`;
+                    avatarUrl = `https://mc-heads.net/avatar/${streamer.id}/32`;
+                }
 
                 // A. Crear las cabezas de la cuadrícula
                 const link = document.createElement('a');
@@ -539,13 +518,15 @@ BRAUUSTUDIOS
                 link.className = "streamer-head";
                 link.setAttribute('data-name', streamer.displayName);
 
-                // *** CAMBIO DE ANIMACIÓN: Aplicar el retraso escalonado ***
-                // Multiplica el índice (0, 1, 2...) por 80ms
                 link.style.animationDelay = `${index * 80}ms`;
 
                 const img = document.createElement('img');
                 img.src = headUrl; 
                 img.alt = `Cabeza de ${streamer.displayName}`;
+                
+                img.onerror = function() {
+                    this.src = 'https://mc-heads.net/avatar/MHF_Question/64'; 
+                };
 
                 link.appendChild(img);
                 grid.appendChild(link);
@@ -556,10 +537,17 @@ BRAUUSTUDIOS
                 modalLink.href = streamer.channelUrl;
                 modalLink.target = "_blank";
                 modalLink.rel = "noopener noreferrer";
-                modalLink.innerHTML = `
-                    <img src="${avatarUrl}" alt="${streamer.displayName}">
-                    ${streamer.displayName}
-                `;
+                
+                const modalImg = document.createElement('img');
+                modalImg.src = avatarUrl;
+                modalImg.alt = streamer.displayName;
+                modalImg.onerror = function() {
+                    this.src = 'https://mc-heads.net/avatar/MHF_Question/32';
+                };
+
+                modalLink.appendChild(modalImg);
+                modalLink.appendChild(document.createTextNode(` ${streamer.displayName}`));
+                
                 li.appendChild(modalLink);
                 modalList.appendChild(li);
             });

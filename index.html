@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,44 +12,54 @@
             font-family: 'Minecraftory';
             src: url(fonts/minercraftory.ttf);
         }
+
         html {
             height: 100%;
         }
+
         body {
-            font-family: 'Minecraftory', monospace; 
+            font-family: 'Minecraftory', monospace;
             background-color: #ffffff;
             color: #000000;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            min-height: 100vh; 
+            min-height: 100vh;
             margin: 0;
-            padding: 1rem 0; 
+            padding: 1rem 0;
             animation: fadeIn 2s ease-in;
-            flex-direction: column; 
-            position: relative; 
+            flex-direction: column;
+            position: relative;
+            /* Se mantiene para prevenir barras horizontales */
             overflow-x: hidden; 
         }
+
         .container {
-            max-width: 90%;
-            width: 100%;
+            /* Ajuste de responsividad */
+            width: 95%; 
+            max-width: 700px;
+            padding: 0 10px; 
         }
+
         h1 {
-            font-size: clamp(2.5rem, 15vw, 6rem); 
+            font-size: clamp(2.5rem, 15vw, 6rem);
             font-weight: bold;
-            letter-spacing: 0.5rem;
+            letter-spacing: 0.3rem; /* Ajuste para móvil */
             margin: 0;
             text-transform: uppercase;
             animation: pulseGlow 4s infinite alternate ease-in-out;
+            word-break: break-word; 
         }
+
         p {
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: #888;
             margin-top: 1rem;
         }
+
         .mystery-link {
-            display: block; 
+            display: block;
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: #777;
             text-decoration: underline;
@@ -56,115 +67,178 @@
             letter-spacing: 0.2rem;
             margin-top: 2rem;
             transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
-            cursor: pointer; 
+            cursor: pointer;
         }
+
         a.mystery-link {
             margin-bottom: -1rem;
         }
+
         span.mystery-link {
-             margin-top: 1rem; 
+            margin-top: 1rem;
         }
+
         .mystery-link:hover {
-            color: #000; 
+            color: #000;
             text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
             transform: translateY(-3px);
         }
+
         .countdown {
             display: flex;
             justify-content: center;
-            gap: 1.5rem; 
-            margin-top: 2rem; 
+            /* Ajuste de responsividad */
+            gap: 1rem;
+            margin-top: 2rem;
             flex-wrap: wrap;
         }
+        
+        .time-card {
+            flex-basis: 20%; 
+            min-width: 50px; 
+        }
+
         .time-card span {
             display: block;
             font-size: clamp(2rem, 10vw, 4rem);
             font-weight: bold;
             color: #000000;
         }
+
         .blinking-cursor {
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: #888;
             animation: blink 1s step-end infinite;
         }
+
+        /* --- ESTILOS ENIGMA --- */
+        .enigma {
+            margin-top: 3rem;
+            position: relative;
+            cursor: default;
+        }
+
+        .enigma h3 {
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            color: #333;
+            margin-bottom: 1rem;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0.3;
+            cursor: help;
+            word-break: break-word;
+        }
+
+        .enigma h3:hover {
+            opacity: 1;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .enigma-clue {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: #888;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+            margin-bottom: 0;
+            margin-top: -1rem;
+            word-break: break-word;
+        }
+
+        .enigma:hover .enigma-clue {
+            opacity: 1;
+        }
+        /* --- FIN ESTILOS ENIGMA --- */
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
         @keyframes pulseGlow {
             from { text-shadow: 0 0 8px rgba(0, 0, 0, 0.2); }
             to { text-shadow: 0 0 15px rgba(0, 0, 0, 0.4); }
         }
+
         @keyframes blink {
             from, to { opacity: 1; }
             50% { opacity: 0; }
         }
+
         @keyframes pulseGlowImage {
             from { filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)); }
             to { filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)); }
         }
+
         @keyframes pulseGlowFooter {
             from { text-shadow: 0 0 3px rgba(0, 0, 0, 0.1); }
             to { text-shadow: 0 0 6px rgba(0, 0, 0, 0.2); }
         }
+
         @keyframes crt-scanlines {
             0% { background-position: 0 0; }
-            100% { background-position: 0 100%; } 
+            100% { background-position: 0 100%; }
         }
+
         @keyframes crt-noise {
             0% { background-position: 0 0; }
-            100% { background-position: 15% 10%; } 
+            100% { background-position: 15% 10%; }
         }
+
         @keyframes fadeInHead {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
+
         .streamers-container {
             width: 100%;
-            margin-top: 3rem; 
-            padding: 1rem;
-        }                
+            margin-top: 3rem;
+            padding: 1rem 0;
+        }
+
         .streamers-container h2 {
             font-size: clamp(1.5rem, 6vw, 2.5rem);
             letter-spacing: 0.3rem;
             text-transform: uppercase;
             color: #333;
-            margin-bottom: 1.5rem; 
-            cursor: pointer;             
+            margin-bottom: 1.5rem;
+            cursor: pointer;
             transition: color 0.3s ease;
         }
+
         .streamers-container h2:hover {
-            color: #000;         
+            color: #000;
         }
+
         .streamers-container h2 span {
-            color: #888;             
+            color: #888;
             font-size: clamp(1.2rem, 5vw, 2rem);
         }
+
         .streamers-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem; 
+            /* Gap original */
+            gap: 1rem;
             max-width: 600px;
             margin: 0 auto;
         }
+
         .streamer-head {
             position: relative;
             display: block;
             transition: transform 0.2s ease;
-            opacity: 0; 
+            opacity: 0;
             animation: fadeInHead 0.4s ease-out forwards;
         }
+
         .streamer-head:hover {
             transform: scale(1.1);
         }
+
         .streamer-head img {
+            /* Tamaño original */
             width: 64px;
             height: 64px;
             image-rendering: pixelated;
@@ -172,51 +246,60 @@
             border-radius: 4px;
             animation: pulseGlowImage 4s infinite alternate ease-in-out;
         }
+
         .streamer-head[data-name]::after {
             content: attr(data-name);
             position: absolute;
-            bottom: 110%;             
+            bottom: 110%;
             left: 50%;
             transform: translateX(-50%);
             background-color: #000;
             color: #fff;
+            /* Tamaño original */
             padding: 6px 10px;
             border-radius: 4px;
             font-size: 0.9rem;
             letter-spacing: 0.1rem;
-            white-space: nowrap;             
-            opacity: 0;             
+            white-space: nowrap;
+            opacity: 0;
             visibility: hidden;
             transition: opacity 0.2s ease, visibility 0.2s ease;
-            pointer-events: none;             
-            font-family: 'Minecraftory', monospace;         
+            pointer-events: none;
+            font-family: 'Minecraftory', monospace;
         }
+
         .streamer-head[data-name]:hover::after {
             opacity: 1;
             visibility: visible;
         }
+
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;             
+            gap: 1.5rem;
             margin-top: 2.5rem;
         }
+
         .social-icons a {
-            color: #aaaaaa;             
+            color: #aaaaaa;
             transition: color 0.3s ease;
         }
+
         .social-icons a:hover {
-            color: #000000;         
+            color: #000000;
         }
+
         .social-icons svg {
             width: 24px;
             height: 24px;
         }
+
         footer {
             width: 100%;
-            margin-top: 1rem; 
+            margin-top: 1rem;
             padding-bottom: 1rem;
         }
+
         footer p.powered-by {
             font-family: 'Minecraftory', monospace;
             font-size: 0.8rem;
@@ -225,6 +308,7 @@
             text-transform: uppercase;
             margin: 0 0 0.5rem 0;
         }
+
         footer p.brand {
             font-family: 'Minecraftory', monospace;
             font-size: 1rem;
@@ -232,35 +316,43 @@
             letter-spacing: 0.2rem;
             text-transform: uppercase;
             margin: 0;
-            animation: pulseGlowFooter 6s infinite alternate ease-in-out;         
+            animation: pulseGlowFooter 6s infinite alternate ease-in-out;
         }
+
+        /* --- Modales: Ajuste de Responsividad --- */
         .modal-overlay {
-            display: none;             
-            position: fixed;             
-            z-index: 100; 
+            display: none;
+            position: fixed;
+            z-index: 100;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);             
-            backdrop-filter: blur(5px);             
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
             font-family: 'Minecraftory', monospace;
+            padding: 10px; 
+            box-sizing: border-box;
         }
+
         .modal-content {
             background-color: #ffffff;
+            /* Revertido a padding original, pero con max-width/height responsivos */
             padding: 2rem;
             border-radius: 8px;
             max-width: 500px;
-            width: 90%;
-            max-height: 80vh;             
-            overflow-y: auto;             
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            position: relative;             
+            width: 95%; /* Asegura que no exceda el 95% del ancho en móvil */
+            max-height: 90vh; /* Permite más altura en móvil */
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            position: relative;
             animation: fadeIn 0.5s ease;
-            text-align: left; 
+            text-align: left;
+            box-sizing: border-box;
         }
+
         .modal-close {
             position: absolute;
             top: 0.5rem;
@@ -271,26 +363,31 @@
             cursor: pointer;
             transition: color 0.2s ease;
         }
+
         .modal-close:hover {
             color: #000;
         }
+
         .modal-content h3 {
-            text-align: center; 
+            text-align: center;
             font-size: 1.5rem;
             letter-spacing: 0.2rem;
             text-transform: uppercase;
             margin-top: 0;
         }
+
         .modal-text {
-            font-size: 1.1rem;             
+            font-size: 1.1rem;
             color: #333;
-            line-height: 1.6;             
-            white-space: pre-wrap; 
-            text-align: center; 
+            line-height: 1.6;
+            white-space: pre-wrap;
+            text-align: center;
         }
+
+        /* --- ESTILOS DE LA LISTA DE STREAMERS REVERTIDOS A LOS ORIGINALES --- */
         #search-bar {
             width: 100%;
-            box-sizing: border-box;             
+            box-sizing: border-box;
             padding: 12px;
             margin-bottom: 1.5rem;
             font-family: 'Minecraftory', monospace;
@@ -299,31 +396,37 @@
             border: 2px solid #ddd;
             border-radius: 4px;
         }
+
         #search-bar:focus {
             outline: none;
             border-color: #000;
         }
+
         #modal-streamer-list {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
+
         #modal-streamer-list li a {
             display: flex;
             align-items: center;
-            gap: 15px;             
+            gap: 15px;
             padding: 12px 10px;
             text-decoration: none;
             color: #333;
             border-bottom: 1px solid #f0f0f0;
             transition: background-color 0.2s ease;
         }
+
         #modal-streamer-list li:last-child a {
             border-bottom: none;
         }
+
         #modal-streamer-list li a:hover {
             background-color: #f9f9f9;
         }
+
         #modal-streamer-list img {
             width: 32px;
             height: 32px;
@@ -331,35 +434,36 @@
             border-radius: 4px;
             background-color: #eee;
         }
+        /* --- FIN DE ESTILOS REVERTIDOS --- */
+
         body::after {
             content: "";
-            position: fixed; 
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; 
-            z-index: 200; 
-            background-image: 
-                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAgMAAAAP3yA/AAAACVBMVEUAAAAAAAA/Pz+9vb3rSHikAAAAA3RSTlMAIENmO/UAAAFI SURBVHja7NwhCsJAEEBBu+veBYo/CibGxiB/EFiI+I/Y2NjYWAhs/FcQ23e0UvifE1t3eB+yNMu2bNm2bVu2bX+KLRs2bNm2bdu2bds2x/uYI1/2Sfk2pS59+pT+P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2s2x7/k8v/Z+uDWfwD2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9T+wJNm3b9n+1/wBYpaEi1w0eEgAAAABJRU5ErkJggg=='),
-                repeating-linear-gradient(
-                    0deg,
-                    rgba(0,0,0,0.2) 0px, 
-                    rgba(0,0,0,0.2) 2px, 
+            pointer-events: none;
+            z-index: 200;
+            background-image:
+                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAgMAAAAP3yA/AAAACVBMVEUAAAAAAAA/Pz+9vb3rSHikAAAAA3RSTlMAIENmO/UAAAFI SURBVHja7NwhCsJAEEBBu+veBYo/CibGxiB/EFiI+I/Y2NjYWAhs/FcQ23e0UvifE1t3eB+yNMu2bNm2bdu2bds2x/uYI1/2Sfk2pS59+pT+P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2s2x7/k8v/Z+uDWfwD2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9T+wJNm3b9n+1/wBYpaEi1w0eEgAAAABJRU5ErkJggg=='),
+                repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.2) 0px,
+                    rgba(0, 0, 0, 0.2) 2px,
                     transparent 2px,
-                    transparent 4px 
-                );
-            background-size: 
-                150px 150px, 
-                100% 4px;    
+                    transparent 4px);
+            background-size:
+                150px 150px,
+                100% 4px;
             animation:
-                crt-noise 0.2s steps(1) infinite, 
-                crt-scanlines 0.3s linear infinite; 
-            box-shadow: inset 0 0 15rem rgba(0,0,0,0.6); 
+                crt-noise 0.2s steps(1) infinite,
+                crt-scanlines 0.3s linear infinite;
+            box-shadow: inset 0 0 15rem rgba(0, 0, 0, 0.6);
             opacity: 0.7;
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -369,11 +473,11 @@
         <a class="mystery-link" href="https://forms.gle/r7iAV7P84LrSvxnX9" target="_blank" rel="noopener noreferrer">
             BSMP ENTRY FORM
         </a>
-        
+
         <span class="mystery-link" id="open-about-btn">
             BSMP INFO
         </span>
-        
+
         <div id="countdown" class="countdown">
             <div class="time-card"><span id="days">0</span></div>
             <div class="time-card"><span id="hours">0</span></div>
@@ -381,47 +485,57 @@
             <div class="time-card"><span id="seconds">0</span></div>
         </div>
 
+        <div class="enigma">
+            <h3></h3>
+            <p class="enigma-clue">
+                (El número es 12.)
+            </p>
+        </div>
         <div class="streamers-container">
             <h2 id="open-streamer-btn">Streamers (<span id="streamer-count">0</span>)</h2>
             <div id="streamers-grid" class="streamers-grid">
-                </div>
+            </div>
         </div>
-    </div> 
+    </div>
 
     <div class="social-icons">
         <a href="https://www.twitch.tv/brauustudios" target="_blank" rel="noopener noreferrer" title="Twitch">
-            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg>
+            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z" />
+            </svg>
         </a>
-        </div>
+    </div>
 
     <footer>
         <p class="powered-by">POWERED BY</p>
         <p class="brand">brauu studios</p>
     </footer>
 
-    
+
     <div id="streamer-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close streamer-close">&times;</span>
             <h3>Lista de Streamers</h3>
             <input type="text" id="search-bar" placeholder="Buscar streamer...">
             <ul id="modal-streamer-list">
-                </ul>
+            </ul>
         </div>
     </div>
-    
+
     <div id="about-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close about-close">&times;</span>
             <h3>¿QUÉ ES BSMP II?</h3>
             <p class="modal-text">
-BSMP II es el renacimiento de BrauuSMP.
+                BSMP II es el renacimiento de BrauuSMP.
 
-La primera edición unió a streamers pequeños, donde cada uno forjó un lore único y variado.
+                La primera edición unió a streamers pequeños, donde cada uno forjó un lore único y variado.
 
-Este año, una nueva era comienza. Si te apasiona el misterio, convivir en comunidad y transmitir tu propia leyenda... esta serie es para ti.
+                Este año, una nueva era comienza. Si te apasiona el misterio, convivir en comunidad y transmitir tu
+                propia leyenda... esta serie es para ti.
 
-BRAUUSTUDIOS 
+                BRAUUSTUDIOS
             </p>
         </div>
     </div>
@@ -429,7 +543,7 @@ BRAUUSTUDIOS
     <script>
         // --- CÓDIGO JAVASCRIPT PARA EL CONTADOR ---
         const countDownDate = new Date("Dec 1, 2025 00:00:00").getTime();
-        const countdownFunction = setInterval(function() {
+        const countdownFunction = setInterval(function () {
             const now = new Date().getTime();
             const distance = countDownDate - now;
 
@@ -447,7 +561,7 @@ BRAUUSTUDIOS
 
     <script>
         // --- SCRIPT PARA CABEZAS, CONTADOR, MODALES Y BÚSQUEDA ---
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
 
             // --- ¡LISTA HÍBRIDA! (Premium = nombre, No-Premium = URL) ---
             const streamers = [
@@ -463,48 +577,49 @@ BRAUUSTUDIOS
                 { id: "wallyvx", displayName: "Wallyvx", channelUrl: "https://www.twitch.tv/wallyvx" },
                 { id: "thatoneidiort", displayName: "PuvaPudim", channelUrl: "https://www.twitch.tv/puvapudim" },
                 { id: "idkaxi_", displayName: "IdkAxi", channelUrl: "https://www.twitch.tv/idk_axi" },
-                { 
-                    // ¡OJO! ¡DEBES ENCONTRAR EL UUID DE ALESSA Y PEGARLO AQUÍ!
-                    id: "https://mc-heads.net/avatar/376ae796b2c56bec52edb9ef02e9d25256db6af031b4f12d52c30ebb97c58f33", // URL de Alessa_bna
-                    displayName: "elwhitexr", 
-                    channelUrl: "https://www.twitch.tv/elwhitexr" 
+                {
+                    // Se asume que el ID aquí es el nombre de usuario de Minecraft
+                    id: "elwhitexr", 
+                    displayName: "elwhitexr",
+                    channelUrl: "https://www.twitch.tv/elwhitexr"
                 },
 
-                // --- No-Premium (Usa la URL de la textura DIRECTA) ---
-                { 
+                // --- No-Premium (Usa la URL de la textura DIRECTA / UUID) ---
+                {
                     id: "https://mc-heads.net/avatar/adc2c78bedc9a9f72b3e1ec9b87abb4c72254c2a37169d1dee7db0a776343cbd", // URL de Wendysszx
-                    displayName: "Wendysszx", 
-                    channelUrl: "https://www.twitch.tv/Wendysszx" 
+                    displayName: "Wendysszx",
+                    channelUrl: "https://www.twitch.tv/Wendysszx"
                 },
-                { 
+                {
                     id: "https://mc-heads.net/avatar/f165565b6bbd7bf3ec2395cc957bad9a4c4cd0f946f762fa63bfd8aa94aaf3c8", // URL de Ramirezz
-                    displayName: "Ramirezz", 
-                    channelUrl: "https://www.twitch.tv/ramirez_the_catt" 
+                    displayName: "Ramirezz",
+                    channelUrl: "https://www.twitch.tv/ramirez_the_catt"
                 },
-                { 
-                    // ¡OJO! ¡DEBES ENCONTRAR EL UUID DE ALESSA Y PEGARLO AQUÍ!
+                {
                     id: "https://mc-heads.net/avatar/30ba014652cb959dfe713085f5cae6e11a79e9ec0ef3b0a85ec08339e7258936", // URL de Alessa_bna
-                    displayName: "Alessa_bna", 
-                    channelUrl: "https://www.twitch.tv/alessa_bna" 
+                    displayName: "Alessa_bna",
+                    channelUrl: "https://www.twitch.tv/alessa_bna"
                 }
             ];
 
             // --- 1. CONFIGURAR CONTADOR Y CUADRÍCULA DE CABEZAS ---
             const grid = document.getElementById('streamers-grid');
             const modalList = document.getElementById('modal-streamer-list');
-            
+
             document.getElementById('streamer-count').innerText = streamers.length;
 
             streamers.forEach((streamer, index) => {
-                
+
                 let headUrl;
                 let avatarUrl;
 
                 // *** ¡ESTA ES LA LÓGICA QUE PEDISTE! ***
                 if (streamer.id.startsWith('http')) {
-                    // Es No-Premium, usa la URL directa que pusimos
-                    headUrl = streamer.id; // Ya tiene el /64
-                    avatarUrl = streamer.id.replace('/64', '/32'); // Cambiamos a 32
+                    // Es No-Premium (se asume que es una URL de UUID o textura)
+                    // Eliminamos el /64 o /32 si existe para reconstruir las URL
+                    const baseURL = streamer.id.replace(/\/32|\/64/g, '');
+                    headUrl = `${baseURL}/64`;
+                    avatarUrl = `${baseURL}/32`;
                 } else {
                     // Es Premium, armamos la URL con la API
                     headUrl = `https://mc-heads.net/avatar/${streamer.id}/64`;
@@ -514,7 +629,7 @@ BRAUUSTUDIOS
                 // A. Crear las cabezas de la cuadrícula
                 const link = document.createElement('a');
                 link.href = streamer.channelUrl;
-                link.target = "_blank"; 
+                link.target = "_blank";
                 link.rel = "noopener noreferrer";
                 link.className = "streamer-head";
                 link.setAttribute('data-name', streamer.displayName);
@@ -522,11 +637,11 @@ BRAUUSTUDIOS
                 link.style.animationDelay = `${index * 80}ms`;
 
                 const img = document.createElement('img');
-                img.src = headUrl; 
+                img.src = headUrl;
                 img.alt = `Cabeza de ${streamer.displayName}`;
-                
-                img.onerror = function() {
-                    this.src = 'https://mc-heads.net/avatar/MHF_Question/64'; 
+
+                img.onerror = function () {
+                    this.src = 'https://mc-heads.net/avatar/MHF_Question/64';
                 };
 
                 link.appendChild(img);
@@ -538,17 +653,17 @@ BRAUUSTUDIOS
                 modalLink.href = streamer.channelUrl;
                 modalLink.target = "_blank";
                 modalLink.rel = "noopener noreferrer";
-                
+
                 const modalImg = document.createElement('img');
                 modalImg.src = avatarUrl;
                 modalImg.alt = streamer.displayName;
-                modalImg.onerror = function() {
+                modalImg.onerror = function () {
                     this.src = 'https://mc-heads.net/avatar/MHF_Question/32';
                 };
 
                 modalLink.appendChild(modalImg);
                 modalLink.appendChild(document.createTextNode(` ${streamer.displayName}`));
-                
+
                 li.appendChild(modalLink);
                 modalList.appendChild(li);
             });
@@ -559,9 +674,9 @@ BRAUUSTUDIOS
             const openStreamerBtn = document.getElementById('open-streamer-btn');
             const closeStreamerBtn = document.querySelector('.streamer-close');
 
-            openStreamerBtn.onclick = function() { streamerModal.style.display = 'flex'; }
-            closeStreamerBtn.onclick = function() { streamerModal.style.display = 'none'; }
-            streamerModal.onclick = function(event) {
+            openStreamerBtn.onclick = function () { streamerModal.style.display = 'flex'; }
+            closeStreamerBtn.onclick = function () { streamerModal.style.display = 'none'; }
+            streamerModal.onclick = function (event) {
                 if (event.target == streamerModal) {
                     streamerModal.style.display = 'none';
                 }
@@ -572,9 +687,9 @@ BRAUUSTUDIOS
             const openAboutBtn = document.getElementById('open-about-btn');
             const closeAboutBtn = document.querySelector('.about-close');
 
-            openAboutBtn.onclick = function() { aboutModal.style.display = 'flex'; }
-            closeAboutBtn.onclick = function() { aboutModal.style.display = 'none'; }
-            aboutModal.onclick = function(event) {
+            openAboutBtn.onclick = function () { aboutModal.style.display = 'flex'; }
+            closeAboutBtn.onclick = function () { aboutModal.style.display = 'none'; }
+            aboutModal.onclick = function (event) {
                 if (event.target == aboutModal) {
                     aboutModal.style.display = 'none';
                 }
@@ -582,7 +697,7 @@ BRAUUSTUDIOS
 
             // --- 4. FUNCIONALIDAD DE BÚSQUEDA ---
             const searchBar = document.getElementById('search-bar');
-            searchBar.addEventListener('keyup', function() {
+            searchBar.addEventListener('keyup', function () {
                 const filter = searchBar.value.toUpperCase();
                 const liItems = modalList.getElementsByTagName('li');
 
@@ -600,4 +715,5 @@ BRAUUSTUDIOS
     </script>
 
 </body>
+
 </html>

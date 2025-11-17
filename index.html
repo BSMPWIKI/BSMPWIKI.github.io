@@ -32,24 +32,25 @@
             flex-direction: column;
             position: relative;
             /* Se mantiene para prevenir barras horizontales */
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
 
         .container {
             /* Ajuste de responsividad */
-            width: 95%; 
+            width: 95%;
             max-width: 700px;
-            padding: 0 10px; 
+            padding: 0 10px;
         }
 
         h1 {
             font-size: clamp(2.5rem, 15vw, 6rem);
             font-weight: bold;
-            letter-spacing: 0.3rem; /* Ajuste para móvil */
+            letter-spacing: 0.3rem;
+            /* Ajuste para móvil */
             margin: 0;
             text-transform: uppercase;
             animation: pulseGlow 4s infinite alternate ease-in-out;
-            word-break: break-word; 
+            word-break: break-word;
         }
 
         p {
@@ -92,10 +93,10 @@
             margin-top: 2rem;
             flex-wrap: wrap;
         }
-        
+
         .time-card {
-            flex-basis: 20%; 
-            min-width: 50px; 
+            flex-basis: 20%;
+            min-width: 50px;
         }
 
         .time-card span {
@@ -148,46 +149,91 @@
         .enigma:hover .enigma-clue {
             opacity: 1;
         }
+
         /* --- FIN ESTILOS ENIGMA --- */
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes pulseGlow {
-            from { text-shadow: 0 0 8px rgba(0, 0, 0, 0.2); }
-            to { text-shadow: 0 0 15px rgba(0, 0, 0, 0.4); }
+            from {
+                text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+            }
+
+            to {
+                text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+            }
         }
 
         @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
+
+            from,
+            to {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
 
         @keyframes pulseGlowImage {
-            from { filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)); }
-            to { filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)); }
+            from {
+                filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+            }
+
+            to {
+                filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+            }
         }
 
         @keyframes pulseGlowFooter {
-            from { text-shadow: 0 0 3px rgba(0, 0, 0, 0.1); }
-            to { text-shadow: 0 0 6px rgba(0, 0, 0, 0.2); }
+            from {
+                text-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+            }
+
+            to {
+                text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+            }
         }
 
         @keyframes crt-scanlines {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100%; }
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 100%;
+            }
         }
 
         @keyframes crt-noise {
-            0% { background-position: 0 0; }
-            100% { background-position: 15% 10%; }
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 15% 10%;
+            }
         }
 
         @keyframes fadeInHead {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .streamers-container {
@@ -333,7 +379,7 @@
             justify-content: center;
             align-items: center;
             font-family: 'Minecraftory', monospace;
-            padding: 10px; 
+            padding: 10px;
             box-sizing: border-box;
         }
 
@@ -343,8 +389,10 @@
             padding: 2rem;
             border-radius: 8px;
             max-width: 500px;
-            width: 95%; /* Asegura que no exceda el 95% del ancho en móvil */
-            max-height: 90vh; /* Permite más altura en móvil */
+            width: 95%;
+            /* Asegura que no exceda el 95% del ancho en móvil */
+            max-height: 90vh;
+            /* Permite más altura en móvil */
             overflow-y: auto;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             position: relative;
@@ -417,6 +465,8 @@
             color: #333;
             border-bottom: 1px solid #f0f0f0;
             transition: background-color 0.2s ease;
+            /* */
+            cursor: pointer;
         }
 
         #modal-streamer-list li:last-child a {
@@ -434,7 +484,31 @@
             border-radius: 4px;
             background-color: #eee;
         }
+
         /* --- FIN DE ESTILOS REVERTIDOS --- */
+
+        /* */
+        #embed-player-container {
+            /* Proporción 16:9 */
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            /* 9 / 16 * 100 */
+            background-color: #000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        #embed-player-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* */
 
         body::after {
             content: "";
@@ -540,6 +614,14 @@
         </div>
     </div>
 
+    <div id="embed-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 960px; padding: 1.5rem; background-color: #f0f0f0;">
+            <span class="modal-close embed-close">&times;</span>
+            <h3 id="embed-title" style="margin-bottom: 1rem;">Viendo Stream</h3>
+            <div id="embed-player-container">
+                </div>
+        </div>
+    </div>
     <script>
         // --- CÓDIGO JAVASCRIPT PARA EL CONTADOR ---
         const countDownDate = new Date("Dec 1, 2025 00:00:00").getTime();
@@ -582,21 +664,21 @@
                     channelUrl: "https://www.twitch.tv/Quality_Forever_"
                 },
                 { id: "wallyvx", displayName: "Wallyvx", channelUrl: "https://www.twitch.tv/wallyvx" },
-               {
+                {
                     id: "https://mc-heads.net/avatar/5c7a944903d8ea895c5106a132b9197e27050bb9e1aaf5a0a3ddab0d808dd82e", // URL de Wendysszx
                     displayName: "NickGames",
                     channelUrl: "https://www.twitch.tv/the_nickgames"
                 },
                 { id: "thatoneidiort", displayName: "PuvaPudim", channelUrl: "https://www.twitch.tv/puvapudim" },
                 { id: "idkaxi_", displayName: "IdkAxi", channelUrl: "https://www.twitch.tv/idk_axi" },
-                 {
+                {
                     id: "https://mc-heads.net/avatar/6432128823e26f688bb3288c2ba7af2c61d5775d97b6dd0c22acfd5ebaa29a63", // URL de Wendysszx
                     displayName: "ESEMIXIAO",
                     channelUrl: "https://www.twitch.tv/Zori_tv"
                 },
                 {
                     // Se asume que el ID aquí es el nombre de usuario de Minecraft
-                    id: "https://mc-heads.net/avatar/376ae796b2c56bec52edb9ef02e9d25256db6af031b4f12d52c30ebb97c58f33", 
+                    id: "https://mc-heads.net/avatar/376ae796b2c56bec52edb9ef02e9d25256db6af031b4f12d52c30ebb97c58f33",
                     displayName: "elwhitexr",
                     channelUrl: "https://www.twitch.tv/elwhitexr"
                 },
@@ -622,6 +704,11 @@
             // --- 1. CONFIGURAR CONTADOR Y CUADRÍCULA DE CABEZAS ---
             const grid = document.getElementById('streamers-grid');
             const modalList = document.getElementById('modal-streamer-list');
+            // --- NUEVO: OBTENER ELEMENTOS DEL MODAL DE EMBED ---
+            const embedModal = document.getElementById('embed-modal');
+            const closeEmbedBtn = document.querySelector('.embed-close');
+            const embedPlayerContainer = document.getElementById('embed-player-container');
+            const embedTitle = document.getElementById('embed-title');
 
             document.getElementById('streamer-count').innerText = streamers.length;
 
@@ -667,9 +754,10 @@
                 // B. Crear la lista del modal
                 const li = document.createElement('li');
                 const modalLink = document.createElement('a');
-                modalLink.href = streamer.channelUrl;
-                modalLink.target = "_blank";
-                modalLink.rel = "noopener noreferrer";
+                // Quitamos el href, ya que lo manejaremos con JS
+                // modalLink.href = streamer.channelUrl; 
+                // modalLink.target = "_blank";
+                // modalLink.rel = "noopener noreferrer";
 
                 const modalImg = document.createElement('img');
                 modalImg.src = avatarUrl;
@@ -677,6 +765,52 @@
                 modalImg.onerror = function () {
                     this.src = 'https://mc-heads.net/avatar/MHF_Question/32';
                 };
+
+                // --- INICIO: NUEVA LÓGICA DE CLIC ---
+                modalLink.onclick = function (e) {
+                    e.preventDefault(); // Evita que el enlace <a> haga algo
+
+                    let iframeSrc = '';
+                    let channelName = '';
+                    const url = new URL(streamer.channelUrl);
+                    const hostname = url.hostname.toLowerCase();
+                    // Extrae el nombre del canal (ej: /itsbrauu -> itsbrauu)
+                    channelName = url.pathname.substring(1);
+
+                    // Limpiar el reproductor anterior
+                    embedPlayerContainer.innerHTML = '';
+                    embedTitle.innerText = `Viendo a ${streamer.displayName}`;
+                    
+                    // --- ADVERTENCIA DE DOMINIO ---
+                    // Esto obtiene el dominio (ej: "bsmp.com" o "localhost")
+                    // Si el archivo es local (file://), será una cadena vacía y Twitch fallará.
+                    const parentDomain = window.location.hostname;
+
+                    if (hostname.includes('twitch.tv')) {
+                        iframeSrc = `https://player.twitch.tv/?channel=${channelName}&parent=${parentDomain}&autoplay=true&muted=false`;
+                    } else if (hostname.includes('kick.com')) {
+                        iframeSrc = `https://kick.com/embed/player.php?channel=${channelName}&autoplay=true&muted=false`;
+                    }
+
+                    if (iframeSrc) {
+                        const iframe = document.createElement('iframe');
+                        iframe.src = iframeSrc;
+                        iframe.setAttribute('allowfullscreen', '');
+                        
+                        embedPlayerContainer.appendChild(iframe);
+
+                        // Mostrar el modal del reproductor
+                        embedModal.style.display = 'flex';
+                        // Ocultar el modal de la lista
+                        document.getElementById('streamer-modal').style.display = 'none';
+                        
+                    } else {
+                        // Si no es Twitch o Kick, abrir en nueva pestaña (comportamiento original)
+                        window.open(streamer.channelUrl, '_blank', 'noopener,noreferrer');
+                    }
+                };
+                // --- FIN: NUEVA LÓGICA DE CLIC ---
+
 
                 modalLink.appendChild(modalImg);
                 modalLink.appendChild(document.createTextNode(` ${streamer.displayName}`));
@@ -712,6 +846,20 @@
                 }
             }
 
+            // --- INICIO: NUEVA FUNCIONALIDAD DEL MODAL DE EMBED ---
+            closeEmbedBtn.onclick = function () {
+                embedModal.style.display = 'none';
+                embedPlayerContainer.innerHTML = ''; // Detiene el video
+            }
+            embedModal.onclick = function (event) {
+                if (event.target == embedModal) {
+                    embedModal.style.display = 'none';
+                    embedPlayerContainer.innerHTML = ''; // Detiene el video
+                }
+            }
+            // --- FIN: NUEVA FUNCIONALIDAD DEL MODAL DE EMBED ---
+
+
             // --- 4. FUNCIONALIDAD DE BÚSQUEDA ---
             const searchBar = document.getElementById('search-bar');
             searchBar.addEventListener('keyup', function () {
@@ -734,10 +882,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-

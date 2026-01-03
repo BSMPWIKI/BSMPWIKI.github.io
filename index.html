@@ -1,884 +1,683 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSMP II</title>
-    <link rel="icon" type="image/x-icon" href="https://www.nicepng.com/png/detail/30-307525_question-pixel-art.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SISTEMA CENTRAL | ARCHIVO BSMP II</title>
     <style>
-        /* --- ESTILOS CSS - MODO MISTERIO --- */
-        @font-face {
-            font-family: 'Minecraftory';
-            src: url(fonts/minercraftory.ttf);
+        /* BRAUU_CORE_OS: ESTÉTICA DE ARCHIVO CLASIFICADO */
+        :root {
+            --blanco: #ffffff;
+            --negro: #000000;
+            --verde: #00ff00;
+            --gris-falla: #d1d1d1;
+            --pixel: 4px solid #000;
+            --pixel-thin: 2px solid #000;
+            --fuente: 'Courier New', Courier, monospace;
         }
 
-        html {
-            height: 100%;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Minecraftory', monospace;
-            background-color: #ffffff;
-            color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 1rem 0;
-            animation: fadeIn 2s ease-in;
-            flex-direction: column;
-            position: relative;
-            /* Se mantiene para prevenir barras horizontales */
+            background-color: var(--blanco);
+            color: var(--negro);
+            font-family: var(--fuente);
             overflow-x: hidden;
+            image-rendering: pixelated;
         }
 
-        .container {
-            /* Ajuste de responsividad */
-            width: 95%;
-            max-width: 700px;
-            padding: 0 10px;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 15vw, 6rem);
-            font-weight: bold;
-            letter-spacing: 0.3rem;
-            /* Ajuste para móvil */
-            margin: 0;
-            text-transform: uppercase;
-            animation: pulseGlow 4s infinite alternate ease-in-out;
-            word-break: break-word;
-        }
-
-        p {
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            color: #888;
-            margin-top: 1rem;
-        }
-
-        .mystery-link {
-            display: block;
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            color: #777;
-            text-decoration: underline;
-            text-transform: uppercase;
-            letter-spacing: 0.2rem;
-            margin-top: 2rem;
-            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        a.mystery-link {
-            margin-bottom: -1rem;
-        }
-
-        span.mystery-link {
-            margin-top: 1rem;
-        }
-
-        .mystery-link:hover {
-            color: #000;
-            text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .countdown {
+        /* --- PANTALLA DE CARGA (NUEVO) --- */
+        #loading-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 10000;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            /* Ajuste de responsividad */
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
+            align-items: center;
+            color: var(--verde);
+            padding: 20px;
+        }
+        .boot-text { font-size: 0.8rem; margin-top: 20px; text-align: left; width: 100%; max-width: 400px; }
+        .progress-bar { width: 100%; max-width: 300px; height: 10px; border: 1px solid var(--verde); margin-top: 10px; position: relative; }
+        .progress-fill { width: 0%; height: 100%; background: var(--verde); transition: width 0.1s; }
+
+        /* --- EFECTO DE INTERFERENCIA --- */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 2px);
+            pointer-events: none; z-index: 9999;
         }
 
-        .time-card {
-            flex-basis: 20%;
-            min-width: 50px;
-        }
+        /* --- ANIMACIONES DE ENTRADA --- */
+        [data-aos] { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        [data-aos].appear { opacity: 1; transform: translateY(0); }
 
-        .time-card span {
-            display: block;
-            font-size: clamp(2rem, 10vw, 4rem);
-            font-weight: bold;
-            color: #000000;
-        }
-
-        .blinking-cursor {
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            color: #888;
-            animation: blink 1s step-end infinite;
-        }
-
-        /* --- ESTILOS ENIGMA --- */
-        .enigma {
-            margin-top: 3rem;
-            position: relative;
-            cursor: default;
-        }
-
-        .enigma h3 {
-            font-size: clamp(1.5rem, 6vw, 2.5rem);
-            letter-spacing: 0.2rem;
-            text-transform: uppercase;
-            color: #333;
-            margin-bottom: 1rem;
-            transition: opacity 0.5s ease-in-out;
-            opacity: 0.3;
-            cursor: help;
-            word-break: break-word;
-        }
-
-        .enigma h3:hover {
-            opacity: 1;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .enigma-clue {
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            color: #888;
-            transition: opacity 0.5s ease-in-out;
-            opacity: 0;
-            margin-bottom: 0;
-            margin-top: -1rem;
-            word-break: break-word;
-        }
-
-        .enigma:hover .enigma-clue {
-            opacity: 1;
-        }
-
-        /* --- FIN ESTILOS ENIGMA --- */
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulseGlow {
-            from {
-                text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-            }
-
-            to {
-                text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-            }
-        }
-
-        @keyframes blink {
-
-            from,
-            to {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-        }
-
-        @keyframes pulseGlowImage {
-            from {
-                filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
-            }
-
-            to {
-                filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-            }
-        }
-
-        @keyframes pulseGlowFooter {
-            from {
-                text-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-            }
-
-            to {
-                text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        @keyframes crt-scanlines {
-            0% {
-                background-position: 0 0;
-            }
-
-            100% {
-                background-position: 0 100%;
-            }
-        }
-
-        @keyframes crt-noise {
-            0% {
-                background-position: 0 0;
-            }
-
-            100% {
-                background-position: 15% 10%;
-            }
-        }
-
-        @keyframes fadeInHead {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .streamers-container {
-            width: 100%;
-            margin-top: 3rem;
-            padding: 1rem 0;
-        }
-
-        .streamers-container h2 {
-            font-size: clamp(1.5rem, 6vw, 2.5rem);
-            letter-spacing: 0.3rem;
-            text-transform: uppercase;
-            color: #333;
-            margin-bottom: 1.5rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .streamers-container h2:hover {
-            color: #000;
-        }
-
-        .streamers-container h2 span {
-            color: #888;
-            font-size: clamp(1.2rem, 5vw, 2rem);
-        }
-
-        .streamers-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            /* Gap original */
-            gap: 1rem;
-            max-width: 600px;
+        /* --- CONTAINER MAESTRO --- */
+        .master-archive {
+            max-width: 1200px;
             margin: 0 auto;
+            border-left: var(--pixel);
+            border-right: var(--pixel);
+            min-height: 100vh;
+            background: var(--blanco);
         }
 
-        .streamer-head {
-            position: relative;
-            display: block;
-            transition: transform 0.2s ease;
-            opacity: 0;
-            animation: fadeInHead 0.4s ease-out forwards;
-        }
-
-        .streamer-head:hover {
-            transform: scale(1.1);
-        }
-
-        .streamer-head img {
-            /* Tamaño original */
-            width: 64px;
-            height: 64px;
-            image-rendering: pixelated;
-            background-color: #555;
-            border-radius: 4px;
-            animation: pulseGlowImage 4s infinite alternate ease-in-out;
-        }
-
-        .streamer-head[data-name]::after {
-            content: attr(data-name);
-            position: absolute;
-            bottom: 110%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #000;
-            color: #fff;
-            /* Tamaño original */
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            letter-spacing: 0.1rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.2s ease, visibility 0.2s ease;
-            pointer-events: none;
-            font-family: 'Minecraftory', monospace;
-        }
-
-        .streamer-head[data-name]:hover::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2.5rem;
-        }
-
-        .social-icons a {
-            color: #aaaaaa;
-            transition: color 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            color: #000000;
-        }
-
-        .social-icons svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        footer {
-            width: 100%;
-            margin-top: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        footer p.powered-by {
-            font-family: 'Minecraftory', monospace;
-            font-size: 0.8rem;
-            color: #ccc;
-            letter-spacing: 0.1rem;
-            text-transform: uppercase;
-            margin: 0 0 0.5rem 0;
-        }
-
-        footer p.brand {
-            font-family: 'Minecraftory', monospace;
-            font-size: 1rem;
-            color: #aaaaaa;
-            letter-spacing: 0.2rem;
-            text-transform: uppercase;
-            margin: 0;
-            animation: pulseGlowFooter 6s infinite alternate ease-in-out;
-        }
-
-        /* --- Modales: Ajuste de Responsividad --- */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-            font-family: 'Minecraftory', monospace;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-
-        .modal-content {
-            background-color: #ffffff;
-            /* Revertido a padding original, pero con max-width/height responsivos */
-            padding: 2rem;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 95%;
-            /* Asegura que no exceda el 95% del ancho en móvil */
-            max-height: 90vh;
-            /* Permite más altura en móvil */
-            overflow-y: auto;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            position: relative;
-            animation: fadeIn 0.5s ease;
-            text-align: left;
-            box-sizing: border-box;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 0.5rem;
-            right: 1rem;
-            color: #aaa;
-            font-size: 2.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-
-        .modal-close:hover {
-            color: #000;
-        }
-
-        .modal-content h3 {
+        /* --- CABECERA --- */
+        header {
+            padding: 100px 20px;
             text-align: center;
-            font-size: 1.5rem;
-            letter-spacing: 0.2rem;
-            text-transform: uppercase;
-            margin-top: 0;
+            border-bottom: var(--pixel);
+            background: var(--blanco);
         }
+        .header-top { font-weight: bold; font-size: 0.8rem; letter-spacing: 5px; margin-bottom: 10px; }
+        .main-logo { font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; letter-spacing: -5px; line-height: 0.8; }
+        .warning-strip { background: var(--negro); color: var(--blanco); padding: 5px; margin-top: 40px; font-size: 0.7rem; }
 
-        .modal-text {
-            font-size: 1.1rem;
-            color: #333;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            text-align: center;
+        /* --- NAVEGACIÓN --- */
+        nav {
+            display: flex; overflow-x: auto; background: var(--negro); position: sticky; top: 0; z-index: 5000;
+            scrollbar-width: none;
         }
-
-        /* --- ESTILOS DE LA LISTA DE STREAMERS REVERTIDOS A LOS ORIGINALES --- */
-        #search-bar {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 12px;
-            margin-bottom: 1.5rem;
-            font-family: 'Minecraftory', monospace;
-            font-size: 1rem;
-            color: #333;
-            border: 2px solid #ddd;
-            border-radius: 4px;
+        nav::-webkit-scrollbar { display: none; }
+        .nav-btn {
+            color: var(--blanco); padding: 20px 30px; text-decoration: none; font-size: 0.7rem;
+            text-transform: uppercase; border-right: 1px solid #333; transition: 0.2s; white-space: nowrap;
         }
+        .nav-btn:hover { background: var(--verde); color: var(--negro); }
 
-        #search-bar:focus {
-            outline: none;
-            border-color: #000;
+        /* --- SECCIONES --- */
+        section { padding: 80px 40px; border-bottom: var(--pixel-thin); }
+        .section-header { font-size: 2rem; font-weight: 900; margin-bottom: 40px; text-transform: uppercase; border-left: 15px solid #000; padding-left: 20px; }
+
+        /* --- LORE CARDS --- */
+        .lore-card {
+            border: var(--pixel); padding: 40px; margin-bottom: 30px; background: #fff;
+            position: relative; overflow: hidden;
+            transition: transform 0.3s;
         }
-
-        #modal-streamer-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
+        .lore-card:hover { transform: scale(1.02); }
+        .lore-card::after {
+            content: "CONFIDENCIAL"; position: absolute; top: 20px; right: -40px;
+            background: #000; color: #fff; padding: 5px 100px; transform: rotate(45deg); font-size: 0.6rem;
         }
+        .lore-num { font-size: 3rem; font-weight: 900; opacity: 0.1; position: absolute; top: -10px; left: 10px; }
+        .lore-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; text-decoration: underline; }
+        .lore-desc { font-size: 0.9rem; line-height: 1.6; color: #222; }
 
-        #modal-streamer-list li a {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 10px;
-            text-decoration: none;
-            color: #333;
-            border-bottom: 1px solid #f0f0f0;
-            transition: background-color 0.2s ease;
-            /* */
-            cursor: pointer;
+
+        /* --- ESTILO DE LEYES DE REALIDAD --- */
+.lore-container {
+    display: grid;
+    gap: 20px;
+}
+
+.protocol-card {
+    border: 2px solid #000;
+    padding: 25px;
+    position: relative;
+    background: #fff;
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+.protocol-card:hover {
+    background: #fdfdfd;
+    box-shadow: 8px 8px 0px #000;
+}
+
+.protocol-id {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #fff;
+    background: #000;
+    padding: 3px 10px;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+.protocol-title {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+.protocol-desc {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.protocol-warning {
+    margin-top: 15px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    color: #f00;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.protocol-warning::before {
+    content: "!";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: #f00;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+}
+      /* --- RADAR --- */
+.radar-box {
+    width: 100%;
+    height: 500px;
+    border: var(--pixel);
+    background: #000; /* Fondo negro para que resalte el verde */
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 50px rgba(0, 255, 0, 0.2);
+}
+
+.radar-box:active { cursor: grabbing; }
+
+/* El barrido de luz verde */
+.radar-sweep {
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    background: conic-gradient(from 0deg, transparent 0%, rgba(0, 255, 0, 0.3) 50%, transparent 100%);
+    animation: sweep 4s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+
+@keyframes sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.radar-grid {
+    position: absolute;
+    width: 2000px; /* Mapa mucho más grande para navegar */
+    height: 2000px;
+    background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transition: transform 0.1s ease-out;
+}
+
+/* Círculos concéntricos de radar */
+.radar-circles {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 800px;
+    border: 1px solid rgba(0, 255, 0, 0.2);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.radar-circles::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; height: 400px;
+    border: 1px solid rgba(0, 255, 0, 0.1);
+    border-radius: 50%;
+}
+
+.map-point {
+    position: absolute;
+    width: 12px; height: 12px;
+    background: #0f0;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #0f0;
+    z-index: 5;
+}
+
+.coords-display {
+    position: absolute;
+    bottom: 15px; right: 15px;
+    background: rgba(0,0,0,0.8);
+    color: #0f0;
+    padding: 5px 10px;
+    font-size: 0.7rem;
+    border: 1px solid #0f0;
+    z-index: 10;
+    pointer-events: none;
+}
+/* --- SECCIÓN DE SUJETOS REFINADA --- */
+.subject-grid {
+    display: grid;
+    /* En PC: tarjetas de 180px para que quepan varias en fila */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.subject-card {
+    background: #000;
+    border: 1px solid #333;
+    padding: 10px;
+    position: relative;
+    transition: 0.3s;
+}
+
+.subject-card:hover {
+    border-color: #0f0;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+}
+
+.subject-card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    image-rendering: pixelated;
+    background: #0a0a0a;
+    border-bottom: 1px solid #222;
+    filter: grayscale(1);
+    transition: 0.3s;
+}
+
+.subject-card:hover img {
+    filter: grayscale(0);
+}
+
+.subject-info {
+    padding-top: 8px;
+    text-align: left;
+}
+
+.subject-name {
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Para que nombres muy largos no se salgan */
+}
+
+.subject-status {
+    font-size: 0.55rem;
+    color: #0f0;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.vital-bar {
+    width: 100%;
+    height: 2px;
+    background: #111;
+    margin-top: 5px;
+}
+
+.vital-fill {
+    height: 100%;
+    background: #0f0;
+    width: 100%; /* Por defecto al 100% */
+}
+
+/* Ajuste móvil */
+@media (max-width: 768px) {
+    .subject-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 por fila en móvil */
+    }
+}
+
+        /* --- TERMINAL CHAT --- */
+        #terminal-enlace { padding: 60px 20px; background: #fff; }
+        .chat-container {
+            border: var(--pixel); background: #000; color: #fff;
+            display: flex; flex-direction: column; height: 600px;
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.1);
         }
-
-        #modal-streamer-list li:last-child a {
-            border-bottom: none;
+        .chat-messages {
+            flex-grow: 1; overflow-y: auto; padding: 20px;
+            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
+            background-size: 20px 20px;
+            scrollbar-width: thin; scrollbar-color: var(--verde) #000;
         }
-
-        #modal-streamer-list li a:hover {
-            background-color: #f9f9f9;
+        .message-card {
+            display: flex; gap: 15px; margin-bottom: 20px; padding: 15px;
+            border: 1px solid #333; background: rgba(255, 255, 255, 0.03);
+            animation: slideIn 0.3s ease-out;
         }
-
-        #modal-streamer-list img {
-            width: 32px;
-            height: 32px;
-            image-rendering: pixelated;
-            border-radius: 4px;
-            background-color: #eee;
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
+        .user-avatar { width: 50px; height: 50px; border: 2px solid #fff; image-rendering: pixelated; }
+        .chat-input-panel {
+            padding: 20px; border-top: var(--pixel); background: #000;
+            display: grid; grid-template-columns: 150px 1fr auto; gap: 10px;
         }
-
-        /* --- FIN DE ESTILOS REVERTIDOS --- */
-
-        /* */
-        #embed-player-container {
-            /* Proporción 16:9 */
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            /* 9 / 16 * 100 */
-            background-color: #000;
-            border-radius: 4px;
-            overflow: hidden;
+        .input-field {
+            background: #111; border: 1px solid #333; color: #fff;
+            padding: 12px; font-family: inherit; outline: none;
         }
-
-        #embed-player-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
+        .send-button {
+            background: #fff; color: #000; border: none; font-weight: bold;
+            padding: 0 25px; cursor: pointer; text-transform: uppercase;
         }
+        .send-button:hover { background: var(--verde); }
 
-        /* */
+        /* --- BESTIARIO --- */
+        .bestiary-item {
+            display: flex; gap: 30px; margin-bottom: 40px; align-items: center; border-bottom: 1px dashed #ccc; padding-bottom: 20px;
+        }
+        .bestiary-img { width: 100px; height: 100px; border: var(--pixel); background: #eee; flex-shrink: 0; }
 
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 200;
-            background-image:
-                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAgMAAAAP3yA/AAAACVBMVEUAAAAAAAA/Pz+9vb3rSHikAAAAA3RSTlMAIENmO/UAAAFI SURBVHja7NwhCsJAEEBBu+veBYo/CibGxiB/EFiI+I/Y2NjYWAhs/FcQ23e0UvifE1t3eB+yNMu2bNm2bdu2bds2x/uYI1/2Sfk2pS59+pT+P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2s2x7/k8v/Z+uDWfwD2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9D2z/A9v/wPY/sP0PbP8D2//A9j+w/Q9s/wPb/8D2P7D9T+wJNm3b9n+1/wBYpaEi1w0eEgAAAABJRU5ErkJggg=='),
-                repeating-linear-gradient(0deg,
-                    rgba(0, 0, 0, 0.2) 0px,
-                    rgba(0, 0, 0, 0.2) 2px,
-                    transparent 2px,
-                    transparent 4px);
-            background-size:
-                150px 150px,
-                100% 4px;
-            animation:
-                crt-noise 0.2s steps(1) infinite,
-                crt-scanlines 0.3s linear infinite;
-            box-shadow: inset 0 0 15rem rgba(0, 0, 0, 0.6);
-            opacity: 0.7;
+        /* --- FOOTER --- */
+        footer { padding: 100px 20px; background: #000; color: #fff; text-align: center; }
+
+        /* --- RESPONSIVO MEJORADO --- */
+        @media (max-width: 768px) {
+            .master-archive { border: none; }
+            header { padding: 60px 20px; }
+            section { padding: 40px 15px; }
+            .section-header { font-size: 1.5rem; margin-bottom: 25px; }
+            .subject-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .chat-input-panel { grid-template-columns: 1fr; }
+            .chat-container { height: 500px; }
+            .bestiary-item { flex-direction: column; text-align: center; }
+            .nav-btn { padding: 15px 20px; font-size: 0.6rem; }
+            .lore-card { padding: 25px 20px; }
         }
     </style>
 </head>
-
 <body>
 
-    <div class="container">
-        <h1>II</h1>
-        <p><span class="blinking-cursor">...</span></p>
-
-        <a class="mystery-link" href="https://forms.gle/r7iAV7P84LrSvxnX9" target="_blank" rel="noopener noreferrer">
-            BSMP ENTRY FORM
-        </a>
-
-        <span class="mystery-link" id="open-about-btn">
-            BSMP INFO
-        </span>
-
-        <div id="countdown" class="countdown">
-            <div class="time-card"><span id="days">0</span></div>
-            <div class="time-card"><span id="hours">0</span></div>
-            <div class="time-card"><span id="minutes">0</span></div>
-            <div class="time-card"><span id="seconds">0</span></div>
+    <div id="loading-screen">
+        <div class="main-logo" style="color:white">BSMP II</div>
+        <div class="boot-text" id="boot-text"></div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="load-bar"></div>
         </div>
+    </div>
 
-        <div class="enigma">
-            <h3></h3>
-            <p class="enigma-clue">
-                (El número es 12.)
-            </p>
-        </div>
-        <div class="streamers-container">
-            <h2 id="open-streamer-btn">Streamers (<span id="streamer-count">0</span>)</h2>
-            <div id="streamers-grid" class="streamers-grid">
+    <div class="overlay"></div>
+
+    <div class="master-archive">
+        <header>
+            <div class="header-top">SISTEMA CENTRAL DE ARCHIVOS</div>
+            <h1 class="main-logo">BSMP<br>VERSION_II</h1>
+            <div class="warning-strip">CONEXIÓN ESTABLECIDA - SECTOR JULIO_2026</div>
+            <div id="countdown" style="margin-top: 20px; font-weight: bold; font-size: 1.2rem;">CALCULANDO...</div>
+        </header>
+
+        <nav>
+            <a href="#manifiesto" class="nav-btn">Leyes</a>
+            <a href="#sujetos" class="nav-btn">Sujetos</a>
+            <a href="#mapa" class="nav-btn">Radar</a>
+            <a href="#bestiario" class="nav-btn">Bestiario</a>
+            <a href="#objetos" class="nav-btn">Artefactos</a>
+            <a href="#terminal-enlace" class="nav-btn">Terminal</a>
+        </nav>
+
+        <section id="manifiesto" data-aos>
+            <h2 class="section-header">Leyes de Realidad</h2>
+            <div class="lore-card">
+                <span class="lore-num">01</span>
+                <div class="lore-title">EL VÍNCULO DE LA EXISTENCIA</div>
+                <div class="lore-desc">Al despertar, el sujeto olvida su pasado externo y se convierte en el <b>Eslabón</b>. Si llega recordar su pasado tendra consecuencias.</div>
             </div>
+            <div class="lore-card">
+                <span class="lore-num">02</span>
+                <div class="lore-title">PROXIMAMENTE</div>
+                <div class="lore-desc"></div>
+            </div>
+        </section>
+
+        <section id="sujetos" data-aos>
+            <h2 class="section-header">Sujetos de Prueba</h2>
+            <div class="subject-grid" id="grid_sujetos"></div>
+        </section>
+<section id="mapa" data-aos>
+    <h2 class="section-header">Radar Terrestre</h2>
+    <div class="radar-box" id="radarContainer">
+        <div class="radar-sweep"></div>
+        <div class="radar-circles"></div>
+        <div class="coords-display" id="coords">X: 000 | Z: 000</div>
+        
+        <div class="radar-grid" id="radarGrid">
+            <div class="map-point" style="top: 1000px; left: 1000px;" title="EL NEXO"></div>
+            <div style="position: absolute; top: 1015px; left: 1015px; color: #0f0; font-size: 0.6rem; font-weight: bold; white-space: nowrap;">COORD_00_00 (EL NEXO)</div>
+            
+            <div class="map-point" style="top: 850px; left: 1200px; background: #f00; box-shadow: 0 0 15px #f00;" title="ZONA PROHIBIDA"></div>
+            <div class="map-point" style="top: 1200px; left: 700px; background: #ff0; box-shadow: 0 0 15px #ff0;" title="REFUGIO BRAUU"></div>
         </div>
     </div>
+</section>
 
-    <div class="social-icons">
-        <a href="https://www.twitch.tv/brauustudios" target="_blank" rel="noopener noreferrer" title="Twitch">
-            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z" />
-            </svg>
-        </a>
-    </div>
-
-    <footer>
-        <p class="powered-by">POWERED BY</p>
-        <p class="brand">brauu studios</p>
-    </footer>
-
-
-    <div id="streamer-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close streamer-close">&times;</span>
-            <h3>Lista de Streamers</h3>
-            <input type="text" id="search-bar" placeholder="Buscar streamer...">
-            <ul id="modal-streamer-list">
-            </ul>
-        </div>
-    </div>
-
-    <div id="about-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close about-close">&times;</span>
-            <h3>¿QUÉ ES BSMP II?</h3>
-            <p class="modal-text">
-                BSMP II es el renacimiento de BrauuSMP.
-
-                La primera edición unió a streamers pequeños, donde cada uno forjó un lore único y variado.
-
-                Este año, una nueva era comienza. Si te apasiona el misterio, convivir en comunidad y transmitir tu
-                propia leyenda... esta serie es para ti.
-
-                BRAUUSTUDIOS
-            </p>
-        </div>
-    </div>
-
-    <div id="embed-modal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 960px; padding: 1.5rem; background-color: #f0f0f0;">
-            <span class="modal-close embed-close">&times;</span>
-            <h3 id="embed-title" style="margin-bottom: 1rem;">Viendo Stream</h3>
-            <div id="embed-player-container">
+        <section id="bestiario" data-aos>
+            <h2 class="section-header">Bestiario Corrupto</h2>
+            <div class="bestiary-item">
+                <div class="bestiary-img" style="background: url('_') center/cover;"></div>
+                <div class="bestiary-info">
+                    <h3>EL VIGILANTE DEL VACÍO</h3>
+                    <p>Drena la cordura y el inventario en la soledad.</p>
                 </div>
-        </div>
+            </div>
+        </section>
+
+        <section id="terminal-enlace" data-aos>
+            <h2 class="section-header">Terminal de Transmisión</h2>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatDisplay"></div>
+                <div class="chat-input-panel">
+                    <input type="text" id="node-nametag" class="input-field" placeholder="TU_USER_MC">
+                    <input type="text" id="node-msg" class="input-field" placeholder="REPORTE...">
+                    <button id="node-send" class="send-button">ENVIAR</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-logo">BRAUU STUDIOS</div>
+            <p>SECTOR BSMP_II</p>
+        </footer>
     </div>
-    <script>
-        // --- CÓDIGO JAVASCRIPT PARA EL CONTADOR ---
-        const countDownDate = new Date("Dec 1, 2025 00:00:00").getTime();
-        const countdownFunction = setInterval(function () {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
 
-            if (distance < 0) {
-                clearInterval(countdownFunction);
-                document.getElementById("countdown").innerHTML = "<p style='font-size: 2rem; color: black;'>THE TIME HAS COME.</p>";
-                return;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDUjORFPVwfOngb2KDPAdrAclIeHnzH5Ck",
+            authDomain: "bsmp2-3f7b2.firebaseapp.com",
+            projectId: "bsmp2-3f7b2",
+            storageBucket: "bsmp2-3f7b2.firebasestorage.app",
+            messagingSenderId: "347248175152",
+            appId: "1:347248175152:web:0bbf91b3851ded236a65f5",
+            measurementId: "G-S0CMJTV7N8"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const messagesCol = collection(db, "comentarios");
+
+        const btnSend = document.getElementById('node-send');
+        btnSend.addEventListener('click', async () => {
+            const nt = document.getElementById('node-nametag').value.trim();
+            const ms = document.getElementById('node-msg').value.trim();
+            if(nt && ms) {
+                btnSend.disabled = true;
+                try {
+                    await addDoc(messagesCol, { user: nt, text: ms, time: serverTimestamp() });
+                    document.getElementById('node-msg').value = "";
+                } catch (e) { console.error(e); }
+                btnSend.disabled = false;
             }
-            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
-        }, 1000);
-    </script>
+        });
 
-    <script>
-        // --- SCRIPT PARA CABEZAS, CONTADOR, MODALES Y BÚSQUEDA ---
-        document.addEventListener('DOMContentLoaded', function () {
-
-            // --- ¡LISTA HÍBRIDA! (Premium = nombre, No-Premium = URL) ---
-            const streamers = [
-                // --- Premium (Usa username) ---
-                { id: "ItsBrauu", displayName: "ItsBrauu", channelUrl: "https://www.twitch.tv/ItsBrauu" },
-                { id: "DaniTrembl4y", displayName: "DaniTremblay", channelUrl: "https://www.twitch.tv/Danitremblay" },
-                { id: "j4vu", displayName: "j4vuuuu", channelUrl: "https://www.twitch.tv/j4vuuuu" },
-                { id: "itsaldoxd", displayName: "ItsAldoTz", channelUrl: "https://www.twitch.tv/itsaldotz" },
-                { id: "soypepon", displayName: "SoyPepon", channelUrl: "https://kick.com/soypeponn" },
-                { id: "Dylancho68", displayName: "Dylancho68", channelUrl: "https://www.twitch.tv/Dylancho68" },
-                { id: "K4mar1", displayName: "Ms_kamari", channelUrl: "https://www.twitch.tv/Ms_kamari" },
-                { id: "mikalcetin_", displayName: "mikalcetin_", channelUrl: "https://www.twitch.tv/mikalcetin_" },
-                { id: "thomastrex7", displayName: "ThomasTrex7", channelUrl: "https://www.twitch.tv/thomasrex7" },
-                // --- No-Premium (Usa la URL de la textura DIRECTA / UUID) ---
-                {
-                    id: "https://mc-heads.net/avatar/e7181326fdd51db4c4997a9589f221026fddcad678c98d1d8abb88ce79350eb", // URL de Wendysszx
-                    displayName: "Quality_Forever_",
-                    channelUrl: "https://www.twitch.tv/Quality_Forever_"
-                },
-                { id: "wallyvx", displayName: "Wallyvx", channelUrl: "https://www.twitch.tv/wallyvx" },
-                {
-                    id: "https://mc-heads.net/avatar/5c7a944903d8ea895c5106a132b9197e27050bb9e1aaf5a0a3ddab0d808dd82e", // URL de Wendysszx
-                    displayName: "NickGames",
-                    channelUrl: "https://www.twitch.tv/the_nickgames"
-                },
-                { id: "thatoneidiort", displayName: "PuvaPudim", channelUrl: "https://www.twitch.tv/puvapudim" },
-                { id: "idkaxi_", displayName: "IdkAxi", channelUrl: "https://www.twitch.tv/idk_axi" },
-                {
-                    id: "https://mc-heads.net/avatar/6432128823e26f688bb3288c2ba7af2c61d5775d97b6dd0c22acfd5ebaa29a63", // URL de Wendysszx
-                    displayName: "ESEMIXIAO",
-                    channelUrl: "https://www.twitch.tv/Zori_tv"
-                },
-                {
-                    // Se asume que el ID aquí es el nombre de usuario de Minecraft
-                    id: "https://mc-heads.net/avatar/376ae796b2c56bec52edb9ef02e9d25256db6af031b4f12d52c30ebb97c58f33",
-                    displayName: "elwhitexr",
-                    channelUrl: "https://www.twitch.tv/elwhitexr"
-                },
-
-                // --- No-Premium (Usa la URL de la textura DIRECTA / UUID) ---
-                {
-                    id: "https://mc-heads.net/avatar/adc2c78bedc9a9f72b3e1ec9b87abb4c72254c2a37169d1dee7db0a776343cbd", // URL de Wendysszx
-                    displayName: "Wendysszx",
-                    channelUrl: "https://www.twitch.tv/Wendysszx"
-                },
-                {
-                    id: "https://mc-heads.net/avatar/f165565b6bbd7bf3ec2395cc957bad9a4c4cd0f946f762fa63bfd8aa94aaf3c8", // URL de Ramirezz
-                    displayName: "Ramirezz",
-                    channelUrl: "https://www.twitch.tv/ramirez_the_catt"
-                },
-                {
-                    id: "https://mc-heads.net/avatar/30ba014652cb959dfe713085f5cae6e11a79e9ec0ef3b0a85ec08339e7258936", // URL de Alessa_bna
-                    displayName: "Alessa_bna",
-                    channelUrl: "https://www.twitch.tv/alessa_bna"
-                }
-            ];
-
-            // --- 1. CONFIGURAR CONTADOR Y CUADRÍCULA DE CABEZAS ---
-            const grid = document.getElementById('streamers-grid');
-            const modalList = document.getElementById('modal-streamer-list');
-            // --- NUEVO: OBTENER ELEMENTOS DEL MODAL DE EMBED ---
-            const embedModal = document.getElementById('embed-modal');
-            const closeEmbedBtn = document.querySelector('.embed-close');
-            const embedPlayerContainer = document.getElementById('embed-player-container');
-            const embedTitle = document.getElementById('embed-title');
-
-            document.getElementById('streamer-count').innerText = streamers.length;
-
-            streamers.forEach((streamer, index) => {
-
-                let headUrl;
-                let avatarUrl;
-
-                // *** ¡ESTA ES LA LÓGICA QUE PEDISTE! ***
-                if (streamer.id.startsWith('http')) {
-                    // Es No-Premium (se asume que es una URL de UUID o textura)
-                    // Eliminamos el /64 o /32 si existe para reconstruir las URL
-                    const baseURL = streamer.id.replace(/\/32|\/64/g, '');
-                    headUrl = `${baseURL}/64`;
-                    avatarUrl = `${baseURL}/32`;
-                } else {
-                    // Es Premium, armamos la URL con la API
-                    headUrl = `https://mc-heads.net/avatar/${streamer.id}/64`;
-                    avatarUrl = `https://mc-heads.net/avatar/${streamer.id}/32`;
-                }
-
-                // A. Crear las cabezas de la cuadrícula
-                const link = document.createElement('a');
-                link.href = streamer.channelUrl;
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
-                link.className = "streamer-head";
-                link.setAttribute('data-name', streamer.displayName);
-
-                link.style.animationDelay = `${index * 80}ms`;
-
-                const img = document.createElement('img');
-                img.src = headUrl;
-                img.alt = `Cabeza de ${streamer.displayName}`;
-
-                img.onerror = function () {
-                    this.src = 'https://mc-heads.net/avatar/MHF_Question/64';
-                };
-
-                link.appendChild(img);
-                grid.appendChild(link);
-
-                // B. Crear la lista del modal
-                const li = document.createElement('li');
-                const modalLink = document.createElement('a');
-                // Quitamos el href, ya que lo manejaremos con JS
-                // modalLink.href = streamer.channelUrl; 
-                // modalLink.target = "_blank";
-                // modalLink.rel = "noopener noreferrer";
-
-                const modalImg = document.createElement('img');
-                modalImg.src = avatarUrl;
-                modalImg.alt = streamer.displayName;
-                modalImg.onerror = function () {
-                    this.src = 'https://mc-heads.net/avatar/MHF_Question/32';
-                };
-
-                // --- INICIO: NUEVA LÓGICA DE CLIC ---
-                modalLink.onclick = function (e) {
-                    e.preventDefault(); // Evita que el enlace <a> haga algo
-
-                    let iframeSrc = '';
-                    let channelName = '';
-                    const url = new URL(streamer.channelUrl);
-                    const hostname = url.hostname.toLowerCase();
-                    // Extrae el nombre del canal (ej: /itsbrauu -> itsbrauu)
-                    channelName = url.pathname.substring(1);
-
-                    // Limpiar el reproductor anterior
-                    embedPlayerContainer.innerHTML = '';
-                    embedTitle.innerText = `Viendo a ${streamer.displayName}`;
-                    
-                    // --- ADVERTENCIA DE DOMINIO ---
-                    // Esto obtiene el dominio (ej: "bsmp.com" o "localhost")
-                    // Si el archivo es local (file://), será una cadena vacía y Twitch fallará.
-                    const parentDomain = window.location.hostname;
-
-                    if (hostname.includes('twitch.tv')) {
-                        iframeSrc = `https://player.twitch.tv/?channel=${channelName}&parent=${parentDomain}&autoplay=true&muted=false`;
-                    } else if (hostname.includes('kick.com')) {
-                        iframeSrc = `https://kick.com/embed/player.php?channel=${channelName}&autoplay=true&muted=false`;
-                    }
-
-                    if (iframeSrc) {
-                        const iframe = document.createElement('iframe');
-                        iframe.src = iframeSrc;
-                        iframe.setAttribute('allowfullscreen', '');
-                        
-                        embedPlayerContainer.appendChild(iframe);
-
-                        // Mostrar el modal del reproductor
-                        embedModal.style.display = 'flex';
-                        // Ocultar el modal de la lista
-                        document.getElementById('streamer-modal').style.display = 'none';
-                        
-                    } else {
-                        // Si no es Twitch o Kick, abrir en nueva pestaña (comportamiento original)
-                        window.open(streamer.channelUrl, '_blank', 'noopener,noreferrer');
-                    }
-                };
-                // --- FIN: NUEVA LÓGICA DE CLIC ---
-
-
-                modalLink.appendChild(modalImg);
-                modalLink.appendChild(document.createTextNode(` ${streamer.displayName}`));
-
-                li.appendChild(modalLink);
-                modalList.appendChild(li);
+        const q = query(messagesCol, orderBy("time", "asc"));
+        onSnapshot(q, (snapshot) => {
+            const display = document.getElementById('chatDisplay');
+            display.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const headUrl = `https://mc-heads.net/avatar/${data.user}/50`;
+                const card = document.createElement('div');
+                card.className = 'message-card';
+                card.innerHTML = `<img src="${headUrl}" class="user-avatar">
+                    <div class="message-content"><div class="message-header"><span>${data.user}</span></div>
+                    <div class="message-body">${data.text}</div></div>`;
+                display.appendChild(card);
             });
-
-
-            // --- 2. FUNCIONALIDAD DEL MODAL DE STREAMERS ---
-            const streamerModal = document.getElementById('streamer-modal');
-            const openStreamerBtn = document.getElementById('open-streamer-btn');
-            const closeStreamerBtn = document.querySelector('.streamer-close');
-
-            openStreamerBtn.onclick = function () { streamerModal.style.display = 'flex'; }
-            closeStreamerBtn.onclick = function () { streamerModal.style.display = 'none'; }
-            streamerModal.onclick = function (event) {
-                if (event.target == streamerModal) {
-                    streamerModal.style.display = 'none';
-                }
-            }
-
-            // --- 3. FUNCIONALIDAD DEL MODAL DE "INFO" ---
-            const aboutModal = document.getElementById('about-modal');
-            const openAboutBtn = document.getElementById('open-about-btn');
-            const closeAboutBtn = document.querySelector('.about-close');
-
-            openAboutBtn.onclick = function () { aboutModal.style.display = 'flex'; }
-            closeAboutBtn.onclick = function () { aboutModal.style.display = 'none'; }
-            aboutModal.onclick = function (event) {
-                if (event.target == aboutModal) {
-                    aboutModal.style.display = 'none';
-                }
-            }
-
-            // --- INICIO: NUEVA FUNCIONALIDAD DEL MODAL DE EMBED ---
-            closeEmbedBtn.onclick = function () {
-                embedModal.style.display = 'none';
-                embedPlayerContainer.innerHTML = ''; // Detiene el video
-            }
-            embedModal.onclick = function (event) {
-                if (event.target == embedModal) {
-                    embedModal.style.display = 'none';
-                    embedPlayerContainer.innerHTML = ''; // Detiene el video
-                }
-            }
-            // --- FIN: NUEVA FUNCIONALIDAD DEL MODAL DE EMBED ---
-
-
-            // --- 4. FUNCIONALIDAD DE BÚSQUEDA ---
-            const searchBar = document.getElementById('search-bar');
-            searchBar.addEventListener('keyup', function () {
-                const filter = searchBar.value.toUpperCase();
-                const liItems = modalList.getElementsByTagName('li');
-
-                for (let i = 0; i < liItems.length; i++) {
-                    const a = liItems[i].getElementsByTagName('a')[0];
-                    const txtValue = a.textContent || a.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        liItems[i].style.display = "";
-                    } else {
-                        liItems[i].style.display = "none";
-                    }
-                }
-            });
+            display.scrollTop = display.scrollHeight;
         });
     </script>
 
-</body>
+    <script>
+        // --- ANIMACIÓN DE CARGA ---
+        const logs = [
+            "Iniciando Kernel...",
+            "Conectando con base de datos bsmp2...",
+            "Sincronizando Radar...",
+            "Cargando Sujetos de Prueba...",
+            "Acceso Concedido."
+        ];
+        let logIdx = 0;
+        const logContainer = document.getElementById('boot-text');
+        const loadBar = document.getElementById('load-bar');
+        
+        const interval = setInterval(() => {
+            if(logIdx < logs.length) {
+                logContainer.innerHTML += `> ${logs[logIdx]}<br>`;
+                loadBar.style.width = ((logIdx + 1) * 20) + "%";
+                logIdx++;
+            } else {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    initAOS();
+                }, 500);
+            }
+        }, 600);
 
+// --- LÓGICA DE RADAR AVANZADA ---
+const radarContainer = document.getElementById('radarContainer');
+const radarGrid = document.getElementById('radarGrid');
+const coordsDisplay = document.getElementById('coords');
+
+let isDragging = false;
+let startX, startY;
+let translateX = -400, translateY = -750; // Posición inicial centrada en el Nexo
+
+// Función para actualizar el movimiento
+const updateRadarPosition = (e) => {
+    if (!isDragging) return;
+    
+    // Detectar si es touch o mouse
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    const dx = clientX - startX;
+    const dy = clientY - startY;
+
+    translateX += dx;
+    translateY += dy;
+
+    radarGrid.style.transform = `translate(${translateX}px, ${translateY}px)`;
+    
+    // Actualizar coordenadas falsas para el lore
+    const xCoord = Math.round((translateX + 400) * -1);
+    const zCoord = Math.round((translateY + 750) * -1);
+    coordsDisplay.innerText = `X: ${xCoord} | Z: ${zCoord}`;
+
+    startX = clientX;
+    startY = clientY;
+};
+
+// Eventos Mouse
+radarContainer.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+});
+
+window.addEventListener('mouseup', () => isDragging = false);
+window.addEventListener('mousemove', updateRadarPosition);
+
+// Eventos Touch (Celular)
+radarContainer.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+}, { passive: true });
+
+window.addEventListener('touchend', () => isDragging = false);
+window.addEventListener('touchmove', updateRadarPosition, { passive: false });
+
+// Posición inicial del grid
+radarGrid.style.transform = `translate(${translateX}px, ${translateY}px)`;
+
+        // --- ANIMACIONES AL BAJAR (AOS) ---
+        function initAOS() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) entry.target.classList.add('appear');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
+        }
+
+        // --- RENDERIZAR SUJETOS (PRESERVANDO IDs ORIGINALES) ---
+const sujetos = [
+    { id: "ItsBrauu", name: "Brauu" }, { id: "DaniTrembl4y", name: "Dani" },
+    { id: "j4vu", name: "j4vu" }, { id: "itsaldoxd", name: "Aldo" },
+    { id: "soypepon", name: "Pepon" }, { id: "alexuh_", name: "Nico" },
+    { id: "Dylancho68", name: "Dylan" }, { id: "K4mar1", name: "Kamari" },
+    { id: "mikalcetin_", name: "Mika" }, { id: "thomastrex7", name: "Thomas" },
+    { id: "wallyvx", name: "Wally" }, { id: "idkaxi_", name: "Axi" },
+    // IDs Largos (No Premium / Skin Hashes) se mantienen intactos
+    { id: "adc2c78bedc9a9f72b3e1ec9b87abb4c72254c2a37169d1dee7db0a776343cbd", name: "Wendy" },
+    { id: "f165565b6bbd7bf3ec2395cc957bad9a4c4cd0f946f762fa63bfd8aa94aaf3c8", name: "Ramirez" },
+    { id: "30ba014652cb959dfe713085f5cae6e11a79e9ec0ef3b0a85ec08339e7258936", name: "Alessa" },
+    { id: "e7181326fdd51db4c4997a9589f221026fddcad678c98d1d8abb88ce79350eb", name: "Quality" },
+    { id: "5c7a944903d8ea895c5106a132b9197e27050bb9e1aaf5a0a3ddab0d808dd82e", name: "Nick" },
+    { id: "thatoneidiort", name: "Puva" },
+    { id: "6432128823e26f688bb3288c2ba7af2c61d5775d97b6dd0c22acfd5ebaa29a63", name: "Zori" },
+    { id: "376ae796b2c56bec52edb9ef02e9d25256db6af031b4f12d52c30ebb97c58f33", name: "White" }
+];
+
+const grid = document.getElementById('grid_sujetos');
+grid.innerHTML = ""; // Limpieza de seguridad
+
+sujetos.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'subject-card';
+    
+    // Generamos un ID de registro corto solo visual
+    const shortID = Math.floor(Math.random() * 900) + 100;
+
+    card.innerHTML = `
+        <img src="https://mc-heads.net/avatar/${s.id}/120" alt="${s.name}" onerror="this.src='https://mc-heads.net/avatar/steve/120'">
+        <div class="subject-info">
+            <span class="subject-status">SUJETO_REG_${shortID}</span>
+            <div class="subject-name">${s.name}</div>
+            <div class="vital-bar"><div class="vital-fill"></div></div>
+        </div>
+    `;
+    grid.appendChild(card);
+});
+
+        const target = new Date("July 1, 2026 00:00:00").getTime();
+        setInterval(() => {
+            const d = target - new Date().getTime();
+            document.getElementById('countdown').innerText = `${Math.floor(d/(1000*60*60*24))}d ${Math.floor((d%(1000*60*60*24))/(1000*60*60))}h ${Math.floor((d%(1000*60*60))/(1000*60))}m ${Math.floor((d%(1000*60))/1000)}s`;
+        }, 1000);
+    </script>
+</body>
 </html>

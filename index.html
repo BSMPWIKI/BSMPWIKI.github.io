@@ -588,6 +588,50 @@
         padding: 20px;
     }
 }
+.language-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    padding: 10px 20px;
+    border-bottom: 2px solid #333;
+}
+
+.flags-container {
+    display: flex;
+    gap: 15px;
+}
+
+.flags-container img {
+    width: 25px;
+    height: auto;
+    filter: grayscale(0.5) brightness(0.8);
+    border: 1px solid #333;
+    transition: 0.3s;
+}
+
+.flags-container img:hover {
+    filter: grayscale(0) brightness(1);
+    transform: scale(1.2);
+    border-color: var(--verde);
+}
+
+#lang-selector {
+    background: #000;
+    color: var(--verde);
+    border: 1px solid var(--verde);
+    font-family: var(--fuente);
+    font-size: 0.7rem;
+    padding: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Ajuste para móvil */
+@media (max-width: 600px) {
+    .flags-container { gap: 8px; }
+    .flags-container img { width: 20px; }
+}
     </style>
 </head>
 <body>
@@ -620,6 +664,20 @@
             <a href="#objetos" class="nav-btn">Artefactos</a>
             <a href="#terminal-enlace" class="nav-btn">Terminal</a>
         </nav>
+
+<div class="language-bar">
+    <div class="flags-container">
+        <img src="https://flagcdn.com/w40/cl.png" alt="Chile" title="Protocolo CL">
+        <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" title="Protocolo AR">
+        <img src="https://flagcdn.com/w40/mx.png" alt="Mexico" title="Protocolo MX">
+        <img src="https://flagcdn.com/w40/us.png" alt="USA" title="Protocolo US">
+        <img src="https://flagcdn.com/w40/br.png" alt="Brazil" title="Protocolo BR">
+    </div>
+    <select id="lang-selector" onchange="changeLanguage()">
+        <option value="es">ESP_MOD [ES]</option>
+        <option value="en">ENG_MOD [EN]</option>
+    </select>
+</div>
 
         <section id="manifiesto" data-aos>
             <h2 class="section-header">Leyes de Realidad</h2>
@@ -772,64 +830,127 @@
 
     <script>
 
-    const subtitulos = [
-    { tiempo: 0, texto: "[ Estática digital y respiración ]" },
-    { tiempo: 2, texto: "No es un mundo. Es el escenario para un loco." },
-    { tiempo: 7, texto: "Vino por mí usando mi propia piel. Ese chaleco, esos pantalones... y esa corbata roja sangre. Brauu." },
-    { tiempo: 21, texto: "Me degolló porque el universo es muy pequeño para dos versiones del mismo fracaso. Lo hizo por Lua." },
-    { tiempo: 34, texto: "Él persigue a un fantasma que no quiere ser encontrado. Ella siguió adelante... pero su obsesión no la deja ir." },
-    { tiempo: 51, texto: "Morí, sí. Pero la Vida Morada me trajo de vuelta. Ahora me escondo tras esta máscara negra... y esta sonrisa vacía." },
-    { tiempo: 61, texto: "Intenté defenderme. Mover los hilos yo también. Susurré en los oídos de Quality, Dylan, <span style='color:purple;'>[ERROR]</span> y Aldo." },
-    { tiempo: 77, texto: "Los manipulé. Intenté convertirlos en mi ejército... contra el monstruo de la corbata roja." },
-    { tiempo: 88, texto: "Pero la lealtad es solo una palabra escrita en la arena. No confíes en ellos. No confíes en nadie." },
-    { tiempo: 98, texto: "Ni siquiera confíes en tu propio reflejo. Soy la falla que él no pudo borrar... y estoy observando." },
-    { tiempo: 114, texto: "[ Fin de la transmisión ]" }
-];
+   /* ============================================================
+   SISTEMA DE LENGUAJE Y SUBTÍTULOS (BRAI_OS v2.0)
+   ============================================================ */
+
+// 1. Datos de Subtítulos (Sincronizados con tu grabación)
+const subsData = {
+    es: [
+        { tiempo: 0, texto: "[ Estática digital y respiración ]" },
+        { tiempo: 2, texto: "No es un mundo. Es el escenario para un loco." },
+        { tiempo: 7, texto: "Vino por mí usando mi propia piel. Ese chaleco, esos pantalones... y esa corbata roja sangre. Brauu." },
+        { tiempo: 21, texto: "Me degolló porque el universo es muy pequeño para dos versiones del mismo fracaso. Lo hizo por Lua." },
+        { tiempo: 34, texto: "Él persigue a un fantasma que no quiere ser encontrado. Ella siguió adelante... pero su obsesión no la deja ir." },
+        { tiempo: 51, texto: "Morí, sí. Pero la Vida Morada me trajo de vuelta. Ahora me escondo tras esta máscara negra... y esta sonrisa vacía." },
+        { tiempo: 61, texto: "Intenté defenderme. Mover los hilos yo también. Susurré en los oídos de Quality, Dylan, <span style='color:#a020f0;'>[ERROR]</span> y Aldo." },
+        { tiempo: 77, texto: "Los manipulé. Intenté convertirlos en mi ejército... contra el monstruo de la corbata roja." },
+        { tiempo: 88, texto: "Pero en esta línea de tiempo, la lealtad es solo una palabra escrita en la arena. No confíes en ellos. No confíes en nadie." },
+        { tiempo: 98, texto: "Ni siquiera confíes en tu propio reflejo. Soy la falla que él no pudo borrar... y estoy observando." },
+        { tiempo: 114, texto: "[ Fin de la transmisión ]" }
+    ],
+    en: [
+        { tiempo: 0, texto: "[ Digital static and breathing ]" },
+        { tiempo: 2, texto: "It’s not a world. It’s a stage for a madman." },
+        { tiempo: 7, texto: "He came for me wearing my own skin. That vest, those trousers... and that blood-red tie. Brauu." },
+        { tiempo: 21, texto: "He slit my throat because the universe is too small for two versions of the same failure. He did it for Lua." },
+        { tiempo: 34, texto: "He’s chasing a ghost who doesn't want to be found. She moved on... but his obsession won't let her go." },
+        { tiempo: 51, texto: "I died, yes. But the Purple Life dragged me back. Now I hide behind this black mask... and this hollow smile." },
+        { tiempo: 61, texto: "I tried to fight back. To pull the strings too. I whispered in the ears of Quality, Dylan, <span style='color:#a020f0;'>[ERROR]</span> and Aldo." },
+        { tiempo: 77, texto: "I manipulated them. I tried to turn them into my army... against the monster in the red tie." },
+        { tiempo: 88, texto: "But in this timeline, loyalty is just a word written in sand. Don't trust them. Don't trust anyone." },
+        { tiempo: 98, texto: "Don't even trust your own reflection. Because I am the glitch he couldn't erase... and I am watching." },
+        { tiempo: 114, texto: "[ End of transmission ]" }
+    ]
+};
+
+// 2. Traducciones de Interfaz
+const uiTranslations = {
+    es: {
+        alert: "!! ADVERTENCIA DE SEGURIDAD !!",
+        decrypt: "[ TOQUE PARA DESENCRIPTAR ]",
+        status: "ESTADO: <span style='color:#a020f0'>DECODIFICANDO</span>",
+        sync: "Sincronizando..."
+    },
+    en: {
+        alert: "!! SECURITY WARNING !!",
+        decrypt: "[ TAP TO DECRYPT ]",
+        status: "STATUS: <span style='color:#a020f0'>DECODING</span>",
+        sync: "Synchronizing..."
+    }
+};
+
+let currentLang = 'es';
+let subtitulos = subsData[currentLang];
+
+// 3. Función para Cambiar Idioma
+function changeLanguage() {
+    currentLang = document.getElementById('lang-selector').value;
+    subtitulos = subsData[currentLang];
+    
+    // Actualizar Textos UI
+    document.querySelector('.blink-red').innerText = uiTranslations[currentLang].alert;
+    document.querySelector('.terminal-alert p:nth-child(3)').innerText = uiTranslations[currentLang].decrypt;
+    document.querySelector('.audio-meta span:first-child').innerHTML = uiTranslations[currentLang].status;
+    document.getElementById('subtitles-brai').innerText = uiTranslations[currentLang].sync;
+}
+
+// 4. Control de la Consola de Audio
 function toggleAudioConsole() {
     const consoleDiv = document.getElementById('audioConsole');
-    const logDiv = document.getElementById('log-text-brai');
     const audio = document.getElementById('bsmpAudio');
     const mask = document.getElementById('mask-display');
-    const subContainer = document.getElementById('subtitles-brai');
+    const log = document.getElementById('log-text-brai');
 
     if (consoleDiv.style.display === "none" || consoleDiv.style.display === "") {
         consoleDiv.style.display = "block";
-        consoleDiv.classList.add('active-lore');
         
-        const logs = [
-            "> [ALERTA] Interceptando frecuencia: BRAI",
-            "> [INFO] Rastro de energía detectado.",
-            "> [OK] Decodificando confesión..."
-        ];
-
-        let i = 0;
-        logDiv.innerHTML = "";
-        const timer = setInterval(() => {
-            if (i < logs.length) {
-                logDiv.innerHTML += `<div>${logs[i]}</div>`;
-                i++;
-            } else {
-                clearInterval(timer);
-                mask.style.display = "block";
-                audio.style.display = "block";
-                audio.play();
-            }
-        }, 1000);
-
-        // Lógica de subtítulos sincronizados
-        audio.ontimeupdate = () => {
-            const current = audio.currentTime;
-            const activo = subtitulos.filter(s => current >= s.tiempo).pop();
-            if (activo) {
-                subContainer.innerHTML = activo.texto;
-            }
-        };
-
+        // Simulación de carga hacker
+        log.innerHTML = "> Accediendo a archivos de memoria...<br>> Bypass de seguridad completado.";
+        
+        setTimeout(() => {
+            mask.style.display = "block";
+            audio.play().catch(e => console.log("Autoplay bloqueado, esperando interacción."));
+        }, 800);
     } else {
         consoleDiv.style.display = "none";
         audio.pause();
     }
 }
+
+// 5. Sincronización y Efectos (OnTimeUpdate)
+const bsmpAudio = document.getElementById('bsmpAudio');
+
+bsmpAudio.ontimeupdate = () => {
+    const current = bsmpAudio.currentTime;
+    const subContainer = document.getElementById('subtitles-brai');
+    
+    // Buscar el subtítulo activo
+    const activo = subtitulos.slice().reverse().find(s => current >= s.tiempo);
+    
+    if (activo && subContainer.innerHTML !== activo.texto) {
+        subContainer.style.opacity = 0; // Efecto de parpadeo al cambiar
+        setTimeout(() => {
+            subContainer.innerHTML = activo.texto;
+            subContainer.style.opacity = 1;
+        }, 100);
+    }
+
+    // Efecto Especial en el segundo 61 [ERROR]
+    if (Math.floor(current) === 61) {
+        document.body.style.filter = "invert(1) hue-rotate(280deg)";
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+        setTimeout(() => { document.body.style.filter = "none"; }, 150);
+    }
+    
+    // Auto-cierre al finalizar (opcional)
+    if (bsmpAudio.ended) {
+        subContainer.innerHTML = "--- CONEXIÓN PERDIDA ---";
+    }
+};
+
+/* Detener que el click en el reproductor cierre la terminal */
+document.getElementById('audioConsole').onclick = (e) => e.stopPropagation();
         // --- ANIMACIÓN DE CARGA ---
         const logs = [
             "Iniciando archivos.",

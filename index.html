@@ -230,6 +230,40 @@
     border: 1px solid rgba(0, 255, 0, 0.2);
     border-radius: 50%;
     pointer-events: none;
+
+
+    /* Efecto de energía morada para la consola */
+.audio-console.active-lore {
+    border: 2px solid #a020f0;
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
+    animation: purple-pulse 2s infinite;
+}
+
+@keyframes purple-pulse {
+    0% { box-shadow: 0 0 10px rgba(160, 32, 240, 0.4); }
+    50% { box-shadow: 0 0 25px rgba(160, 32, 240, 0.7); }
+    100% { box-shadow: 0 0 10px rgba(160, 32, 240, 0.4); }
+}
+
+.mask-icon {
+    width: 50px;
+    height: 50px;
+    background: #000;
+    border: 2px solid #a020f0;
+    border-radius: 50%;
+    margin: 10px auto;
+    position: relative;
+}
+
+.mask-smile {
+    width: 25px;
+    height: 12px;
+    border-bottom: 3px solid #fff;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+}
 }
 .radar-circles::after {
     content: '';
@@ -396,12 +430,170 @@
             .nav-btn { padding: 15px 20px; font-size: 0.6rem; }
             .lore-card { padding: 25px 20px; }
         }
+        .custom-logo {
+    max-width: 300px; /* Ajusta el ancho a tu gusto */
+    height: auto;
+    filter: grayscale(1) brightness(1.2); /* Mantiene el estilo blanco y negro */
+    image-rendering: pixelated; /* Si tu logo es pixel art, esto lo mantiene nítido */
+    transition: 0.3s;
+}
+
+.custom-logo:hover {
+    filter: grayscale(0) drop-shadow(0 0 10px var(--verde)); /* Efecto al pasar el mouse */
+}
+
+/* Ajuste para móviles */
+@media (max-width: 760px) {
+    .custom-logo {
+        max-width: 200px;
+    }
+}
+/* --- SECCIÓN DE AUDIO CLASIFICADO --- */
+.terminal-alert {
+    background: #000;
+    border: 2px solid #f00;
+    padding: 20px;
+    margin: 40px 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.terminal-alert:hover {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    transform: scale(1.02);
+}
+
+.blink-red {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 1.1rem;
+    animation: pulse-warn 1s infinite;
+    text-transform: uppercase;
+}
+
+@keyframes pulse-warn {
+    0% { opacity: 1; text-shadow: 0 0 5px #f00; }
+    50% { opacity: 0.2; text-shadow: 0 0 0px #f00; }
+    100% { opacity: 1; text-shadow: 0 0 5px #f00; }
+}
+
+.audio-console {
+    display: none; /* Se activa al hacer clic */
+    background: #111;
+    border: 1px solid #333;
+    padding: 20px;
+    margin-top: 15px;
+    color: #0f0;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+/* Reproductor Minimalista */
+.audio-player-ui {
+    width: 100%;
+    margin-top: 15px;
+    filter: invert(1) hue-rotate(90deg) brightness(1.5); /* Lo hace ver verde/negro */
+}
+
+.audio-meta {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #0f0;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+#subtitles-brai {
+    min-height: 60px;
+    color: #fff;
+    font-style: italic;
+    text-align: center;
+    border-top: 1px dashed #a020f0;
+    padding-top: 10px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    text-shadow: 0 0 8px #a020f0;
+    line-height: 1.4;
+}
+/* --- REDISEÑO DE TERMINAL MÓVIL --- */
+.terminal-alert {
+    background: #000;
+    border: 2px solid rgb(0, 0, 0);
+    padding: 15px;
+    margin: 20px 10px; /* Menos margen en móviles */
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+.audio-console {
+    display: none;
+    background: #0a0a0a;
+    border: 1px solid #333;
+    padding: 15px;
+    margin-top: 15px;
+    color: #0f0;
+    font-size: 0.8rem;
+    text-align: left;
+    border-radius: 4px; /* Un toque más moderno */
+    box-shadow: inset 0 0 20px rgba(0,0,0,1);
+}
+
+/* Área de los subtítulos mejorada para móvil */
+#subtitles-brai {
+    min-height: 80px; /* Más espacio para textos largos */
+    color: #fff;
+    font-style: italic;
+    text-align: center;
+    border-top: 1px solid #a020f0;
+    padding: 15px 5px;
+    margin-top: 15px;
+    font-size: 0.9rem; /* Un poco más grande para leer mejor */
+    text-shadow: 0 0 10px #a020f0;
+    line-height: 1.5;
+    background: rgba(160, 32, 240, 0.05); /* Fondo sutil morado */
+}
+
+/* Reproductor de audio personalizado para que no se vea el de Google/Apple */
+.audio-player-ui {
+    width: 100%;
+    margin-top: 15px;
+    filter: invert(1) hue-rotate(90deg) brightness(1.5);
+    height: 35px; /* Más compacto */
+}
+
+.audio-meta {
+    display: flex;
+    flex-direction: column; /* Apilado en móvil */
+    gap: 5px;
+    border-bottom: 1px solid #0f0;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* Ajuste para pantallas más grandes (PC) */
+@media (min-width: 768px) {
+    .audio-meta {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .terminal-alert {
+        margin: 40px 20px;
+        padding: 20px;
+    }
+}
     </style>
 </head>
 <body>
 
     <div id="loading-screen">
-        <div class="main-logo" style="color:white">BSMP II</div>
+        <div class="main-logo" style="color:white">II</div>
         <div class="boot-text" id="boot-text"></div>
         <div class="progress-bar">
             <div class="progress-fill" id="load-bar"></div>
@@ -413,7 +605,9 @@
     <div class="master-archive">
         <header>
             <div class="header-top">SISTEMA CENTRAL DE ARCHIVOS</div>
-            <h1 class="main-logo">BSMP<br>VERSION_II</h1>
+            <h1 class="main-logo">
+    <img src="https://i.ibb.co/k24Vx68f/Proyecto-nuevo-23.png" alt="BSMP 2" class="custom-logo">
+</h1>
             <div class="warning-strip">CONEXIÓN ESTABLECIDA - SECTOR JULIO_2026</div>
             <div id="countdown" style="margin-top: 20px; font-weight: bold; font-size: 1.2rem;">CALCULANDO...</div>
         </header>
@@ -484,7 +678,43 @@
                 </div>
             </div>
         </section>
+<section id="transmision-recuperada" data-aos>
+    <div class="terminal-alert" onclick="toggleAudioConsole()">
+        <div class="blink-red">!! ADVERTENCIA DE SEGURIDAD !!</div>
+        <p style="color: #fff; font-size: 0.7rem; margin-top: 5px;">DATA: BRAI_LOG_LASCOLINAS.mp3</p>
+        <p style="color: #666; font-size: 0.6rem;">[ TOQUE PARA DESENCRIPTAR ]</p>
 
+        <div id="audioConsole" class="audio-console" onclick="event.stopPropagation()">
+            <div class="audio-meta">
+                <span>ESTADO: <span style="color:#a020f0">DECODIFICANDO</span></span>
+                <span>ID: BRAI_01</span>
+            </div>
+            
+            <div id="log-text-brai"></div>
+
+            <div id="mask-display" style="display:none; text-align:center; margin: 10px 0;">
+                <div class="mask-icon"><div class="mask-smile"></div></div>
+            </div>
+
+            <div id="subtitles-brai">Sincronizando...</div>
+            
+            <audio id="bsmpAudio" class="audio-player-ui" controls preload="auto">
+                <source src="https://files.catbox.moe/244jjb.mp3" type="audio/mpeg">
+            </audio>
+            
+            <div style="margin-top:10px; font-size:0.5rem; color:#333; letter-spacing:2px;">
+                BRAUU_CORP_OS // BYPASS_ACTIVE
+            </div>
+        </div>
+    </div>
+</section>
+                Tu navegador no soporta el audio.
+            </audio>
+            
+            <p style="margin-top: 10px; color: #444; font-size: 0.5rem; text-align: center;">> "No confíes en tu propio reflejo."</p>
+        </div>
+    </div>
+</section>
         <footer>
             <div class="footer-logo">BRAUU STUDIOS</div>
             <p>SECTOR BSMP_II</p>
@@ -541,10 +771,69 @@
     </script>
 
     <script>
+
+    const subtitulos = [
+    { tiempo: 0, texto: "[ Estática digital y respiración ]" },
+    { tiempo: 2, texto: "No es un mundo. Es el escenario para un loco." },
+    { tiempo: 7, texto: "Vino por mí usando mi propia piel. Ese chaleco, esos pantalones... y esa corbata roja sangre. Brauu." },
+    { tiempo: 21, texto: "Me degolló porque el universo es muy pequeño para dos versiones del mismo fracaso. Lo hizo por Lua." },
+    { tiempo: 34, texto: "Él persigue a un fantasma que no quiere ser encontrado. Ella siguió adelante... pero su obsesión no la deja ir." },
+    { tiempo: 51, texto: "Morí, sí. Pero la Vida Morada me trajo de vuelta. Ahora me escondo tras esta máscara negra... y esta sonrisa vacía." },
+    { tiempo: 61, texto: "Intenté defenderme. Mover los hilos yo también. Susurré en los oídos de Quality, Dylan, <span style='color:purple;'>[ERROR]</span> y Aldo." },
+    { tiempo: 77, texto: "Los manipulé. Intenté convertirlos en mi ejército... contra el monstruo de la corbata roja." },
+    { tiempo: 88, texto: "Pero la lealtad es solo una palabra escrita en la arena. No confíes en ellos. No confíes en nadie." },
+    { tiempo: 98, texto: "Ni siquiera confíes en tu propio reflejo. Soy la falla que él no pudo borrar... y estoy observando." },
+    { tiempo: 114, texto: "[ Fin de la transmisión ]" }
+];
+function toggleAudioConsole() {
+    const consoleDiv = document.getElementById('audioConsole');
+    const logDiv = document.getElementById('log-text-brai');
+    const audio = document.getElementById('bsmpAudio');
+    const mask = document.getElementById('mask-display');
+    const subContainer = document.getElementById('subtitles-brai');
+
+    if (consoleDiv.style.display === "none" || consoleDiv.style.display === "") {
+        consoleDiv.style.display = "block";
+        consoleDiv.classList.add('active-lore');
+        
+        const logs = [
+            "> [ALERTA] Interceptando frecuencia: BRAI",
+            "> [INFO] Rastro de energía detectado.",
+            "> [OK] Decodificando confesión..."
+        ];
+
+        let i = 0;
+        logDiv.innerHTML = "";
+        const timer = setInterval(() => {
+            if (i < logs.length) {
+                logDiv.innerHTML += `<div>${logs[i]}</div>`;
+                i++;
+            } else {
+                clearInterval(timer);
+                mask.style.display = "block";
+                audio.style.display = "block";
+                audio.play();
+            }
+        }, 1000);
+
+        // Lógica de subtítulos sincronizados
+        audio.ontimeupdate = () => {
+            const current = audio.currentTime;
+            const activo = subtitulos.filter(s => current >= s.tiempo).pop();
+            if (activo) {
+                subContainer.innerHTML = activo.texto;
+            }
+        };
+
+    } else {
+        consoleDiv.style.display = "none";
+        audio.pause();
+    }
+}
         // --- ANIMACIÓN DE CARGA ---
         const logs = [
-            "Iniciando Kernel...",
-            "Conectando con base de datos bsmp2...",
+            "Iniciando archivos.",
+            "Conectando con base de datos..",
             "Sincronizando Radar...",
             "Cargando Sujetos de Prueba...",
             "Acceso Concedido."

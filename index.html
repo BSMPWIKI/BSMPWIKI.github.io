@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -1031,6 +1032,7 @@
                 <img src="https://flagcdn.com/w40/cl.png" alt="Chile" title="Protocolo CL">
                 <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" title="Protocolo AR">
                 <img src="https://flagcdn.com/w40/mx.png" alt="Mexico" title="Protocolo MX">
+                <img src="https://flagcdn.com/w40/es.png" alt="Japan" title="Protocolo ES">
                 <img src="https://flagcdn.com/w40/us.png" alt="USA" title="Protocolo US">
                 <img src="https://flagcdn.com/w40/br.png" alt="Brazil" title="Protocolo BR">
                 <img src="https://flagcdn.com/w40/jp.png" alt="Japan" title="Protocolo JP">
@@ -1060,6 +1062,12 @@
             <div class="counter-container">
     <span class="glitch-text">SUJETOS_DETECTADOS: </span>
     <span id="total-streamers" class="counter-number">00</span>
+</div>
+<div class="live-counter-container">
+    <span class="counter-label">SEÑALES_ACTIVAS:</span>
+    <span id="live-count" class="counter-number">00</span>
+    <span class="counter-divider">/</span>
+    <span id="total-subjects" class="counter-total">00</span>
 </div>
             <h2 class="section-header">Sujetos de Prueba</h2>
 
@@ -1143,7 +1151,7 @@
                     </audio>
 
                     <div style="margin-top:10px; font-size:0.5rem; color:#333; letter-spacing:2px;">
-                        BRAUU_CORP_OS // BYPASS_ACTIVE
+                        BRAUU_STUDIOS_OS // BYPASS_ACTIVE
                     </div>
                 </div>
             </div>
@@ -1436,7 +1444,7 @@
     { id: "DaniTrembl4y", displayName: "DaniTremblay", channelUrl: "https://www.twitch.tv/Danitremblay" },
     { id: "j4vu", displayName: "j4vuuuu", channelUrl: "https://www.twitch.tv/j4vuuuu" },
     { id: "itsaldoxd", displayName: "ItsAldoTz", channelUrl: "https://www.twitch.tv/itsaldotz" },
-     { id: "errorisonline", displayName: "ErrorIsOnline", channelUrl: "https://www.twitch.tv/errorisonline" },
+     { id: "errorisonline", displayName: "ErrorIsOnline", channelUrl: "https://www.twitch.tv/errorisonline_vhs" },
     { id: "soypepon", displayName: "SoyPepon", channelUrl: "https://kick.com/soypeponn" },
     { id: "Loloissmort", displayName: "Loloissmort", channelUrl: "https://www.twitch.tv/l0l0isntdumb" },
     { id: "Dream_Wolf06", displayName: "Dream_Wolf06", channelUrl: "" },
@@ -1444,7 +1452,7 @@
     { id: "alexuh_", displayName: "nicotines_", channelUrl: "https://www.twitch.tv/nicotines_" },
     { id: "Dylancho68", displayName: "Dylancho68", channelUrl: "https://www.twitch.tv/Dylancho68" },
     { id: "2115635a4b2d880d965df503f01e8822d862d5389ff2dc201c716c753f6998d1", displayName: "非公開ちゃん", channelUrl: "https://www.twitch.tv/heechanttv" },
-    { id: "soyc0nnie", displayName: "Connie", channelUrl: "https://www.twitch.tv/c0nnie__" },
+    { id: "3da840a7b4f8c9677cf9cc027dee9e85d68e4f0c99dc12c5ebd434d4ec286025", displayName: "Connie", channelUrl: "https://www.twitch.tv/c0nnie__" },
     { id: "K4mar1", displayName: "Ms_kamari", channelUrl: "https://www.twitch.tv/Ms_kamari" },
     { id: "537df53244ca6e4781270157488d66619d861a67b07912cee9f8def2fea9cc69", displayName: "cherryp", channelUrl: "https://www.twitch.tv/cherryp_21" },
     { id: "mikalcetin_", displayName: "mikalcetin_", channelUrl: "https://www.twitch.tv/mikalcetin_" },
@@ -1454,7 +1462,9 @@
     { id: "wallyvx", displayName: "Wallyvx", channelUrl: "https://www.twitch.tv/wallyvx" },
     { id: "thatoneidiort", displayName: "PuvaPudim", channelUrl: "https://www.twitch.tv/puvapudim" },
     { id: "nanisxc", displayName: "Nanis", channelUrl: "https://www.twitch.tv/nanisxc" },
+     { id: "5ea5eeed702164d85d207d562ab0b65b3c598d3f4d4dc54f82cb7f040e42a923", displayName: "Immiaax", channelUrl: "https://www.twitch.tv/immicaax" },
     { id: "idkaxi_", displayName: "IdkAxi", channelUrl: "https://www.twitch.tv/idk_axi" },
+    
     // No-Premium / Especiales
      { id: "8beede1157c99e45f69969ee10cca0a490284789868a0f86bf3003619c245dd7", displayName: "BadName", channelUrl: "" },
     { id: "https://mc-heads.net/avatar/e7181326fdd51db4c4997a9589f221026fddcad678c98d1d8abb88ce79350eb", displayName: "Quality_Forever_", channelUrl: "https://www.twitch.tv/Quality_Forever_" },
@@ -1474,29 +1484,115 @@ document.getElementById('total-streamers').innerText = sujetos.length.toString()
         // Configuración de vista inicial (Muestra 9 para que sean 3 filas exactas en celular)
         const limiteInicial = 8;
 
-        sujetos.forEach((s, index) => {
-            const card = document.createElement('a');
-            card.href = s.channelUrl;
-            card.target = "_blank";
+ sujetos.forEach((s, index) => {
+    const card = document.createElement('a');
+    card.href = s.channelUrl || "#";
+    card.target = "_blank";
+    
+    // Generar el ID para el escáner (basado en displayName)
+    const cardId = `card-${s.displayName.toLowerCase().replace(/\s+/g, '')}`;
+    card.id = cardId;
+    
+    const esOculto = index >= limiteInicial ? 'hidden' : '';
+    card.className = `subject-card ${esOculto} is-offline`;
+    card.style.textDecoration = "none";
+    
+    const finalImg = s.id.startsWith('http') ? s.id : `https://mc-heads.net/avatar/${s.id}/120`;
+    
+    // Generamos el REG_CODE una sola vez aquí
+    const shortID = Math.floor(Math.random() * 900) + 100;
 
-            // Si el índice es mayor o igual a 9, le ponemos la clase 'hidden'
-            const claseOculta = index >= limiteInicial ? 'hidden' : '';
-            card.className = `subject-card ${claseOculta}`;
-            card.style.textDecoration = "none";
-
-            const finalImg = s.id.startsWith('http') ? s.id : `https://mc-heads.net/avatar/${s.id}/120`;
-            const shortID = Math.floor(Math.random() * 900) + 100;
-
-            card.innerHTML = `
+    card.innerHTML = `
+        <div class="status-indicator"></div> 
         <img src="${finalImg}" alt="${s.displayName}" onerror="this.src='https://mc-heads.net/avatar/steve/120'">
         <div class="subject-info">
-            <span class="subject-status">REG_CODE_${shortID}</span>
+            <span class="reg-code">REG_CODE_${shortID}</span>
+            <span class="subject-status">ESPERANDO SEÑAL...</span>
             <div class="subject-name">${s.displayName}</div>
             <div class="vital-bar"><div class="vital-fill"></div></div>
         </div>
     `;
-            grid.appendChild(card);
-        });
+    grid.appendChild(card);
+});
+document.addEventListener('DOMContentLoaded', () => {
+    
+   async function checkTwitchStatus() {
+    // 1. PRE-ESCANEO RÁPIDO (Para poner los colores de inmediato)
+    const statusPromises = sujetos.map(async (s) => {
+        const cardId = `card-${s.displayName.toLowerCase().replace(/\s+/g, '')}`;
+        const card = document.getElementById(cardId);
+        if (!card) return null;
+
+        // Si no es Twitch, poner gris de una vez
+        if (!s.channelUrl || !s.channelUrl.includes("twitch.tv")) {
+            card.classList.add('is-offline');
+            card.querySelector('.subject-status').innerText = "FUERA DE RED";
+            card.querySelector('.subject-status').style.color = "#444";
+            return { id: cardId, live: false };
+        }
+
+        try {
+            const username = s.channelUrl.split('/').pop();
+            const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent('https://decapi.me/twitch/uptime/' + username)}`);
+            const text = await res.text();
+            const isLive = !text.toLowerCase().includes("offline") && text.includes(" ");
+            
+            // Aplicar color inmediato sin esperar al láser
+            if (isLive) {
+                card.classList.add('is-online');
+                card.classList.remove('is-offline');
+            } else {
+                card.classList.add('is-offline');
+            }
+            return { id: cardId, live: isLive };
+        } catch (e) { return { id: cardId, live: false }; }
+    });
+
+    // Esperamos a que todos respondan para actualizar el contador de arriba de golpe
+    const results = await Promise.all(statusPromises);
+    const totalLive = results.filter(r => r && r.live).length;
+    document.getElementById('live-count').innerText = totalLive.toString().padStart(2, '0');
+    document.getElementById('total-subjects').innerText = sujetos.length.toString().padStart(2, '0');
+
+    // 2. EFECTO VISUAL LENTO (El láser que ya tenías)
+    for (const s of sujetos) {
+        const cardId = `card-${s.displayName.toLowerCase().replace(/\s+/g, '')}`;
+        const card = document.getElementById(cardId);
+        if (!card || !s.channelUrl.includes("twitch.tv")) continue;
+
+        card.classList.add('scanning');
+        const statusElement = card.querySelector('.subject-status');
+        const originalText = statusElement.innerText;
+        statusElement.innerText = "VERIFICANDO...";
+        
+        // Pausa solo para que se vea el láser pasando
+        await new Promise(r => setTimeout(r, 800)); 
+        
+        card.classList.remove('scanning');
+        // Restaurar el texto real después del láser
+        if (card.classList.contains('is-online')) {
+            statusElement.innerText = "● EN VIVO";
+            statusElement.style.color = "#0f0";
+        } else {
+            statusElement.innerText = "DESCONECTADO";
+            statusElement.style.color = "#444";
+        }
+    }
+}
+    // 2. EJECUTAR EL ESCÁNER
+    checkTwitchStatus();
+    
+    // Repetir cada 5 minutos
+    setInterval(checkTwitchStatus, 300000);
+});
+
+// Iniciar y repetir cada minuto
+checkTwitchStatus();
+setInterval(checkTwitchStatus, 60000);
+// Iniciar escaneo
+checkTwitchStatus();
+setInterval(checkTwitchStatus, 60000); // Revisa cada minuto
+
 
         // FUNCIÓN PARA EL BOTÓN (Ponla justo debajo)
         function revealAllSubjects() {
@@ -1523,7 +1619,143 @@ document.getElementById('total-streamers').innerText = sujetos.length.toString()
             const d = target - new Date().getTime();
             document.getElementById('countdown').innerText = `${Math.floor(d / (1000 * 60 * 60 * 24))}d ${Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))}h ${Math.floor((d % (1000 * 60 * 60)) / (1000 * 60))}m ${Math.floor((d % (1000 * 60)) / 1000)}s`;
         }, 1000);
+
+
     </script>
+
+    <style>
+/* Cuando el JS detecta que está online, añade esta clase */
+.subject-card.is-online .status-indicator {
+    display: block !important;
+    background: #0f0;
+    box-shadow: 0 0 15px #0f0, 0 0 5px #fff;
+    animation: alert-blink 1s steps(2, start) infinite;
+}
+
+@keyframes alert-blink {
+    to { visibility: hidden; }
+}
+
+/* Efecto opcional: La imagen se pone a color si está en vivo */
+.subject-card.is-online img {
+    filter: grayscale(0) brightness(1.2);
+    border-color: #0f0;
+}
+     /* Cuadradito apagado por defecto */
+.status-indicator {
+    display: none; 
+}
+
+/* Solo se ve cuando la tarjeta tiene la clase is-online */
+.is-online .status-indicator {
+    display: block !important;
+    background: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+/* Opcional: El nombre brilla si está online */
+.is-online .subject-name {
+    color: #fff;
+    text-shadow: 0 0 5px #0f0;
+}
+.reg-code {
+    display: block;
+    font-size: 0.65rem;
+    color: #0f0; /* Un gris oscuro para que parezca código de fondo */
+    margin-bottom: 2px;
+}
+
+.subject-status {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    transition: color 0.3s;
+}
+
+/* Animación para cuando estés online */
+.is-online .status-indicator {
+    display: block !important;
+    animation: blink-status 0.8s infinite;
+}
+
+@keyframes blink-status {
+    0% { opacity: 1; box-shadow: 0 0 10px #0f0; }
+    50% { opacity: 0.5; box-shadow: 0 0 2px #0f0; }
+    100% { opacity: 1; box-shadow: 0 0 10px #0f0; }
+}
+/* Efecto de tarjeta siendo analizada */
+.subject-card.scanning {
+    border: 1px solid #fff;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+    transform: scale(1.02);
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+/* La línea de escaneo láser que baja por la foto */
+.subject-card.scanning::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #0f0;
+    box-shadow: 0 0 10px #0f0;
+    animation: scan-line 1s linear infinite;
+}
+
+@keyframes scan-line {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
+
+/* Texto de estado parpadeando mientras escanea */
+.subject-card.scanning .subject-status {
+    color: #fff !important;
+    animation: blink-text 0.5s infinite;
+}
+
+@keyframes blink-text {
+    50% { opacity: 0.3; }
+}
+.live-counter-container {
+    background: rgba(0, 20, 0, 0.8);
+    border: 1px solid #0f0;
+    padding: 10px 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.counter-label {
+    color: #0f0;
+    font-size: 0.9rem;
+    margin-right: 10px;
+    letter-spacing: 2px;
+}
+
+.counter-number {
+    color: #24a667;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgb(26, 97, 26);
+}
+
+.counter-divider {
+    color: #444;
+    margin: 0 5px;
+}
+
+.counter-total {
+    color: #666;
+    font-size: 1rem;
+}
+    </style>
 </body>
 
 </html>

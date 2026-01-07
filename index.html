@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,8 +17,15 @@
             --fuente: 'Courier New', Courier, monospace;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             background-color: var(--blanco);
@@ -28,10 +35,60 @@
             image-rendering: pixelated;
         }
 
+
+
+        /* Ocultar tarjetas */
+        .subject-card.hidden {
+            display: none !important;
+        }
+
+        /* Botón con estilo Hacker */
+        .load-more-btn {
+            background: green;
+            color: rgb(255, 255, 255);
+            border: 1px solid rgb(0, 38, 0);
+            padding: 12px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        /* Animación de entrada */
+        @keyframes glitch-appear {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Forzar las 3 columnas en celular */
+        @media (max-width: 768px) {
+            .subject-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 8px !important;
+            }
+        }
+
         /* --- PANTALLA DE CARGA (NUEVO) --- */
         #loading-screen {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: #000;
             z-index: 10000;
             display: flex;
@@ -41,20 +98,54 @@
             color: var(--verde);
             padding: 20px;
         }
-        .boot-text { font-size: 0.8rem; margin-top: 20px; text-align: left; width: 100%; max-width: 400px; }
-        .progress-bar { width: 100%; max-width: 300px; height: 10px; border: 1px solid var(--verde); margin-top: 10px; position: relative; }
-        .progress-fill { width: 0%; height: 100%; background: var(--verde); transition: width 0.1s; }
+
+        .boot-text {
+            font-size: 0.8rem;
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            max-width: 300px;
+            height: 10px;
+            border: 1px solid var(--verde);
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--verde);
+            transition: width 0.1s;
+        }
 
         /* --- EFECTO DE INTERFERENCIA --- */
         .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 2px);
-            pointer-events: none; z-index: 9999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.03) 0px, rgba(0, 0, 0, 0.03) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 9999;
         }
 
         /* --- ANIMACIONES DE ENTRADA --- */
-        [data-aos] { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        [data-aos].appear { opacity: 1; transform: translateY(0); }
+        [data-aos] {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        [data-aos].appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* --- CONTAINER MAESTRO --- */
         .master-archive {
@@ -73,567 +164,814 @@
             border-bottom: var(--pixel);
             background: var(--blanco);
         }
-        .header-top { font-weight: bold; font-size: 0.8rem; letter-spacing: 5px; margin-bottom: 10px; }
-        .main-logo { font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; letter-spacing: -5px; line-height: 0.8; }
-        .warning-strip { background: var(--negro); color: var(--blanco); padding: 5px; margin-top: 40px; font-size: 0.7rem; }
+
+        .header-top {
+            font-weight: bold;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+        }
+
+        .main-logo {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -5px;
+            line-height: 0.8;
+        }
+
+        .warning-strip {
+            background: var(--negro);
+            color: var(--blanco);
+            padding: 5px;
+            margin-top: 40px;
+            font-size: 0.7rem;
+        }
 
         /* --- NAVEGACIÓN --- */
         nav {
-            display: flex; overflow-x: auto; background: var(--negro); position: sticky; top: 0; z-index: 5000;
+            display: flex;
+            overflow-x: auto;
+            background: var(--negro);
+            position: sticky;
+            top: 0;
+            z-index: 5000;
             scrollbar-width: none;
         }
-        nav::-webkit-scrollbar { display: none; }
-        .nav-btn {
-            color: var(--blanco); padding: 20px 30px; text-decoration: none; font-size: 0.7rem;
-            text-transform: uppercase; border-right: 1px solid #333; transition: 0.2s; white-space: nowrap;
+
+        nav::-webkit-scrollbar {
+            display: none;
         }
-        .nav-btn:hover { background: var(--verde); color: var(--negro); }
+
+        .nav-btn {
+            color: var(--blanco);
+            padding: 20px 30px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            border-right: 1px solid #333;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            background: var(--verde);
+            color: var(--negro);
+        }
 
         /* --- SECCIONES --- */
-        section { padding: 80px 40px; border-bottom: var(--pixel-thin); }
-        .section-header { font-size: 2rem; font-weight: 900; margin-bottom: 40px; text-transform: uppercase; border-left: 15px solid #000; padding-left: 20px; }
+        section {
+            padding: 80px 40px;
+            border-bottom: var(--pixel-thin);
+        }
+
+        .section-header {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            border-left: 15px solid #000;
+            padding-left: 20px;
+        }
 
         /* --- LORE CARDS --- */
         .lore-card {
-            border: var(--pixel); padding: 40px; margin-bottom: 30px; background: #fff;
-            position: relative; overflow: hidden;
+            border: var(--pixel);
+            padding: 40px;
+            margin-bottom: 30px;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
             transition: transform 0.3s;
         }
-        .lore-card:hover { transform: scale(1.02); }
-        .lore-card::after {
-            content: "CONFIDENCIAL"; position: absolute; top: 20px; right: -40px;
-            background: #000; color: #fff; padding: 5px 100px; transform: rotate(45deg); font-size: 0.6rem;
+
+        .lore-card:hover {
+            transform: scale(1.02);
         }
-        .lore-num { font-size: 3rem; font-weight: 900; opacity: 0.1; position: absolute; top: -10px; left: 10px; }
-        .lore-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; text-decoration: underline; }
-        .lore-desc { font-size: 0.9rem; line-height: 1.6; color: #222; }
+
+        .lore-card::after {
+            content: "CONFIDENCIAL";
+            position: absolute;
+            top: 20px;
+            right: -40px;
+            background: #000;
+            color: #fff;
+            padding: 5px 100px;
+            transform: rotate(45deg);
+            font-size: 0.6rem;
+        }
+
+        .lore-num {
+            font-size: 3rem;
+            font-weight: 900;
+            opacity: 0.1;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+        }
+
+        .lore-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-decoration: underline;
+        }
+
+        .lore-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #222;
+        }
 
 
         /* --- ESTILO DE LEYES DE REALIDAD --- */
-.lore-container {
-    display: grid;
-    gap: 20px;
-}
+        .lore-container {
+            display: grid;
+            gap: 20px;
+        }
 
-.protocol-card {
-    border: 2px solid #000;
-    padding: 25px;
-    position: relative;
-    background: #fff;
-    transition: 0.3s;
-    overflow: hidden;
-}
+        .protocol-card {
+            border: 2px solid #000;
+            padding: 25px;
+            position: relative;
+            background: #fff;
+            transition: 0.3s;
+            overflow: hidden;
+        }
 
-.protocol-card:hover {
-    background: #fdfdfd;
-    box-shadow: 8px 8px 0px #000;
-}
+        .protocol-card:hover {
+            background: #fdfdfd;
+            box-shadow: 8px 8px 0px #000;
+        }
 
-.protocol-id {
-    font-size: 0.7rem;
-    font-weight: bold;
-    color: #fff;
-    background: #000;
-    padding: 3px 10px;
-    position: absolute;
-    top: 0; left: 0;
-}
+        .protocol-id {
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #fff;
+            background: #000;
+            padding: 3px 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
 
-.protocol-title {
-    margin-top: 15px;
-    font-size: 1.2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    border-bottom: 2px solid #000;
-    padding-bottom: 5px;
-    display: inline-block;
-}
+        .protocol-title {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
 
-.protocol-desc {
-    margin-top: 15px;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #333;
-}
+        .protocol-desc {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+        }
 
-.protocol-warning {
-    margin-top: 15px;
-    font-size: 0.65rem;
-    font-weight: bold;
-    color: #f00;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
+        .protocol-warning {
+            margin-top: 15px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #f00;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-.protocol-warning::before {
-    content: "!";
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    background: #f00;
-    color: #fff;
-    text-align: center;
-    border-radius: 50%;
-}
-      /* --- RADAR --- */
-.radar-box {
-    width: 100%;
-    height: 500px;
-    border: var(--pixel);
-    background: #000; /* Fondo negro para que resalte el verde */
-    position: relative;
-    overflow: hidden;
-    cursor: grab;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: inset 0 0 50px rgba(0, 255, 0, 0.2);
-}
+        .protocol-warning::before {
+            content: "!";
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background: #f00;
+            color: #fff;
+            text-align: center;
+            border-radius: 50%;
+        }
 
-.radar-box:active { cursor: grabbing; }
+        /* --- RADAR --- */
+        .radar-box {
+            width: 100%;
+            height: 500px;
+            border: var(--pixel);
+            background: #000;
+            /* Fondo negro para que resalte el verde */
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 50px rgba(0, 255, 0, 0.2);
+        }
 
-/* El barrido de luz verde */
-.radar-sweep {
-    position: absolute;
-    width: 300%;
-    height: 300%;
-    background: conic-gradient(from 0deg, transparent 0%, rgba(0, 255, 0, 0.3) 50%, transparent 100%);
-    animation: sweep 4s linear infinite;
-    pointer-events: none;
-    z-index: 2;
-}
+        .radar-box:active {
+            cursor: grabbing;
+        }
 
-@keyframes sweep {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+        /* El barrido de luz verde */
+        .radar-sweep {
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(0, 255, 0, 0.3) 50%, transparent 100%);
+            animation: sweep 4s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
 
-.radar-grid {
-    position: absolute;
-    width: 2000px; /* Mapa mucho más grande para navegar */
-    height: 2000px;
-    background-image: 
-        linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-    transition: transform 0.1s ease-out;
-}
+        @keyframes sweep {
+            from {
+                transform: rotate(0deg);
+            }
 
-/* Círculos concéntricos de radar */
-.radar-circles {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 800px; height: 800px;
-    border: 1px solid rgba(0, 255, 0, 0.2);
-    border-radius: 50%;
-    pointer-events: none;
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .radar-grid {
+            position: absolute;
+            width: 2000px;
+            /* Mapa mucho más grande para navegar */
+            height: 2000px;
+            background-image:
+                linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Círculos concéntricos de radar */
+        .radar-circles {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
 
 
-    /* Efecto de energía morada para la consola */
-.audio-console.active-lore {
-    border: 2px solid #a020f0;
-    box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
-    animation: purple-pulse 2s infinite;
-}
+            /* Efecto de energía morada para la consola */
+            .audio-console.active-lore {
+                border: 2px solid #a020f0;
+                box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
+                animation: purple-pulse 2s infinite;
+            }
 
-@keyframes purple-pulse {
-    0% { box-shadow: 0 0 10px rgba(160, 32, 240, 0.4); }
-    50% { box-shadow: 0 0 25px rgba(160, 32, 240, 0.7); }
-    100% { box-shadow: 0 0 10px rgba(160, 32, 240, 0.4); }
-}
+            @keyframes purple-pulse {
+                0% {
+                    box-shadow: 0 0 10px rgba(160, 32, 240, 0.4);
+                }
 
-.mask-icon {
-    width: 50px;
-    height: 50px;
-    background: #000;
-    border: 2px solid #a020f0;
-    border-radius: 50%;
-    margin: 10px auto;
-    position: relative;
-}
+                50% {
+                    box-shadow: 0 0 25px rgba(160, 32, 240, 0.7);
+                }
 
-.mask-smile {
-    width: 25px;
-    height: 12px;
-    border-bottom: 3px solid #fff;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-}
-}
-.radar-circles::after {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px; height: 400px;
-    border: 1px solid rgba(0, 255, 0, 0.1);
-    border-radius: 50%;
-}
+                100% {
+                    box-shadow: 0 0 10px rgba(160, 32, 240, 0.4);
+                }
+            }
 
-.map-point {
-    position: absolute;
-    width: 12px; height: 12px;
-    background: #0f0;
-    border-radius: 50%;
-    box-shadow: 0 0 15px #0f0;
-    z-index: 5;
-}
+            .mask-icon {
+                width: 50px;
+                height: 50px;
+                background: #000;
+                border: 2px solid #a020f0;
+                border-radius: 50%;
+                margin: 10px auto;
+                position: relative;
+            }
 
-.coords-display {
-    position: absolute;
-    bottom: 15px; right: 15px;
-    background: rgba(0,0,0,0.8);
-    color: #0f0;
-    padding: 5px 10px;
-    font-size: 0.7rem;
-    border: 1px solid #0f0;
-    z-index: 10;
-    pointer-events: none;
-}
-/* --- SECCIÓN DE SUJETOS REFINADA --- */
-.subject-grid {
-    display: grid;
-    /* En PC: tarjetas de 180px para que quepan varias en fila */
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
-    padding: 10px 0;
-}
+            .mask-smile {
+                width: 25px;
+                height: 12px;
+                border-bottom: 3px solid #fff;
+                border-radius: 50%;
+                position: absolute;
+                bottom: 12px;
+                left: 12px;
+            }
+        }
 
-.subject-card {
-    background: #000;
-    border: 1px solid #333;
-    padding: 10px;
-    position: relative;
-    transition: 0.3s;
-}
+        .radar-circles::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            border: 1px solid rgba(0, 255, 0, 0.1);
+            border-radius: 50%;
+        }
 
-.subject-card:hover {
-    border-color: #0f0;
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
-}
+        .map-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #0f0;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #0f0;
+            z-index: 5;
+        }
 
-.subject-card img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    image-rendering: pixelated;
-    background: #0a0a0a;
-    border-bottom: 1px solid #222;
-    filter: grayscale(1);
-    transition: 0.3s;
-}
+        .coords-display {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #0f0;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            border: 1px solid #0f0;
+            z-index: 10;
+            pointer-events: none;
+        }
 
-.subject-card:hover img {
-    filter: grayscale(0);
-}
+        /* --- SECCIÓN DE SUJETOS REFINADA --- */
+        .subject-grid {
+            display: grid;
+            /* En PC: tarjetas de 180px para que quepan varias en fila */
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            padding: 10px 0;
+        }
 
-.subject-info {
-    padding-top: 8px;
-    text-align: left;
-}
+        .subject-card {
+            background: #000;
+            border: 1px solid #333;
+            padding: 10px;
+            position: relative;
+            transition: 0.3s;
+        }
 
-.subject-name {
-    color: #fff;
-    font-weight: bold;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Para que nombres muy largos no se salgan */
-}
+        .subject-card:hover {
+            border-color: #0f0;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+        }
 
-.subject-status {
-    font-size: 0.55rem;
-    color: #0f0;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 5px;
-}
+        .subject-card img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            image-rendering: pixelated;
+            background: #0a0a0a;
+            border-bottom: 1px solid #222;
+            filter: grayscale(1);
+            transition: 0.3s;
+        }
 
-.vital-bar {
-    width: 100%;
-    height: 2px;
-    background: #111;
-    margin-top: 5px;
-}
+        .subject-card:hover img {
+            filter: grayscale(0);
+        }
 
-.vital-fill {
-    height: 100%;
-    background: #0f0;
-    width: 100%; /* Por defecto al 100% */
-}
+        .subject-info {
+            padding-top: 8px;
+            text-align: left;
+        }
 
-/* Ajuste móvil */
-@media (max-width: 768px) {
-    .subject-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 por fila en móvil */
-    }
-}
+        .subject-name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* Para que nombres muy largos no se salgan */
+        }
+
+        .subject-status {
+            font-size: 0.55rem;
+            color: #0f0;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .vital-bar {
+            width: 100%;
+            height: 2px;
+            background: #111;
+            margin-top: 5px;
+        }
+
+        .vital-fill {
+            height: 100%;
+            background: #0f0;
+            width: 100%;
+            /* Por defecto al 100% */
+        }
+
+        /* Ajuste móvil */
+        @media (max-width: 768px) {
+            .subject-grid {
+                grid-template-columns: repeat(2, 1fr);
+                /* 2 por fila en móvil */
+            }
+        }
 
         /* --- TERMINAL CHAT --- */
-        #terminal-enlace { padding: 60px 20px; background: #fff; }
-        .chat-container {
-            border: var(--pixel); background: #000; color: #fff;
-            display: flex; flex-direction: column; height: 600px;
-            box-shadow: 15px 15px 0px rgba(0,0,0,0.1);
+        #terminal-enlace {
+            padding: 60px 20px;
+            background: #fff;
         }
+
+        .chat-container {
+            border: var(--pixel);
+            background: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.1);
+        }
+
         .chat-messages {
-            flex-grow: 1; overflow-y: auto; padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
             background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
             background-size: 20px 20px;
-            scrollbar-width: thin; scrollbar-color: var(--verde) #000;
+            scrollbar-width: thin;
+            scrollbar-color: var(--verde) #000;
         }
+
         .message-card {
-            display: flex; gap: 15px; margin-bottom: 20px; padding: 15px;
-            border: 1px solid #333; background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.03);
             animation: slideIn 0.3s ease-out;
         }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } }
-        .user-avatar { width: 50px; height: 50px; border: 2px solid #fff; image-rendering: pixelated; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #fff;
+            image-rendering: pixelated;
+        }
+
         .chat-input-panel {
-            padding: 20px; border-top: var(--pixel); background: #000;
-            display: grid; grid-template-columns: 150px 1fr auto; gap: 10px;
+            padding: 20px;
+            border-top: var(--pixel);
+            background: #000;
+            display: grid;
+            grid-template-columns: 150px 1fr auto;
+            gap: 10px;
         }
+
         .input-field {
-            background: #111; border: 1px solid #333; color: #fff;
-            padding: 12px; font-family: inherit; outline: none;
+            background: #111;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 12px;
+            font-family: inherit;
+            outline: none;
         }
+
         .send-button {
-            background: #fff; color: #000; border: none; font-weight: bold;
-            padding: 0 25px; cursor: pointer; text-transform: uppercase;
+            background: #fff;
+            color: #000;
+            border: none;
+            font-weight: bold;
+            padding: 0 25px;
+            cursor: pointer;
+            text-transform: uppercase;
         }
-        .send-button:hover { background: var(--verde); }
+
+        .send-button:hover {
+            background: var(--verde);
+        }
 
         /* --- BESTIARIO --- */
         .bestiary-item {
-            display: flex; gap: 30px; margin-bottom: 40px; align-items: center; border-bottom: 1px dashed #ccc; padding-bottom: 20px;
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: center;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 20px;
         }
-        .bestiary-img { width: 100px; height: 100px; border: var(--pixel); background: #eee; flex-shrink: 0; }
+
+        .bestiary-img {
+            width: 100px;
+            height: 100px;
+            border: var(--pixel);
+            background: #eee;
+            flex-shrink: 0;
+        }
 
         /* --- FOOTER --- */
-        footer { padding: 100px 20px; background: #000; color: #fff; text-align: center; }
+        footer {
+            padding: 100px 20px;
+            background: #000;
+            color: #fff;
+            text-align: center;
+        }
 
         /* --- RESPONSIVO MEJORADO --- */
         @media (max-width: 768px) {
-            .master-archive { border: none; }
-            header { padding: 60px 20px; }
-            section { padding: 40px 15px; }
-            .section-header { font-size: 1.5rem; margin-bottom: 25px; }
-            .subject-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .chat-input-panel { grid-template-columns: 1fr; }
-            .chat-container { height: 500px; }
-            .bestiary-item { flex-direction: column; text-align: center; }
-            .nav-btn { padding: 15px 20px; font-size: 0.6rem; }
-            .lore-card { padding: 25px 20px; }
+            .master-archive {
+                border: none;
+            }
+
+            header {
+                padding: 60px 20px;
+            }
+
+            section {
+                padding: 40px 15px;
+            }
+
+            .section-header {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+
+            .subject-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .chat-input-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-container {
+                height: 500px;
+            }
+
+            .bestiary-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-btn {
+                padding: 15px 20px;
+                font-size: 0.6rem;
+            }
+
+            .lore-card {
+                padding: 25px 20px;
+            }
         }
+
         .custom-logo {
-    max-width: 300px; /* Ajusta el ancho a tu gusto */
-    height: auto;
-    filter: grayscale(1) brightness(1.2); /* Mantiene el estilo blanco y negro */
-    image-rendering: pixelated; /* Si tu logo es pixel art, esto lo mantiene nítido */
-    transition: 0.3s;
-}
+            max-width: 300px;
+            /* Ajusta el ancho a tu gusto */
+            height: auto;
+            filter: grayscale(1) brightness(1.2);
+            /* Mantiene el estilo blanco y negro */
+            image-rendering: pixelated;
+            /* Si tu logo es pixel art, esto lo mantiene nítido */
+            transition: 0.3s;
+        }
 
-.custom-logo:hover {
-    filter: grayscale(0) drop-shadow(0 0 10px var(--verde)); /* Efecto al pasar el mouse */
-}
+        .custom-logo:hover {
+            filter: grayscale(0) drop-shadow(0 0 10px var(--verde));
+            /* Efecto al pasar el mouse */
+        }
 
-/* Ajuste para móviles */
-@media (max-width: 760px) {
-    .custom-logo {
-        max-width: 200px;
-    }
-}
-/* --- SECCIÓN DE AUDIO CLASIFICADO --- */
-.terminal-alert {
-    background: #000;
-    border: 2px solid #f00;
-    padding: 20px;
-    margin: 40px 20px;
-    cursor: pointer;
-    text-align: center;
-    transition: 0.3s;
-    position: relative;
-    overflow: hidden;
-}
+        /* Ajuste para móviles */
+        @media (max-width: 760px) {
+            .custom-logo {
+                max-width: 200px;
+            }
+        }
 
-.terminal-alert:hover {
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-    transform: scale(1.02);
-}
+        /* --- SECCIÓN DE AUDIO CLASIFICADO --- */
+        .terminal-alert {
+            background: #000;
+            border: 2px solid #f00;
+            padding: 20px;
+            margin: 40px 20px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
 
-.blink-red {
-    color: #ff0000;
-    font-weight: bold;
-    font-size: 1.1rem;
-    animation: pulse-warn 1s infinite;
-    text-transform: uppercase;
-}
+        .terminal-alert:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            transform: scale(1.02);
+        }
 
-@keyframes pulse-warn {
-    0% { opacity: 1; text-shadow: 0 0 5px #f00; }
-    50% { opacity: 0.2; text-shadow: 0 0 0px #f00; }
-    100% { opacity: 1; text-shadow: 0 0 5px #f00; }
-}
+        .blink-red {
+            color: #ff0000;
+            font-weight: bold;
+            font-size: 1.1rem;
+            animation: pulse-warn 1s infinite;
+            text-transform: uppercase;
+        }
 
-.audio-console {
-    display: none; /* Se activa al hacer clic */
-    background: #111;
-    border: 1px solid #333;
-    padding: 20px;
-    margin-top: 15px;
-    color: #0f0;
-    font-size: 0.8rem;
-    text-align: left;
-}
+        @keyframes pulse-warn {
+            0% {
+                opacity: 1;
+                text-shadow: 0 0 5px #f00;
+            }
 
-/* Reproductor Minimalista */
-.audio-player-ui {
-    width: 100%;
-    margin-top: 15px;
-    filter: invert(1) hue-rotate(90deg) brightness(1.5); /* Lo hace ver verde/negro */
-}
+            50% {
+                opacity: 0.2;
+                text-shadow: 0 0 0px #f00;
+            }
 
-.audio-meta {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #0f0;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-}
-#subtitles-brai {
-    min-height: 60px;
-    color: #fff;
-    font-style: italic;
-    text-align: center;
-    border-top: 1px dashed #a020f0;
-    padding-top: 10px;
-    margin-top: 10px;
-    font-size: 0.85rem;
-    text-shadow: 0 0 8px #a020f0;
-    line-height: 1.4;
-}
-/* --- REDISEÑO DE TERMINAL MÓVIL --- */
-.terminal-alert {
-    background: #000;
-    border: 2px solid rgb(0, 0, 0);
-    padding: 15px;
-    margin: 20px 10px; /* Menos margen en móviles */
-    cursor: pointer;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
-}
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 5px #f00;
+            }
+        }
 
-.audio-console {
-    display: none;
-    background: #0a0a0a;
-    border: 1px solid #333;
-    padding: 15px;
-    margin-top: 15px;
-    color: #0f0;
-    font-size: 0.8rem;
-    text-align: left;
-    border-radius: 4px; /* Un toque más moderno */
-    box-shadow: inset 0 0 20px rgba(0,0,0,1);
-}
+        .audio-console {
+            display: none;
+            /* Se activa al hacer clic */
+            background: #111;
+            border: 1px solid #333;
+            padding: 20px;
+            margin-top: 15px;
+            color: #0f0;
+            font-size: 0.8rem;
+            text-align: left;
+        }
 
-/* Área de los subtítulos mejorada para móvil */
-#subtitles-brai {
-    min-height: 80px; /* Más espacio para textos largos */
-    color: #fff;
-    font-style: italic;
-    text-align: center;
-    border-top: 1px solid #a020f0;
-    padding: 15px 5px;
-    margin-top: 15px;
-    font-size: 0.9rem; /* Un poco más grande para leer mejor */
-    text-shadow: 0 0 10px #a020f0;
-    line-height: 1.5;
-    background: rgba(160, 32, 240, 0.05); /* Fondo sutil morado */
-}
+        /* Reproductor Minimalista */
+        .audio-player-ui {
+            width: 100%;
+            margin-top: 15px;
+            filter: invert(1) hue-rotate(90deg) brightness(1.5);
+            /* Lo hace ver verde/negro */
+        }
 
-/* Reproductor de audio personalizado para que no se vea el de Google/Apple */
-.audio-player-ui {
-    width: 100%;
-    margin-top: 15px;
-    filter: invert(1) hue-rotate(90deg) brightness(1.5);
-    height: 35px; /* Más compacto */
-}
+        .audio-meta {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
 
-.audio-meta {
-    display: flex;
-    flex-direction: column; /* Apilado en móvil */
-    gap: 5px;
-    border-bottom: 1px solid #0f0;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    opacity: 0.8;
-}
+        #subtitles-brai {
+            min-height: 60px;
+            color: #fff;
+            font-style: italic;
+            text-align: center;
+            border-top: 1px dashed #a020f0;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            text-shadow: 0 0 8px #a020f0;
+            line-height: 1.4;
+        }
 
-/* Ajuste para pantallas más grandes (PC) */
-@media (min-width: 768px) {
-    .audio-meta {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .terminal-alert {
-        margin: 40px 20px;
-        padding: 20px;
-    }
-}
-.language-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #000;
-    padding: 10px 20px;
-    border-bottom: 2px solid #333;
-}
+        /* --- REDISEÑO DE TERMINAL MÓVIL --- */
+        .terminal-alert {
+            background: #000;
+            border: 2px solid rgb(0, 0, 0);
+            padding: 15px;
+            margin: 20px 10px;
+            /* Menos margen en móviles */
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+        }
 
-.flags-container {
-    display: flex;
-    gap: 15px;
-}
+        .audio-console {
+            display: none;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            padding: 15px;
+            margin-top: 15px;
+            color: #0f0;
+            font-size: 0.8rem;
+            text-align: left;
+            border-radius: 4px;
+            /* Un toque más moderno */
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 1);
+        }
 
-.flags-container img {
-    width: 25px;
-    height: auto;
-    filter: grayscale(0.5) brightness(0.8);
-    border: 1px solid #333;
-    transition: 0.3s;
-}
+        /* Área de los subtítulos mejorada para móvil */
+        #subtitles-brai {
+            min-height: 80px;
+            /* Más espacio para textos largos */
+            color: #fff;
+            font-style: italic;
+            text-align: center;
+            border-top: 1px solid #a020f0;
+            padding: 15px 5px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            /* Un poco más grande para leer mejor */
+            text-shadow: 0 0 10px #a020f0;
+            line-height: 1.5;
+            background: rgba(160, 32, 240, 0.05);
+            /* Fondo sutil morado */
+        }
 
-.flags-container img:hover {
-    filter: grayscale(0) brightness(1);
-    transform: scale(1.2);
-    border-color: var(--verde);
-}
+        /* Reproductor de audio personalizado para que no se vea el de Google/Apple */
+        .audio-player-ui {
+            width: 100%;
+            margin-top: 15px;
+            filter: invert(1) hue-rotate(90deg) brightness(1.5);
+            height: 35px;
+            /* Más compacto */
+        }
 
-#lang-selector {
-    background: #000;
-    color: var(--verde);
-    border: 1px solid var(--verde);
-    font-family: var(--fuente);
-    font-size: 0.7rem;
-    padding: 5px;
-    outline: none;
-    cursor: pointer;
-}
+        .audio-meta {
+            display: flex;
+            flex-direction: column;
+            /* Apilado en móvil */
+            gap: 5px;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
 
-/* Ajuste para móvil */
-@media (max-width: 600px) {
-    .flags-container { gap: 8px; }
-    .flags-container img { width: 20px; }
-}
+        /* Ajuste para pantallas más grandes (PC) */
+        @media (min-width: 768px) {
+            .audio-meta {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .terminal-alert {
+                margin: 40px 20px;
+                padding: 20px;
+            }
+        }
+
+        .language-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #000;
+            padding: 10px 20px;
+            border-bottom: 2px solid #333;
+        }
+
+        .flags-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .flags-container img {
+            width: 25px;
+            height: auto;
+            filter: grayscale(0.5) brightness(0.8);
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+
+        .flags-container img:hover {
+            filter: grayscale(0) brightness(1);
+            transform: scale(1.2);
+            border-color: var(--verde);
+        }
+
+        #lang-selector {
+            background: #000;
+            color: var(--verde);
+            border: 1px solid var(--verde);
+            font-family: var(--fuente);
+            font-size: 0.7rem;
+            padding: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Ajuste para móvil */
+        @media (max-width: 600px) {
+            .flags-container {
+                gap: 8px;
+            }
+
+            .flags-container img {
+                width: 20px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <div id="loading-screen">
@@ -650,8 +988,8 @@
         <header>
             <div class="header-top">SISTEMA CENTRAL DE ARCHIVOS</div>
             <h1 class="main-logo">
-    <img src="https://i.ibb.co/k24Vx68f/Proyecto-nuevo-23.png" alt="BSMP 2" class="custom-logo">
-</h1>
+                <img src="https://i.ibb.co/k24Vx68f/Proyecto-nuevo-23.png" alt="BSMP 2" class="custom-logo">
+            </h1>
             <div class="warning-strip">CONEXIÓN ESTABLECIDA - SECTOR JULIO_2026</div>
             <div id="countdown" style="margin-top: 20px; font-weight: bold; font-size: 1.2rem;">CALCULANDO...</div>
         </header>
@@ -665,26 +1003,27 @@
             <a href="#terminal-enlace" class="nav-btn">Terminal</a>
         </nav>
 
-<div class="language-bar">
-    <div class="flags-container">
-        <img src="https://flagcdn.com/w40/cl.png" alt="Chile" title="Protocolo CL">
-        <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" title="Protocolo AR">
-        <img src="https://flagcdn.com/w40/mx.png" alt="Mexico" title="Protocolo MX">
-        <img src="https://flagcdn.com/w40/us.png" alt="USA" title="Protocolo US">
-        <img src="https://flagcdn.com/w40/br.png" alt="Brazil" title="Protocolo BR">
-    </div>
-    <select id="lang-selector" onchange="changeLanguage()">
-        <option value="es">ESP_MOD [ES]</option>
-        <option value="en">ENG_MOD [EN]</option>
-    </select>
-</div>
+        <div class="language-bar">
+            <div class="flags-container">
+                <img src="https://flagcdn.com/w40/cl.png" alt="Chile" title="Protocolo CL">
+                <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" title="Protocolo AR">
+                <img src="https://flagcdn.com/w40/mx.png" alt="Mexico" title="Protocolo MX">
+                <img src="https://flagcdn.com/w40/us.png" alt="USA" title="Protocolo US">
+                <img src="https://flagcdn.com/w40/br.png" alt="Brazil" title="Protocolo BR">
+            </div>
+            <select id="lang-selector" onchange="changeLanguage()">
+                <option value="es">ESP_MOD [ES]</option>
+                <option value="en">ENG_MOD [EN]</option>
+            </select>
+        </div>
 
         <section id="manifiesto" data-aos>
             <h2 class="section-header">Leyes de Realidad</h2>
             <div class="lore-card">
                 <span class="lore-num">01</span>
                 <div class="lore-title">EL VÍNCULO DE LA EXISTENCIA</div>
-                <div class="lore-desc">Al despertar, el sujeto olvida su pasado externo y se convierte en el <b>Eslabón</b>. Si llega recordar su pasado tendra consecuencias.</div>
+                <div class="lore-desc">Al despertar, el sujeto olvida su pasado externo y se convierte en el
+                    <b>Eslabón</b>. Si llega recordar su pasado tendra consecuencias.</div>
             </div>
             <div class="lore-card">
                 <span class="lore-num">02</span>
@@ -695,24 +1034,37 @@
 
         <section id="sujetos" data-aos>
             <h2 class="section-header">Sujetos de Prueba</h2>
+
             <div class="subject-grid" id="grid_sujetos"></div>
+
+            <div id="btn-container-registros" style="text-align: center; margin-top: 30px;">
+                <button class="load-more-btn" onclick="revealAllSubjects()">
+                    [ ACCEDER A REGISTROS ADICIONALES ]
+                </button>
+            </div>
         </section>
-<section id="mapa" data-aos>
-    <h2 class="section-header">Radar Terrestre</h2>
-    <div class="radar-box" id="radarContainer">
-        <div class="radar-sweep"></div>
-        <div class="radar-circles"></div>
-        <div class="coords-display" id="coords">X: 000 | Z: 000</div>
-        
-        <div class="radar-grid" id="radarGrid">
-            <div class="map-point" style="top: 1000px; left: 1000px;" title="EL NEXO"></div>
-            <div style="position: absolute; top: 1015px; left: 1015px; color: #0f0; font-size: 0.6rem; font-weight: bold; white-space: nowrap;">COORD_00_00 (EL NEXO)</div>
-            
-            <div class="map-point" style="top: 850px; left: 1200px; background: #f00; box-shadow: 0 0 15px #f00;" title="ZONA PROHIBIDA"></div>
-            <div class="map-point" style="top: 1200px; left: 700px; background: #ff0; box-shadow: 0 0 15px #ff0;" title="REFUGIO BRAUU"></div>
-        </div>
-    </div>
-</section>
+        <section id="mapa" data-aos>
+            <h2 class="section-header">Radar Terrestre</h2>
+            <div class="radar-box" id="radarContainer">
+                <div class="radar-sweep"></div>
+                <div class="radar-circles"></div>
+                <div class="coords-display" id="coords">X: 000 | Z: 000</div>
+
+                <div class="radar-grid" id="radarGrid">
+                    <div class="map-point" style="top: 1000px; left: 1000px;" title="EL NEXO"></div>
+                    <div
+                        style="position: absolute; top: 1015px; left: 1015px; color: #0f0; font-size: 0.6rem; font-weight: bold; white-space: nowrap;">
+                        COORD_00_00 (EL NEXO)</div>
+
+                    <div class="map-point"
+                        style="top: 850px; left: 1200px; background: #f00; box-shadow: 0 0 15px #f00;"
+                        title="ZONA PROHIBIDA"></div>
+                    <div class="map-point"
+                        style="top: 1200px; left: 700px; background: #ff0; box-shadow: 0 0 15px #ff0;"
+                        title="REFUGIO BRAUU"></div>
+                </div>
+            </div>
+        </section>
 
         <section id="bestiario" data-aos>
             <h2 class="section-header">Bestiario Corrupto</h2>
@@ -736,47 +1088,50 @@
                 </div>
             </div>
         </section>
-<section id="transmision-recuperada" data-aos>
-    <div class="terminal-alert" onclick="toggleAudioConsole()">
-        <div class="blink-red">!! ADVERTENCIA DE SEGURIDAD !!</div>
-        <p style="color: #fff; font-size: 0.7rem; margin-top: 5px;">DATA: BRAI_LOG_LASCOLINAS.mp3</p>
-        <p style="color: #666; font-size: 0.6rem;">[ TOQUE PARA DESENCRIPTAR ]</p>
+        <section id="transmision-recuperada" data-aos>
+            <div class="terminal-alert" onclick="toggleAudioConsole()">
+                <div class="blink-red">!! ADVERTENCIA DE SEGURIDAD !!</div>
+                <p style="color: #fff; font-size: 0.7rem; margin-top: 5px;">DATA: BRAI_LOG_LASCOLINAS.mp3</p>
+                <p style="color: #666; font-size: 0.6rem;">[ TOQUE PARA DESENCRIPTAR ]</p>
 
-        <div id="audioConsole" class="audio-console" onclick="event.stopPropagation()">
-            <div class="audio-meta">
-                <span>ESTADO: <span style="color:#a020f0">DECODIFICANDO</span></span>
-                <span>ID: BRAI_01</span>
-            </div>
-            
-            <div id="log-text-brai"></div>
+                <div id="audioConsole" class="audio-console" onclick="event.stopPropagation()">
+                    <div class="audio-meta">
+                        <span>ESTADO: <span style="color:#a020f0">DECODIFICANDO</span></span>
+                        <span>ID: BRAI_01</span>
+                    </div>
 
-            <div id="mask-display" style="display:none; text-align:center; margin: 10px 0;">
-                <div class="mask-icon"><div class="mask-smile"></div></div>
-            </div>
+                    <div id="log-text-brai"></div>
 
-            <div id="subtitles-brai">Sincronizando...</div>
-            
-            <audio id="bsmpAudio" class="audio-player-ui" controls preload="auto">
-                <source src="https://files.catbox.moe/244jjb.mp3" type="audio/mpeg">
-            </audio>
-            
-            <div style="margin-top:10px; font-size:0.5rem; color:#333; letter-spacing:2px;">
-                BRAUU_CORP_OS // BYPASS_ACTIVE
+                    <div id="mask-display" style="display:none; text-align:center; margin: 10px 0;">
+                        <div class="mask-icon">
+                            <div class="mask-smile"></div>
+                        </div>
+                    </div>
+
+                    <div id="subtitles-brai">Sincronizando...</div>
+
+                    <audio id="bsmpAudio" class="audio-player-ui" controls preload="auto">
+                        <source src="https://files.catbox.moe/244jjb.mp3" type="audio/mpeg">
+                    </audio>
+
+                    <div style="margin-top:10px; font-size:0.5rem; color:#333; letter-spacing:2px;">
+                        BRAUU_CORP_OS // BYPASS_ACTIVE
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        </audio>
+
+        <p style="margin-top: 10px; color: #444; font-size: 0.5rem; text-align: center;">> "No confíes en tu propio
+            reflejo."</p>
     </div>
-</section>
-            
-            </audio>
-            
-            <p style="margin-top: 10px; color: #444; font-size: 0.5rem; text-align: center;">> "No confíes en tu propio reflejo."</p>
-        </div>
     </div>
-</section>
-        <footer>
-            <div class="footer-logo">BRAUU STUDIOS</div>
-            <p>SECTOR BSMP_II</p>
-        </footer>
+    </section>
+    <footer>
+        <div class="footer-logo">BRAUU STUDIOS</div>
+        <p>SECTOR BSMP_II</p>
+    </footer>
     </div>
 
     <script type="module">
@@ -800,7 +1155,7 @@
         btnSend.addEventListener('click', async () => {
             const nt = document.getElementById('node-nametag').value.trim();
             const ms = document.getElementById('node-msg').value.trim();
-            if(nt && ms) {
+            if (nt && ms) {
                 btnSend.disabled = true;
                 try {
                     await addDoc(messagesCol, { user: nt, text: ms, time: serverTimestamp() });
@@ -830,127 +1185,127 @@
 
     <script>
 
-   /* ============================================================
-   SISTEMA DE LENGUAJE Y SUBTÍTULOS (BRAI_OS v2.0)
-   ============================================================ */
+        /* ============================================================
+        SISTEMA DE LENGUAJE Y SUBTÍTULOS (BRAI_OS v2.0)
+        ============================================================ */
 
-// 1. Datos de Subtítulos (Sincronizados con tu grabación)
-const subsData = {
-    es: [
-        { tiempo: 0, texto: "[ Estática digital y respiración ]" },
-        { tiempo: 2, texto: "No es un mundo. Es el escenario para un loco." },
-        { tiempo: 7, texto: "Vino por mí usando mi propia piel. Ese chaleco, esos pantalones... y esa corbata roja sangre. Brauu." },
-        { tiempo: 21, texto: "Me degolló porque el universo es muy pequeño para dos versiones del mismo fracaso. Lo hizo por Lua." },
-        { tiempo: 34, texto: "Él persigue a un fantasma que no quiere ser encontrado. Ella siguió adelante... pero su obsesión no la deja ir." },
-        { tiempo: 51, texto: "Morí, sí. Pero la Vida Morada me trajo de vuelta. Ahora me escondo tras esta máscara negra... y esta sonrisa vacía." },
-        { tiempo: 61, texto: "Intenté defenderme. Mover los hilos yo también. Susurré en los oídos de Quality, Dylan, <span style='color:#a020f0;'>[ERROR]</span> y Aldo." },
-        { tiempo: 77, texto: "Los manipulé. Intenté convertirlos en mi ejército... contra el monstruo de la corbata roja." },
-        { tiempo: 88, texto: "Pero en esta línea de tiempo, la lealtad es solo una palabra escrita en la arena. No confíes en ellos. No confíes en nadie." },
-        { tiempo: 98, texto: "Ni siquiera confíes en tu propio reflejo. Soy la falla que él no pudo borrar... y estoy observando." },
-        { tiempo: 114, texto: "[ Fin de la transmisión ]" }
-    ],
-    en: [
-        { tiempo: 0, texto: "[ Digital static and breathing ]" },
-        { tiempo: 2, texto: "It’s not a world. It’s a stage for a madman." },
-        { tiempo: 7, texto: "He came for me wearing my own skin. That vest, those trousers... and that blood-red tie. Brauu." },
-        { tiempo: 21, texto: "He slit my throat because the universe is too small for two versions of the same failure. He did it for Lua." },
-        { tiempo: 34, texto: "He’s chasing a ghost who doesn't want to be found. She moved on... but his obsession won't let her go." },
-        { tiempo: 51, texto: "I died, yes. But the Purple Life dragged me back. Now I hide behind this black mask... and this hollow smile." },
-        { tiempo: 61, texto: "I tried to fight back. To pull the strings too. I whispered in the ears of Quality, Dylan, <span style='color:#a020f0;'>[ERROR]</span> and Aldo." },
-        { tiempo: 77, texto: "I manipulated them. I tried to turn them into my army... against the monster in the red tie." },
-        { tiempo: 88, texto: "But in this timeline, loyalty is just a word written in sand. Don't trust them. Don't trust anyone." },
-        { tiempo: 98, texto: "Don't even trust your own reflection. Because I am the glitch he couldn't erase... and I am watching." },
-        { tiempo: 114, texto: "[ End of transmission ]" }
-    ]
-};
+        // 1. Datos de Subtítulos (Sincronizados con tu grabación)
+        const subsData = {
+            es: [
+                { tiempo: 0, texto: "[ Estática digital y respiración ]" },
+                { tiempo: 2, texto: "No es un mundo. Es el escenario para un loco." },
+                { tiempo: 7, texto: "Vino por mí usando mi propia piel. Ese chaleco, esos pantalones... y esa corbata roja sangre. Brauu." },
+                { tiempo: 21, texto: "Me degolló porque el universo es muy pequeño para dos versiones del mismo fracaso. Lo hizo por Lua." },
+                { tiempo: 34, texto: "Él persigue a un fantasma que no quiere ser encontrado. Ella siguió adelante... pero su obsesión no la deja ir." },
+                { tiempo: 51, texto: "Morí, sí. Pero la Vida Morada me trajo de vuelta. Ahora me escondo tras esta máscara negra... y esta sonrisa vacía." },
+                { tiempo: 61, texto: "Intenté defenderme. Mover los hilos yo también. Susurré en los oídos de Quality, Dylan, <span style='color:#a020f0;'>[ERROR]</span> y Aldo." },
+                { tiempo: 77, texto: "Los manipulé. Intenté convertirlos en mi ejército... contra el monstruo de la corbata roja." },
+                { tiempo: 88, texto: "Pero en esta línea de tiempo, la lealtad es solo una palabra escrita en la arena. No confíes en ellos. No confíes en nadie." },
+                { tiempo: 98, texto: "Ni siquiera confíes en tu propio reflejo. Soy la falla que él no pudo borrar... y estoy observando." },
+                { tiempo: 114, texto: "[ Fin de la transmisión ]" }
+            ],
+            en: [
+                { tiempo: 0, texto: "[ Digital static and breathing ]" },
+                { tiempo: 2, texto: "It’s not a world. It’s a stage for a madman." },
+                { tiempo: 7, texto: "He came for me wearing my own skin. That vest, those trousers... and that blood-red tie. Brauu." },
+                { tiempo: 21, texto: "He slit my throat because the universe is too small for two versions of the same failure. He did it for Lua." },
+                { tiempo: 34, texto: "He’s chasing a ghost who doesn't want to be found. She moved on... but his obsession won't let her go." },
+                { tiempo: 51, texto: "I died, yes. But the Purple Life dragged me back. Now I hide behind this black mask... and this hollow smile." },
+                { tiempo: 61, texto: "I tried to fight back. To pull the strings too. I whispered in the ears of Quality, Dylan, <span style='color:#a020f0;'>[ERROR]</span> and Aldo." },
+                { tiempo: 77, texto: "I manipulated them. I tried to turn them into my army... against the monster in the red tie." },
+                { tiempo: 88, texto: "But in this timeline, loyalty is just a word written in sand. Don't trust them. Don't trust anyone." },
+                { tiempo: 98, texto: "Don't even trust your own reflection. Because I am the glitch he couldn't erase... and I am watching." },
+                { tiempo: 114, texto: "[ End of transmission ]" }
+            ]
+        };
 
-// 2. Traducciones de Interfaz
-const uiTranslations = {
-    es: {
-        alert: "!! ADVERTENCIA DE SEGURIDAD !!",
-        decrypt: "[ TOQUE PARA DESENCRIPTAR ]",
-        status: "ESTADO: <span style='color:#a020f0'>DECODIFICANDO</span>",
-        sync: "Sincronizando..."
-    },
-    en: {
-        alert: "!! SECURITY WARNING !!",
-        decrypt: "[ TAP TO DECRYPT ]",
-        status: "STATUS: <span style='color:#a020f0'>DECODING</span>",
-        sync: "Synchronizing..."
-    }
-};
+        // 2. Traducciones de Interfaz
+        const uiTranslations = {
+            es: {
+                alert: "!! ADVERTENCIA DE SEGURIDAD !!",
+                decrypt: "[ TOQUE PARA DESENCRIPTAR ]",
+                status: "ESTADO: <span style='color:#a020f0'>DECODIFICANDO</span>",
+                sync: "Sincronizando..."
+            },
+            en: {
+                alert: "!! SECURITY WARNING !!",
+                decrypt: "[ TAP TO DECRYPT ]",
+                status: "STATUS: <span style='color:#a020f0'>DECODING</span>",
+                sync: "Synchronizing..."
+            }
+        };
 
-let currentLang = 'es';
-let subtitulos = subsData[currentLang];
+        let currentLang = 'es';
+        let subtitulos = subsData[currentLang];
 
-// 3. Función para Cambiar Idioma
-function changeLanguage() {
-    currentLang = document.getElementById('lang-selector').value;
-    subtitulos = subsData[currentLang];
-    
-    // Actualizar Textos UI
-    document.querySelector('.blink-red').innerText = uiTranslations[currentLang].alert;
-    document.querySelector('.terminal-alert p:nth-child(3)').innerText = uiTranslations[currentLang].decrypt;
-    document.querySelector('.audio-meta span:first-child').innerHTML = uiTranslations[currentLang].status;
-    document.getElementById('subtitles-brai').innerText = uiTranslations[currentLang].sync;
-}
+        // 3. Función para Cambiar Idioma
+        function changeLanguage() {
+            currentLang = document.getElementById('lang-selector').value;
+            subtitulos = subsData[currentLang];
 
-// 4. Control de la Consola de Audio
-function toggleAudioConsole() {
-    const consoleDiv = document.getElementById('audioConsole');
-    const audio = document.getElementById('bsmpAudio');
-    const mask = document.getElementById('mask-display');
-    const log = document.getElementById('log-text-brai');
+            // Actualizar Textos UI
+            document.querySelector('.blink-red').innerText = uiTranslations[currentLang].alert;
+            document.querySelector('.terminal-alert p:nth-child(3)').innerText = uiTranslations[currentLang].decrypt;
+            document.querySelector('.audio-meta span:first-child').innerHTML = uiTranslations[currentLang].status;
+            document.getElementById('subtitles-brai').innerText = uiTranslations[currentLang].sync;
+        }
 
-    if (consoleDiv.style.display === "none" || consoleDiv.style.display === "") {
-        consoleDiv.style.display = "block";
-        
-        // Simulación de carga hacker
-        log.innerHTML = "> Accediendo a archivos de memoria...<br>> Bypass de seguridad completado.";
-        
-        setTimeout(() => {
-            mask.style.display = "block";
-            audio.play().catch(e => console.log("Autoplay bloqueado, esperando interacción."));
-        }, 800);
-    } else {
-        consoleDiv.style.display = "none";
-        audio.pause();
-    }
-}
+        // 4. Control de la Consola de Audio
+        function toggleAudioConsole() {
+            const consoleDiv = document.getElementById('audioConsole');
+            const audio = document.getElementById('bsmpAudio');
+            const mask = document.getElementById('mask-display');
+            const log = document.getElementById('log-text-brai');
 
-// 5. Sincronización y Efectos (OnTimeUpdate)
-const bsmpAudio = document.getElementById('bsmpAudio');
+            if (consoleDiv.style.display === "none" || consoleDiv.style.display === "") {
+                consoleDiv.style.display = "block";
 
-bsmpAudio.ontimeupdate = () => {
-    const current = bsmpAudio.currentTime;
-    const subContainer = document.getElementById('subtitles-brai');
-    
-    // Buscar el subtítulo activo
-    const activo = subtitulos.slice().reverse().find(s => current >= s.tiempo);
-    
-    if (activo && subContainer.innerHTML !== activo.texto) {
-        subContainer.style.opacity = 0; // Efecto de parpadeo al cambiar
-        setTimeout(() => {
-            subContainer.innerHTML = activo.texto;
-            subContainer.style.opacity = 1;
-        }, 100);
-    }
+                // Simulación de carga hacker
+                log.innerHTML = "> Accediendo a archivos de memoria...<br>> Bypass de seguridad completado.";
 
-    // Efecto Especial en el segundo 61 [ERROR]
-    if (Math.floor(current) === 61) {
-        document.body.style.filter = "invert(1) hue-rotate(280deg)";
-        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-        setTimeout(() => { document.body.style.filter = "none"; }, 150);
-    }
-    
-    // Auto-cierre al finalizar (opcional)
-    if (bsmpAudio.ended) {
-        subContainer.innerHTML = "--- CONEXIÓN PERDIDA ---";
-    }
-};
+                setTimeout(() => {
+                    mask.style.display = "block";
+                    audio.play().catch(e => console.log("Autoplay bloqueado, esperando interacción."));
+                }, 800);
+            } else {
+                consoleDiv.style.display = "none";
+                audio.pause();
+            }
+        }
 
-/* Detener que el click en el reproductor cierre la terminal */
-document.getElementById('audioConsole').onclick = (e) => e.stopPropagation();
+        // 5. Sincronización y Efectos (OnTimeUpdate)
+        const bsmpAudio = document.getElementById('bsmpAudio');
+
+        bsmpAudio.ontimeupdate = () => {
+            const current = bsmpAudio.currentTime;
+            const subContainer = document.getElementById('subtitles-brai');
+
+            // Buscar el subtítulo activo
+            const activo = subtitulos.slice().reverse().find(s => current >= s.tiempo);
+
+            if (activo && subContainer.innerHTML !== activo.texto) {
+                subContainer.style.opacity = 0; // Efecto de parpadeo al cambiar
+                setTimeout(() => {
+                    subContainer.innerHTML = activo.texto;
+                    subContainer.style.opacity = 1;
+                }, 100);
+            }
+
+            // Efecto Especial en el segundo 61 [ERROR]
+            if (Math.floor(current) === 61) {
+                document.body.style.filter = "invert(1) hue-rotate(280deg)";
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                setTimeout(() => { document.body.style.filter = "none"; }, 150);
+            }
+
+            // Auto-cierre al finalizar (opcional)
+            if (bsmpAudio.ended) {
+                subContainer.innerHTML = "--- CONEXIÓN PERDIDA ---";
+            }
+        };
+
+        /* Detener que el click en el reproductor cierre la terminal */
+        document.getElementById('audioConsole').onclick = (e) => e.stopPropagation();
         // --- ANIMACIÓN DE CARGA ---
         const logs = [
             "Iniciando archivos.",
@@ -962,9 +1317,9 @@ document.getElementById('audioConsole').onclick = (e) => e.stopPropagation();
         let logIdx = 0;
         const logContainer = document.getElementById('boot-text');
         const loadBar = document.getElementById('load-bar');
-        
+
         const interval = setInterval(() => {
-            if(logIdx < logs.length) {
+            if (logIdx < logs.length) {
                 logContainer.innerHTML += `> ${logs[logIdx]}<br>`;
                 loadBar.style.width = ((logIdx + 1) * 20) + "%";
                 logIdx++;
@@ -977,119 +1332,125 @@ document.getElementById('audioConsole').onclick = (e) => e.stopPropagation();
             }
         }, 600);
 
-// --- LÓGICA DE RADAR AVANZADA ---
-const radarContainer = document.getElementById('radarContainer');
-const radarGrid = document.getElementById('radarGrid');
-const coordsDisplay = document.getElementById('coords');
+        // --- LÓGICA DE RADAR AVANZADA ---
+        const radarContainer = document.getElementById('radarContainer');
+        const radarGrid = document.getElementById('radarGrid');
+        const coordsDisplay = document.getElementById('coords');
 
-let isDragging = false;
-let startX, startY;
-let translateX = -400, translateY = -750; // Posición inicial centrada en el Nexo
+        let isDragging = false;
+        let startX, startY;
+        let translateX = -400, translateY = -750; // Posición inicial centrada en el Nexo
 
-// Función para actualizar el movimiento
-const updateRadarPosition = (e) => {
-    if (!isDragging) return;
-    
-    // Detectar si es touch o mouse
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        // Función para actualizar el movimiento
+        const updateRadarPosition = (e) => {
+            if (!isDragging) return;
 
-    const dx = clientX - startX;
-    const dy = clientY - startY;
+            // Detectar si es touch o mouse
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-    translateX += dx;
-    translateY += dy;
+            const dx = clientX - startX;
+            const dy = clientY - startY;
 
-    radarGrid.style.transform = `translate(${translateX}px, ${translateY}px)`;
-    
-    // Actualizar coordenadas falsas para el lore
-    const xCoord = Math.round((translateX + 400) * -1);
-    const zCoord = Math.round((translateY + 750) * -1);
-    coordsDisplay.innerText = `X: ${xCoord} | Z: ${zCoord}`;
+            translateX += dx;
+            translateY += dy;
 
-    startX = clientX;
-    startY = clientY;
-};
+            radarGrid.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
-// Eventos Mouse
-radarContainer.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startX = e.clientX;
-    startY = e.clientY;
-});
+            // Actualizar coordenadas falsas para el lore
+            const xCoord = Math.round((translateX + 400) * -1);
+            const zCoord = Math.round((translateY + 750) * -1);
+            coordsDisplay.innerText = `X: ${xCoord} | Z: ${zCoord}`;
 
-window.addEventListener('mouseup', () => isDragging = false);
-window.addEventListener('mousemove', updateRadarPosition);
+            startX = clientX;
+            startY = clientY;
+        };
 
-// Eventos Touch (Celular)
-radarContainer.addEventListener('touchstart', (e) => {
-    isDragging = true;
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-}, { passive: true });
+        // Eventos Mouse
+        radarContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+        });
 
-window.addEventListener('touchend', () => isDragging = false);
-window.addEventListener('touchmove', updateRadarPosition, { passive: false });
+        window.addEventListener('mouseup', () => isDragging = false);
+        window.addEventListener('mousemove', updateRadarPosition);
 
-// Posición inicial del grid
-radarGrid.style.transform = `translate(${translateX}px, ${translateY}px)`;
+        // Eventos Touch (Celular)
+        radarContainer.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => isDragging = false);
+        window.addEventListener('touchmove', updateRadarPosition, { passive: false });
+
+        // Posición inicial del grid
+        radarGrid.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
         // --- ANIMACIONES AL BAJAR (AOS) ---
         function initAOS() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if(entry.isIntersecting) entry.target.classList.add('appear');
+                    if (entry.isIntersecting) entry.target.classList.add('appear');
                 });
             }, { threshold: 0.1 });
             document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
         }
 
         // --- RENDERIZAR SUJETOS (PRESERVANDO IDs ORIGINALES) ---
-// --- BASE DE DATOS ACTUALIZADA ---
-const sujetos = [
+        // --- BASE DE DATOS ACTUALIZADA ---
+       const sujetos = [
     { id: "ItsBrauu", displayName: "ItsBrauu", channelUrl: "https://www.twitch.tv/ItsBrauu" },
     { id: "https://mc-heads.net/avatar/783218dc25d491c546762a20507750c0cd7c5b77153a76103c2578688b9da624", displayName: "Reno", channelUrl: "https://www.twitch.tv/renoxyvods" },
     { id: "DaniTrembl4y", displayName: "DaniTremblay", channelUrl: "https://www.twitch.tv/Danitremblay" },
     { id: "j4vu", displayName: "j4vuuuu", channelUrl: "https://www.twitch.tv/j4vuuuu" },
     { id: "itsaldoxd", displayName: "ItsAldoTz", channelUrl: "https://www.twitch.tv/itsaldotz" },
     { id: "soypepon", displayName: "SoyPepon", channelUrl: "https://kick.com/soypeponn" },
-     { id: "Loloissmort", displayName: "Loloissmort", channelUrl: "https://www.twitch.tv/l0l0isntdumb" },
-      { id: "Dream_Wolf06", displayName: "Dream_Wolf06", channelUrl: "" },
-        { id: "Armen1784", displayName: "FahadiMC", channelUrl: "https://www.twitch.tv/puvapudim" },
+    { id: "Loloissmort", displayName: "Loloissmort", channelUrl: "https://www.twitch.tv/l0l0isntdumb" },
+    { id: "Dream_Wolf06", displayName: "Dream_Wolf06", channelUrl: "" },
+    { id: "Armen1784", displayName: "FahadiMC", channelUrl: "https://www.twitch.tv/puvapudim" },
     { id: "alexuh_", displayName: "nicotines_", channelUrl: "https://www.twitch.tv/nicotines_" },
     { id: "Dylancho68", displayName: "Dylancho68", channelUrl: "https://www.twitch.tv/Dylancho68" },
     { id: "K4mar1", displayName: "Ms_kamari", channelUrl: "https://www.twitch.tv/Ms_kamari" },
+    { id: "537df53244ca6e4781270157488d66619d861a67b07912cee9f8def2fea9cc69", displayName: "cherryp", channelUrl: "https://www.twitch.tv/cherryp_21" },
     { id: "mikalcetin_", displayName: "mikalcetin_", channelUrl: "https://www.twitch.tv/mikalcetin_" },
     { id: "thomastrex7", displayName: "ThomasTrex7", channelUrl: "https://www.twitch.tv/thomasrex7" },
     { id: "wallyvx", displayName: "Wallyvx", channelUrl: "https://www.twitch.tv/wallyvx" },
     { id: "thatoneidiort", displayName: "PuvaPudim", channelUrl: "https://www.twitch.tv/puvapudim" },
     { id: "idkaxi_", displayName: "IdkAxi", channelUrl: "https://www.twitch.tv/idk_axi" },
-    // No-Premium con URL directa
+    { id: "soyc0nnie", displayName: "Connie", channelUrl: "https://www.twitch.tv/c0nnie__" },
+    // No-Premium / Especiales
     { id: "https://mc-heads.net/avatar/e7181326fdd51db4c4997a9589f221026fddcad678c98d1d8abb88ce79350eb", displayName: "Quality_Forever_", channelUrl: "https://www.twitch.tv/Quality_Forever_" },
     { id: "https://mc-heads.net/avatar/5c7a944903d8ea895c5106a132b9197e27050bb9e1aaf5a0a3ddab0d808dd82e", displayName: "NickGames", channelUrl: "https://www.twitch.tv/the_nickgames" },
     { id: "https://mc-heads.net/avatar/6432128823e26f688bb3288c2ba7af2c61d5775d97b6dd0c22acfd5ebaa29a63", displayName: "ESEMIXIAO", channelUrl: "https://www.twitch.tv/Zori_tv" },
     { id: "https://mc-heads.net/avatar/376ae796b2c56bec52edb9ef02e9d25256db6af031b4f12d52c30ebb97c58f33", displayName: "elwhitexr", channelUrl: "https://www.twitch.tv/elwhitexr" },
+    { id: "https://mc-heads.net/avatar/92beaf0fa2d3a0dcc98303b3fd5e7f9f71c001b4af36cd9b47721cfd9732f992", displayName: "Frutilla", channelUrl: "https://www.twitch.tv/frutilla_112" },
     { id: "https://mc-heads.net/avatar/adc2c78bedc9a9f72b3e1ec9b87abb4c72254c2a37169d1dee7db0a776343cbd", displayName: "Wendysszx", channelUrl: "https://www.twitch.tv/Wendysszx" },
     { id: "https://mc-heads.net/avatar/f165565b6bbd7bf3ec2395cc957bad9a4c4cd0f946f762fa63bfd8aa94aaf3c8", displayName: "Ramirezz", channelUrl: "https://www.twitch.tv/ramirez_the_catt" },
-    { id: "https://mc-heads.net/avatar/30ba014652cb959dfe713085f5cae6e11a79e9ec0ef3b0a85ec08339e7258936", displayName: "Alessa_bna", channelUrl: "https://www.twitch.tv/alessa_bna" },
-    
+    { id: "https://mc-heads.net/avatar/30ba014652cb959dfe713085f5cae6e11a79e9ec0ef3b0a85ec08339e7258936", displayName: "Alessa_bna", channelUrl: "https://www.twitch.tv/alessa_bna" }
 ];
+        const grid = document.getElementById('grid_sujetos');
+        grid.innerHTML = "";
 
-const grid = document.getElementById('grid_sujetos');
-grid.innerHTML = ""; 
+        // Configuración de vista inicial (Muestra 9 para que sean 3 filas exactas en celular)
+        const limiteInicial = 9;
 
-sujetos.forEach(s => {
-    const card = document.createElement('a'); // Cambiado a 'a' para que sea clickeable
-    card.href = s.channelUrl;
-    card.target = "_blank";
-    card.className = 'subject-card';
-    card.style.textDecoration = "none";
-    
-    // Lógica para detectar si el ID es URL o Nickname
-    const finalImg = s.id.startsWith('http') ? s.id : `https://mc-heads.net/avatar/${s.id}/120`;
-    const shortID = Math.floor(Math.random() * 900) + 100;
+        sujetos.forEach((s, index) => {
+            const card = document.createElement('a');
+            card.href = s.channelUrl;
+            card.target = "_blank";
 
-    card.innerHTML = `
+            // Si el índice es mayor o igual a 9, le ponemos la clase 'hidden'
+            const claseOculta = index >= limiteInicial ? 'hidden' : '';
+            card.className = `subject-card ${claseOculta}`;
+            card.style.textDecoration = "none";
+
+            const finalImg = s.id.startsWith('http') ? s.id : `https://mc-heads.net/avatar/${s.id}/120`;
+            const shortID = Math.floor(Math.random() * 900) + 100;
+
+            card.innerHTML = `
         <img src="${finalImg}" alt="${s.displayName}" onerror="this.src='https://mc-heads.net/avatar/steve/120'">
         <div class="subject-info">
             <span class="subject-status">REG_CODE_${shortID}</span>
@@ -1097,14 +1458,35 @@ sujetos.forEach(s => {
             <div class="vital-bar"><div class="vital-fill"></div></div>
         </div>
     `;
-    grid.appendChild(card);
-});
+            grid.appendChild(card);
+        });
+
+        // FUNCIÓN PARA EL BOTÓN (Ponla justo debajo)
+        function revealAllSubjects() {
+            const hiddenCards = document.querySelectorAll('.subject-card.hidden');
+            const btn = document.querySelector('.load-more-btn');
+
+            hiddenCards.forEach((card, i) => {
+                setTimeout(() => {
+                    card.classList.remove('hidden');
+                    // Efecto de aparición suave
+                    card.style.animation = "glitch-appear 0.3s ease forwards";
+                }, i * 40); // Aparecen en cascada rápida
+            });
+
+            if (btn) {
+                btn.innerHTML = "[ TODOS LOS ARCHIVOS DESBLOQUEADOS ]";
+                btn.disabled = true;
+                btn.style.opacity = "0.4";
+            }
+        }
 
         const target = new Date("July 1, 2026 00:00:00").getTime();
         setInterval(() => {
             const d = target - new Date().getTime();
-            document.getElementById('countdown').innerText = `${Math.floor(d/(1000*60*60*24))}d ${Math.floor((d%(1000*60*60*24))/(1000*60*60))}h ${Math.floor((d%(1000*60*60))/(1000*60))}m ${Math.floor((d%(1000*60))/1000)}s`;
+            document.getElementById('countdown').innerText = `${Math.floor(d / (1000 * 60 * 60 * 24))}d ${Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))}h ${Math.floor((d % (1000 * 60 * 60)) / (1000 * 60))}m ${Math.floor((d % (1000 * 60)) / 1000)}s`;
         }, 1000);
     </script>
 </body>
+
 </html>

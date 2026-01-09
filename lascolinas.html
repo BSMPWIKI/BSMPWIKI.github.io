@@ -23,7 +23,7 @@
             overflow-x: hidden;
         }
 
-        /* Navegación Profesional */
+        /* Estilo Nav Original */
         nav {
             background: var(--dark);
             padding: 15px;
@@ -40,7 +40,7 @@
             cursor: pointer;
         }
 
-        /* Banner Principal */
+        /* Banner Principal Original */
         .hero { 
             width: 100%; 
             height: 50vh;
@@ -78,6 +78,7 @@
             content: ""; display: block; width: 50px; height: 2px; background: var(--gold); margin: 15px auto;
         }
 
+        /* Descripción Profesional */
         .description {
             line-height: 1.9;
             text-align: justify;
@@ -86,7 +87,7 @@
             margin-bottom: 50px;
         }
 
-        /* Formulario Estilo Premium */
+        /* Formulario Estilo Premium Original */
         .booking-form {
             background: #fff;
             padding: 40px;
@@ -134,22 +135,22 @@
 
         .btn-submit:hover { background: var(--gold); color: var(--dark); }
 
-        /* MODO VERDAD (BRAI) */
+        /* MODO VERDAD OCULTO */
         body.truth-mode { background: #000; color: var(--alert); }
-        body.truth-mode .description, body.truth-mode label { color: var(--alert); }
+        body.truth-mode .description, body.truth-mode label, body.truth-mode .section-title { color: var(--alert); }
         body.truth-mode .booking-form { background: #0a0a0a; border-color: var(--alert); }
         body.truth-mode input, body.truth-mode select { background: #1a1a1a; color: white; border-color: var(--alert); }
         body.truth-mode .hero { filter: grayscale(1) brightness(0.4); }
 
-        /* OVERLAY DE ÉXITO PERSONALIZADO */
+        /* OVERLAY DE ÉXITO PROFESIONAL */
         #success-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; display: none; z-index: 9999;
+            background: #ffffff; display: none; z-index: 9999;
             flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; color: white; font-family: 'Cinzel', serif;
+            text-align: center; color: var(--dark); font-family: 'Cinzel', serif;
         }
 
-        .glitch-name { color: var(--alert); font-size: 2.5rem; margin: 20px 0; }
+        body.truth-mode #success-overlay { background: #000; color: var(--alert); }
 
         @media (max-width: 600px) {
             .hero-title { font-size: 1.5rem; }
@@ -160,110 +161,150 @@
 <body>
 
 <nav>
-    <h1 onclick="toggleTruth()">LAS COLINAS</h1>
+    <h1 id="navTitle" onclick="toggleTruth()">LAS COLINAS</h1>
 </nav>
 
 <div class="hero">
-    <div class="hero-title">EL DESTINO FINAL DE LA EXCELENCIA</div>
+    <div class="hero-title">DISFRUTE SU ESTANCIA</div>
 </div>
 
 <div class="container">
-    <h2 class="section-title">Bienvenido a Las Colinas</h2>
+    <h2 class="section-title">Las Colinas</h2>
     <div class="description">
         <p>
-            <strong>Las Colinas</strong> no es simplemente un destino; es el cénit de la ingeniería civil y el urbanismo de élite. Diseñada íntegramente por el arquitecto <strong>Brauu</strong>, esta ciudad-estado ha sido esculpida sobre una meseta privada para ofrecer un ecosistema de seguridad impenetrable y lujo sin precedentes. Cada estructura, desde los cimientos de mármol reforzado hasta las agujas de cristal que perforan el cielo, ha sido concebida para aquellos que exigen una existencia libre de las imperfecciones del mundo exterior.
+            <strong>Las Colinas</strong> representa el cénit de la ingeniería civil y el urbanismo privado de élite. Este asentamiento ha sido proyectado para ofrecer un ecosistema de seguridad avanzada y confort sin precedentes bajo una administración centralizada.
         </p>
 
         <p>
-            En el corazón de nuestra metrópolis se encuentra el <strong>Distrito Diamante</strong>, donde la actividad nunca cesa. Aquí, el imponente <strong>Grand Hotel & Casino El Azar</strong> define el horizonte, ofreciendo una experiencia de entretenimiento de clase mundial con sistemas de juego gestionados por redes neuronales privadas. La vida nocturna se extiende a través de <strong>Nightclubs</strong> de diseño acústico hermético y <strong>Restaurantes de Estrellas Eternas</strong>, donde la gastronomía es tratada como una ciencia exacta bajo la supervisión de la Administración Central.
-        </p>
-
-        <p>
-            Para el residente que valora el silencio, nuestras <strong>Villas Residenciales</strong> representan el refugio definitivo. Situadas en las laderas periféricas, estas mansiones integran domótica de vanguardia, sistemas de soporte vital con filtrado de aire de grado médico y un blindaje estructural diseñado por Brauu para garantizar una privacidad absoluta. En Las Colinas, la vigilancia biométrica constante asegura que el orden sea absoluto, permitiendo que el tiempo, por primera vez en la historia, se detenga en favor de su bienestar.
+            Nuestra metrópolis integra la sofisticación del <strong>Distrito Central</strong> con la exclusividad de las <strong>Villas Residenciales</strong>. Cada solicitud de ingreso es procesada bajo estrictos protocolos de confidencialidad para garantizar la integridad de nuestra comunidad.
         </p>
         
         <div style="background: rgba(212, 175, 55, 0.05); border-left: 4px solid var(--gold); padding: 20px; margin-top: 30px; font-style: italic; font-size: 0.95rem;">
-            "En Las Colinas, no solo hemos construido una ciudad; hemos diseñado el último refugio de la voluntad humana. Bajo este cielo, el caos es un recuerdo y la perfección es nuestra única ley." — <strong>Extracto del Manifiesto de Brauu.</strong>
+            "La perfección no es una opción, es nuestra ley fundamental." — <strong>Administración Central de Las Colinas.</strong>
         </div>
     </div>
 
-    </div>
-
-    <h2 class="section-title">Registro de Ingreso</h2>
+    <h2 class="section-title">Registro de Solicitud</h2>
     <div class="booking-form">
-        <form id="reserva" onsubmit="realizarReserva(event)">
+        <form id="reservaForm">
             <div class="form-row">
-                <label>Nombre de Usuario / Ciudadano</label>
-                <input type="text" id="userName" placeholder="Escriba su nombre..." required>
+                <label>Nombre</label>
+                <input type="text" id="userName" placeholder="Nombre..." required>
             </div>
             
             <div class="form-row">
-                <label>Área de Alojamiento</label>
-                <select required>
+                <label>Área de Destino</label>
+                <select id="userArea" required>
                     <option value="">Seleccione zona...</option>
-                    <option value="1">Grand Hotel El Azar</option>
-                    <option value="2">Villas de Las Colinas</option>
-                    <option value="3">Residencia Permanente</option>
+                    <option value="Grand Hotel El Azar">Grand Hotel El Azar</option>
+                    <option value="Villas de Las Colinas">Villas Residenciales Privadas</option>
+                    <option value="Distrito Central">Distrito Central (Permanente)</option>
                 </select>
             </div>
 
             <div class="form-row">
-                <label>Fecha de Llegada</label>
-                <input type="date" required>
+                <label>Fecha Estimada de Ingreso</label>
+                <input type="date" id="userDate" required>
             </div>
 
             <div class="form-row">
-                <label>Estatus de Retorno</label>
-                <input type="text" value="PERMANENTE / NO REQUERIDO" disabled style="background: #f9f9f9; color: #bbb;">
+                <label>Estatus de Estancia</label>
+                <input type="text" value="RESIDENCIA PERMANENTE ADMITIDA" disabled style="background: #f9f9f9; color: #bbb;">
             </div>
 
-            <button type="submit" class="btn-submit">CONFIRMAR INGRESO</button>
+            <button type="submit" class="btn-submit">ENVIAR CREDENCIALES</button>
         </form>
     </div>
 </div>
 
 <div id="success-overlay">
-    <h2 style="letter-spacing: 5px;">PROCESANDO SOLICITUD...</h2>
+    <h2 id="statusHeader" style="letter-spacing: 5px;">PROCESANDO SOLICITUD...</h2>
     <div id="braiMessage" style="display:none;">
-        <p style="font-size: 1.2rem;">BIENVENIDO A LAS COLINAS,</p>
-        <h1 class="glitch-name" id="displayName">NOMBRE</h1>
-        <p style="color: var(--alert); font-family: monospace;">BRAI: YA ESTÁS EN MI SISTEMA.</p>
+        <p style="font-size: 1.2rem;" id="welcomeText">SOLICITUD PROCESADA CON ÉXITO,</p>
+        <h1 id="displayName" style="font-size: 2.5rem; margin: 20px 0; color: var(--gold);">NOMBRE</h1>
+        <p id="systemMessage" style="font-family: 'Montserrat'; font-size: 0.9rem;">SU IDENTIDAD HA SIDO REGISTRADA EN LA BASE DE DATOS CENTRAL.</p>
     </div>
 </div>
 
-<script>
-    function toggleTruth() {
-        document.body.classList.toggle('truth-mode');
-    }
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
 
-    function realizarReserva(event) {
+    const firebaseConfig = {
+      apiKey: "AIzaSyDUjORFPVwfOngb2KDPAdrAclIeHnzH5Ck",
+      authDomain: "bsmp2-3f7b2.firebaseapp.com",
+      databaseURL: "https://bsmp2-3f7b2-default-rtdb.firebaseio.com",
+      projectId: "bsmp2-3f7b2",
+      storageBucket: "bsmp2-3f7b2.firebasestorage.app",
+      messagingSenderId: "347248175152",
+      appId: "1:347248175152:web:0bbf91b3851ded236a65f5",
+      measurementId: "G-S0CMJTV7N8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.toggleTruth = () => document.body.classList.toggle('truth-mode');
+
+    const form = document.getElementById('reservaForm');
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
         
         const name = document.getElementById('userName').value;
+        const area = document.getElementById('userArea').value;
+        const date = document.getElementById('userDate').value;
+        
         const overlay = document.getElementById('success-overlay');
         const display = document.getElementById('displayName');
         const message = document.getElementById('braiMessage');
-        
-        // Ponemos el nombre del usuario en el mensaje final
+        const statusHeader = document.getElementById('statusHeader');
+        const sysMsg = document.getElementById('systemMessage');
+
         display.innerText = name.toUpperCase();
-        
-        // Mostramos el efecto
         overlay.style.display = 'flex';
-        
-        setTimeout(() => {
-            message.style.display = 'block';
-        }, 2000);
 
-        // Opcional: Cerrar después de 6 segundos
-        setTimeout(() => {
+        // Lógica de mensaje según el modo
+        if(document.body.classList.contains('truth-mode')) {
+            sysMsg.innerText = "BRAI: YA ESTÁS EN MI SISTEMA.";
+            sysMsg.style.color = "var(--alert)";
+            display.style.color = "var(--alert)";
+        } else {
+            sysMsg.innerText = "SU IDENTIDAD HA SIDO REGISTRADA EN LA BASE DE DATOS CENTRAL.";
+            sysMsg.style.color = "var(--dark)";
+            display.style.color = "var(--gold)";
+        }
+
+        try {
+            const registrosRef = ref(db, 'registros');
+            const nuevoRegistroRef = push(registrosRef);
+            await set(nuevoRegistroRef, {
+                nombre: name,
+                area: area,
+                fecha: date,
+                timestamp: new Date().toLocaleString()
+            });
+
+            setTimeout(() => {
+                statusHeader.style.display = 'none';
+                message.style.display = 'block';
+            }, 2000);
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                message.style.display = 'none';
+                statusHeader.style.display = 'block';
+                form.reset();
+            }, 8000);
+
+        } catch (error) {
+            console.error(error);
+            alert("Error de conexión con el servidor central.");
             overlay.style.display = 'none';
-            message.style.display = 'none';
-        }, 7000);
-    }
+        }
+    });
 
-    // Tecla V para modo verdad
     document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 'v') toggleTruth();
+        if (e.key && e.key.toLowerCase() === 'v') window.toggleTruth();
     });
 </script>
 

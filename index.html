@@ -1537,12 +1537,12 @@ function openSubjectModal(s) {
     if (s.resumenUrl && s.resumenUrl !== "") {
         container.innerHTML += `
             <a href="${s.resumenUrl}" class="m-btn active-btn">
-                <span>📄</span> ABRIR ARCHIVO: AUTOBIOGRAFIA
+                <span>📄</span> ABRIR ARCHIVO: EXPEDIENTE
             </a>`;
     } else {
         container.innerHTML += `
             <div class="m-btn locked">
-                <span>🔒</span> ARCHIVO: AUTOBIOGRAFIA
+                <span>🔒</span> ARCHIVO: EXPEDIENTE
                 <small>ACCESO DENEGADO, PRONTO ESTARA DISPONIBLE.</small>
             </div>`;
     }
@@ -1885,6 +1885,7 @@ function closeModal() {
 </body>
 
 </html>
+
 
 
 

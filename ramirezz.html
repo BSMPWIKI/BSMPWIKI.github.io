@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=850"> 
+    <meta name="viewport" content="width=850">
     <title>SISTEMA_CENTRAL_FILE_001</title>
     <style>
         :root {
-            --paper: #e4e0d5; 
+            --paper: #e4e0d5;
             --ink: #1a1a1a;
             --red-alert: #b30000;
             --border-security: #222;
@@ -22,35 +23,40 @@
             font-family: 'Courier New', Courier, monospace;
             /* Permite scroll horizontal en móvil para ver la hoja completa */
             width: 100%;
-            overflow-x: auto; 
+            overflow-x: auto;
         }
 
         .pdf-page {
             background: var(--paper);
             background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
-            width: 850px; /* Ancho fijo de hoja real */
+            width: 850px;
+            /* Ancho fijo de hoja real */
             min-height: 1100px;
             padding: 60px;
             position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
             border: 1px solid #999;
             box-sizing: border-box;
             /* Evita que el contenido se salga de la "hoja" */
-            flex-shrink: 0; 
+            flex-shrink: 0;
         }
 
         /* Borde de seguridad del documento */
         .pdf-page::before {
             content: "";
             position: absolute;
-            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
             border: 2px solid var(--border-security);
             pointer-events: none;
         }
 
         .stamp-top-secret {
             position: absolute;
-            top: 60px; right: 60px;
+            top: 60px;
+            right: 60px;
             border: 5px solid var(--red-alert);
             color: var(--red-alert);
             padding: 10px 20px;
@@ -91,10 +97,22 @@
             font-size: 14px;
         }
 
-        .data-line { margin-bottom: 8px; border-bottom: 1px dotted #888; }
-        .data-line b { text-transform: uppercase; width: 150px; display: inline-block; }
+        .data-line {
+            margin-bottom: 8px;
+            border-bottom: 1px dotted #888;
+        }
 
-        .censored { background: #000; color: #000; padding: 0 3px; }
+        .data-line b {
+            text-transform: uppercase;
+            width: 150px;
+            display: inline-block;
+        }
+
+        .censored {
+            background: #000;
+            color: #000;
+            padding: 0 3px;
+        }
 
         .section-header {
             background: #222;
@@ -133,18 +151,36 @@
             text-decoration: underline;
         }
 
-        .trait-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .trait-item { font-size: 13px; border-left: 4px solid #444; padding-left: 10px; }
+        .trait-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .trait-item {
+            font-size: 13px;
+            border-left: 4px solid #444;
+            padding-left: 10px;
+        }
 
         .footer-barcode {
             margin-top: 60px;
             text-align: right;
         }
 
-        .back-link { color: #888; text-decoration: none; font-size: 12px; margin-bottom: 10px; }
-        .back-link:hover { color: #fff; }
+        .back-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
     </style>
 </head>
+
 <body>
 
     <a href="index.html" class="back-link">[ SISTEMA // VOLVER ]</a>
@@ -160,41 +196,70 @@
 
         <div class="subject-profile">
             <div class="photo-area">
-                <img src="https://mc-heads.net/avatar/f165565b6bbd7bf3ec2395cc957bad9a4c4cd0f946f762fa63bfd8aa94aaf3c8/180" alt="SUBJECT PHOTO">
+                <img src="https://mc-heads.net/avatar/f165565b6bbd7bf3ec2395cc957bad9a4c4cd0f946f762fa63bfd8aa94aaf3c8/180"
+                    alt="SUBJECT PHOTO">
             </div>
             <div class="data-box">
                 <div class="data-line"><b>SUJETO:</b> Hola es el Ramirez </div>
-                <div class="data-line"><b>EDAD:</b> <span class="censored">Si</span></div>
-                <div class="data-line"><b>ID_CODE:</b> 992-A-02</div>
-                <div class="data-line"><b>ESTATUS:</b> hola</div>
-                <div class="data-line"><b>RIESGO:</b> Es Ramirez</div>
-                <div class="data-line"><b>LOCALIZACIÓN:</b> En su casita</div>
+                <div class="data-line"><b>EDAD:</b> Es Legal</div>
+                <div class="data-line"><b>ID_CODE:</b> 967-A-02</div>
+                <div class="data-line"><b>ESTATUS:</b> mensote</div>
+                <div class="data-line"><b>RIESGO:</b> ALTO</div>
+                <div class="data-line"><b>LOCALIZACIÓN:</b> <span class="censored"> Desconocida</span></div>
             </div>
         </div>
 
         <div class="section-header">AUTOBIOGRAFÍA RECOPILADA</div>
         <div class="report-text auto-bio">
-            "Hola, soy Ramirez."
+            "Vaya que te diviertes al verme morir una y otra vez no? Así que quieres un Round 2 de todo esto por lo que
+            veo...luego de todo solo juegas con mi alma en contra de mi. Como sea, solo dejame librarme de una maldita
+            vez. Bueno, al grano. Ya me conoces, soy una alma condenada a morir cuando tiene la maldición de ser
+            inmortal. Soy un poco extrovertido y ocasionalmente explorador. Pero aún tengo un CORAZÓN para dejarte
+            vivir."
         </div>
 
         <div class="section-header">ACONTECIMIENTOS CLAVE REGISTRADOS</div>
         <div class="report-text">
-            • <b>El es ramirez</b><br>
-        <div class="section-header">RASGOS Y PERFIL DE CONDUCTA</div>
-        <div class="trait-list">
-            <div class="trait-item"><b>FISICO:</b> Simplemente es ramirez</div>
-        </div>
+            • <b>El comienzo:</b> Empezó como un niño normal pero cuando ocurrio ese terrible accidente su única forma
+            de revivir su <span class="censored"> alma</span> era mediante magia negra ahora sufre este imparable
+            infierno de vida en solitario.<br>
+            • <b>BSMP:</b>Comenzó con el objetivo de conocer gente con todos sus animos pero poco a poco fue perdiendo
+            la cabeza conforme pasaba más solo. Pocos lo conocieron. Muchos encontraron sus carteles...<br>
+            •<b>BMG</b> Logro su objetivo de conocer gente y fue feliz, pero no todo es de color de rosa. BRAI uso a sus
+            amigos para manipular y Ramirez nunca más dejo que esto volviera a pasar.<br>
+            <div class="section-header">RASGOS Y PERFIL DE CONDUCTA</div>
+            <div class="trait-list">
+                <div class="trait-item"><b>FÍSICO:</b> Humano joven de rasgos felinos (orejas y cola), complexión
+                    delgada y piel blanca. Posee cabello largo naranja pastel de peinado natural y ojos marrones oscuros
+                    con un brillo característico.</div>
 
-        <div class="section-header">ANÁLISIS FINAL DE INTELIGENCIA</div>
-        <div class="report-text">
-          El sujeto Ramirez presenta un perfil bajo y no representa una amenaza inmediata -250 de IQ
-        </div>
+                <div class="trait-item"><b>ANOMALÍAS:</b> Ciclo de muerte y regeneración continua. Tras fallecer, su
+                    cuerpo se desintegra en segundos y reaparece tras 15 minutos en una ubicación aleatoria. El sujeto
+                    retiene la memoria y el trauma físico de cada muerte.</div>
 
-        <div class="footer-barcode">
-            <img src="https://i.ibb.co/k24Vx68f/Proyecto-nuevo-23.png" width="150" style="opacity: 0.6;"><br>
-            <span style="font-size: 10px; color: #666;">AUTHORIZATION: SYSTEM_ADMIN_00</span>
+                <div class="trait-item"><b>PERSONALIDAD:</b> Extremadamente extrovertido y altruista. Posee una "Bondad
+                    a todas partes", priorizando el bienestar ajeno sobre su propia integridad física o tiempo de vida.
+                </div>
+
+                <div class="trait-item"><b>RESISTENCIA:</b> Alta perseverancia física y mental. Aunque es difícil de
+                    asesinar debido a su tenacidad, su alma es vulnerable y fácil de "quebrar" bajo presión psicológica.
+                </div>
+            </div>
+
+            <div class="section-header">ANÁLISIS FINAL DE INTELIGENCIA</div>
+            <div class="report-text">
+                El Sujeto Ramírez demuestra ser astuto, silencioso y perseverante a pesar de sus constantes decesos. Sin
+                embargo, su vulnerabilidad espiritual lo convierte en una presa ideal para <b>BRAI</b>, quien puede
+                forzarlo a ser consciente de sus muertes sin voluntad propia. No representa un peligro directo si no se
+                le agrede; su lealtad lo define como el mejor aliado posible o, en manos equivocadas, el peor enemigo
+                estratégico.
+            </div>
+            <div class="footer-barcode">
+                <img src="https://i.ibb.co/k24Vx68f/Proyecto-nuevo-23.png" width="150" style="opacity: 0.6;"><br>
+                <span style="font-size: 10px; color: #666;">AUTHORIZATION: SYSTEM_ADMIN_00</span>
+            </div>
         </div>
-    </div>
 
 </body>
+
 </html>

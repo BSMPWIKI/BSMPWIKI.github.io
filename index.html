@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -1018,15 +1019,6 @@
             <div id="countdown" style="margin-top: 20px; font-weight: bold; font-size: 1.2rem;">CALCULANDO...</div>
         </header>
 
-        <nav>
-            <a href="#manifiesto" class="nav-btn">Leyes</a>
-            <a href="#sujetos" class="nav-btn">Sujetos</a>
-            <a href="#mapa" class="nav-btn">Radar</a>
-            <a href="#bestiario" class="nav-btn">Bestiario</a>
-            <a href="#transmision-recuperada" class="nav-btn">Brai.</a>
-            <a href="#terminal-enlace" class="nav-btn">Terminal</a>
-        </nav>
-
         <div class="language-bar">
             <div class="flags-container">
                 <img src="https://flagcdn.com/w40/cl.png" alt="Chile" title="Protocolo CL">
@@ -1058,6 +1050,7 @@
             </div>
         </section>
 
+        
         <section id="sujetos" data-aos>
             <div class="counter-container">
     <span class="glitch-text">SUJETOS_DETECTADOS: </span>
@@ -1168,8 +1161,19 @@
         <div class="footer-logo">BRAUU STUDIOS</div>
         <p>SECTOR BSMP_II</p>
     </footer>
-    </div>
 
+   <div id="subject-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span>EXPEDIENTE: <span id="modal-name"></span></span>
+            <button onclick="closeSubjectModal()" class="close-btn">[X]</button>
+        </div>
+        <div class="modal-body">
+            </div>
+    </div>
+</div>
+    </div>
+</div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -1439,7 +1443,7 @@
         // --- BASE DE DATOS ACTUALIZADA ---
        const sujetos = [
         
-    { id: "ItsBrauu", displayName: "ItsBrauu", channelUrl: "https://www.twitch.tv/ItsBrauu" },
+    { id: "ItsBrauu", displayName: "ItsBrauu", channelUrl: "https://www.twitch.tv/ItsBrauu", resumenUrl: "", entrevistaUrl: "" },
     { id: "https://mc-heads.net/avatar/783218dc25d491c546762a20507750c0cd7c5b77153a76103c2578688b9da624", displayName: "Reno", channelUrl: "https://www.twitch.tv/renoxyvods" },
     { id: "DaniTrembl4y", displayName: "DaniTremblay", channelUrl: "https://www.twitch.tv/Danitremblay" },
     { id: "j4vu", displayName: "j4vuuuu", channelUrl: "https://www.twitch.tv/j4vuuuu" },
@@ -1484,22 +1488,22 @@ document.getElementById('total-streamers').innerText = sujetos.length.toString()
         // Configuración de vista inicial (Muestra 9 para que sean 3 filas exactas en celular)
         const limiteInicial = 8;
 
- sujetos.forEach((s, index) => {
-    const card = document.createElement('a');
-    card.href = s.channelUrl || "#";
-    card.target = "_blank";
+sujetos.forEach((s, index) => {
+    // CAMBIO: Ahora es un div para controlar el menú con JS
+    const card = document.createElement('div'); 
     
-    // Generar el ID para el escáner (basado en displayName)
+    // Generar el ID para el escáner
     const cardId = `card-${s.displayName.toLowerCase().replace(/\s+/g, '')}`;
     card.id = cardId;
     
     const esOculto = index >= limiteInicial ? 'hidden' : '';
     card.className = `subject-card ${esOculto} is-offline`;
-    card.style.textDecoration = "none";
     
+    // CONFIGURACIÓN DEL CLIC: Abrir el modal pasando los datos del sujeto
+    card.style.cursor = "pointer";
+    card.onclick = () => openSubjectModal(s);
+
     const finalImg = s.id.startsWith('http') ? s.id : `https://mc-heads.net/avatar/${s.id}/120`;
-    
-    // Generamos el REG_CODE una sola vez aquí
     const shortID = Math.floor(Math.random() * 900) + 100;
 
     card.innerHTML = `
@@ -1514,6 +1518,54 @@ document.getElementById('total-streamers').innerText = sujetos.length.toString()
     `;
     grid.appendChild(card);
 });
+function openSubjectModal(s) {
+    const modal = document.getElementById('subject-modal');
+    document.getElementById('modal-name').innerText = s.displayName.toUpperCase();
+    
+    const container = document.querySelector('.modal-body');
+    container.innerHTML = ""; // Limpiar contenido previo
+
+    // 1. BOTÓN TWITCH/KICK (Si tiene URL)
+    if (s.channelUrl) {
+        container.innerHTML += `
+            <a href="${s.channelUrl}" target="_blank" class="m-btn">
+                <span>▶</span> IR AL CANAL
+            </a>`;
+    }
+
+    // 2. BOTÓN RESUMEN (Página Individual)
+    if (s.resumenUrl && s.resumenUrl !== "") {
+        container.innerHTML += `
+            <a href="${s.resumenUrl}" class="m-btn active-btn">
+                <span>📄</span> ABRIR ARCHIVO: AUTOBIOGRAFIA
+            </a>`;
+    } else {
+        container.innerHTML += `
+            <div class="m-btn locked">
+                <span>🔒</span> ARCHIVO: AUTOBIOGRAFIA
+                <small>ACCESO DENEGADO, PRONTO ESTARA DISPONIBLE.</small>
+            </div>`;
+    }
+
+    // 3. BOTÓN ENTREVISTA (Página Individual)
+    if (s.entrevistaUrl && s.entrevistaUrl !== "") {
+        container.innerHTML += `
+            <a href="${s.entrevistaUrl}" class="m-btn active-btn">
+                <span>🎤</span> ABRIR ARCHIVO: ENTREVISTA
+            </a>`;
+    } else {
+        container.innerHTML += `
+            <div class="m-btn locked">
+                <span>🔒</span> ARCHIVO: ENTREVISTA
+                <small>ACCESO DENEGADO, PRONTO ESTARA DISPONIBLE.</small>
+            </div>`;
+    }
+
+    modal.style.display = 'flex';
+}
+function closeSubjectModal() {
+    document.getElementById('subject-modal').style.display = 'none';
+}
 document.addEventListener('DOMContentLoaded', () => {
     
    async function checkTwitchStatus() {
@@ -1620,7 +1672,28 @@ setInterval(checkTwitchStatus, 60000); // Revisa cada minuto
             document.getElementById('countdown').innerText = `${Math.floor(d / (1000 * 60 * 60 * 24))}d ${Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))}h ${Math.floor((d % (1000 * 60 * 60)) / (1000 * 60))}m ${Math.floor((d % (1000 * 60)) / 1000)}s`;
         }, 1000);
 
+function openModal(index) {
+    const sujeto = sujetos[index]; // 'sujetos' es tu array original
+    const modal = document.getElementById('sujeto-modal');
+    
+    // Cambiar nombre en el header
+    document.getElementById('modal-target-name').innerText = sujeto.displayName.toUpperCase();
+    
+    // Configurar link de Twitch
+    const twitchBtn = document.getElementById('btn-twitch');
+    if(sujeto.channelUrl && sujeto.channelUrl !== "") {
+        twitchBtn.href = sujeto.channelUrl;
+        twitchBtn.style.display = "flex";
+    } else {
+        twitchBtn.style.display = "none"; // Si no tiene twitch, se oculta el botón
+    }
+    
+    modal.style.display = 'flex';
+}
 
+function closeModal() {
+    document.getElementById('sujeto-modal').style.display = 'none';
+}
     </script>
 
     <style>
@@ -1755,7 +1828,60 @@ setInterval(checkTwitchStatus, 60000); // Revisa cada minuto
     color: #666;
     font-size: 1rem;
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex; justify-content: center; align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-box {
+    background: #fff;
+    border: 3px solid #000;
+    width: 320px;
+    box-shadow: 10px 10px 0px #000;
+}
+
+.modal-header {
+    background: #000; color: #fff;
+    padding: 10px; font-size: 0.8rem;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.close-btn {
+    background: none; border: none; color: red;
+    font-weight: bold; cursor: pointer;
+}
+
+.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+.m-btn {
+    text-decoration: none; color: #000;
+    border: 2px solid #000; padding: 12px;
+    font-size: 0.8rem; font-weight: bold;
+    display: flex; flex-direction: column; transition: 0.2s;
+}
+
+.m-btn:not(.locked):hover {
+    background: #000; color: #0f0;
+}
+
+.m-btn.locked {
+    background: #eee; color: #aaa;
+    border-color: #ccc; cursor: not-allowed;
+}
+
+.m-btn small {
+    font-size: 0.6rem; color: #ff3333; margin-top: 4px;
+}
+
+.m-btn.disabled { opacity: 0.5; pointer-events: none; }
     </style>
+
+    
 </body>
 
 </html>

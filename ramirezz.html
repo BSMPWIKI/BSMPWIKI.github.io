@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=850"> 
+    <title>SISTEMA_CENTRAL_FILE_001</title>
+    <style>
+        :root {
+            --paper: #e4e0d5; 
+            --ink: #1a1a1a;
+            --red-alert: #b30000;
+            --border-security: #222;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            /* Permite scroll horizontal en móvil para ver la hoja completa */
+            width: 100%;
+            overflow-x: auto; 
+        }
+
+        .pdf-page {
+            background: var(--paper);
+            background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
+            width: 850px; /* Ancho fijo de hoja real */
+            min-height: 1100px;
+            padding: 60px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            border: 1px solid #999;
+            box-sizing: border-box;
+            /* Evita que el contenido se salga de la "hoja" */
+            flex-shrink: 0; 
+        }
+
+        /* Borde de seguridad del documento */
+        .pdf-page::before {
+            content: "";
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            border: 2px solid var(--border-security);
+            pointer-events: none;
+        }
+
+        .stamp-top-secret {
+            position: absolute;
+            top: 60px; right: 60px;
+            border: 5px solid var(--red-alert);
+            color: var(--red-alert);
+            padding: 10px 20px;
+            font-size: 28px;
+            font-weight: 900;
+            transform: rotate(15deg);
+            opacity: 0.7;
+            z-index: 10;
+        }
+
+        .header-top {
+            text-align: left;
+            border-bottom: 3px solid var(--ink);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .subject-profile {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .photo-area {
+            border: 3px solid #000;
+            padding: 5px;
+            background: #fff;
+        }
+
+        .photo-area img {
+            width: 180px;
+            filter: grayscale(1) contrast(1.3);
+            display: block;
+        }
+
+        .data-box {
+            flex-grow: 1;
+            font-size: 14px;
+        }
+
+        .data-line { margin-bottom: 8px; border-bottom: 1px dotted #888; }
+        .data-line b { text-transform: uppercase; width: 150px; display: inline-block; }
+
+        .censored { background: #000; color: #000; padding: 0 3px; }
+
+        .section-header {
+            background: #222;
+            color: #fff;
+            padding: 5px 10px;
+            margin: 25px 0 10px 0;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .report-text {
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .auto-bio {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border: 1px dashed #666;
+            font-style: italic;
+            color: #222;
+            position: relative;
+        }
+
+        .auto-bio::before {
+            content: "RECOPILACIÓN DIRECTA DE DATOS:";
+            display: block;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        .trait-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .trait-item { font-size: 13px; border-left: 4px solid #444; padding-left: 10px; }
+
+        .footer-barcode {
+            margin-top: 60px;
+            text-align: right;
+        }
+
+        .back-link { color: #888; text-decoration: none; font-size: 12px; margin-bottom: 10px; }
+        .back-link:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-link">[ SISTEMA // VOLVER ]</a>
+
+    <div class="pdf-page">
+        <div class="stamp-top-secret">TOP SECRET</div>
+
+        <div class="header-top">
+            <h1>AGENCY OF BSMP</h1>
+            <p>INTEL REPORT: SUBJECT_RAMIREZ</p>
+            <p style="font-size: 10px; margin: 0;">REF: #992-ALPHA-02 </p>
+        </div>
+
+        <div class="subject-profile">
+            <div class="photo-area">
+                <img src="https://mc-heads.net/avatar/f165565b6bbd7bf3ec2395cc957bad9a4c4cd0f946f762fa63bfd8aa94aaf3c8/180" alt="SUBJECT PHOTO">
+            </div>
+            <div class="data-box">
+                <div class="data-line"><b>SUJETO:</b> Hola es el Ramirez </div>
+                <div class="data-line"><b>EDAD:</b> <span class="censored">Si</span></div>
+                <div class="data-line"><b>ID_CODE:</b> 992-A-02</div>
+                <div class="data-line"><b>ESTATUS:</b> hola</div>
+                <div class="data-line"><b>RIESGO:</b> Es Ramirez</div>
+                <div class="data-line"><b>LOCALIZACIÓN:</b> En su casita</div>
+            </div>
+        </div>
+
+        <div class="section-header">AUTOBIOGRAFÍA RECOPILADA</div>
+        <div class="report-text auto-bio">
+            "Hola, soy Ramirez."
+        </div>
+
+        <div class="section-header">ACONTECIMIENTOS CLAVE REGISTRADOS</div>
+        <div class="report-text">
+            • <b>El es ramirez</b><br>
+        <div class="section-header">RASGOS Y PERFIL DE CONDUCTA</div>
+        <div class="trait-list">
+            <div class="trait-item"><b>FISICO:</b> Simplemente es ramirez</div>
+        </div>
+
+        <div class="section-header">ANÁLISIS FINAL DE INTELIGENCIA</div>
+        <div class="report-text">
+          El sujeto Ramirez presenta un perfil bajo y no representa una amenaza inmediata -250 de IQ
+        </div>
+
+        <div class="footer-barcode">
+            <img src="https://i.ibb.co/k24Vx68f/Proyecto-nuevo-23.png" width="150" style="opacity: 0.6;"><br>
+            <span style="font-size: 10px; color: #666;">AUTHORIZATION: SYSTEM_ADMIN_00</span>
+        </div>
+    </div>
+
+</body>
+</html>

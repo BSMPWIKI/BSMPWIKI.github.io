@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SISTEMA CENTRAL | ARCHIVO BSMP PUBLICOS</title>
+    <style>
+        /* BRAUU_CORE_OS: ESTÉTICA DE ARCHIVO CLASIFICADO */
+        :root {
+            --blanco: #ffffff;
+            --negro: #000000;
+            --verde: #00ff00;
+            --gris-falla: #d1d1d1;
+            --pixel: 4px solid #000;
+            --pixel-thin: 2px solid #000;
+            --fuente: 'Courier New', Courier, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--blanco);
+            color: var(--negro);
+            font-family: var(--fuente);
+            overflow-x: hidden;
+            image-rendering: pixelated;
+        }
+
+        /* Ocultar tarjetas */
+        .subject-card.hidden {
+            display: none !important;
+        }
+
+        /* Botón con estilo */
+        .load-more-btn {
+            background: green;
+            color: rgb(255, 255, 255);
+            border: 1px solid rgb(0, 38, 0);
+            padding: 12px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        /* Animación de entrada */
+        @keyframes glitch-appear {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Forzar las 2 columnas en celular */
+        @media (max-width: 768px) {
+            .subject-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8px !important;
+            }
+        }
+
+        /* --- PANTALLA DE CARGA --- */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--verde);
+            padding: 20px;
+        }
+
+        .boot-text {
+            font-size: 0.8rem;
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            max-width: 300px;
+            height: 10px;
+            border: 1px solid var(--verde);
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--verde);
+            transition: width 0.1s;
+        }
+
+        /* --- EFECTO DE INTERFERENCIA --- */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.03) 0px, rgba(0, 0, 0, 0.03) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* --- ANIMACIONES DE ENTRADA --- */
+        [data-aos] {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        [data-aos].appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- CONTAINER MAESTRO --- */
+        .master-archive {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-left: var(--pixel);
+            border-right: var(--pixel);
+            min-height: 100vh;
+            background: var(--blanco);
+        }
+
+        /* --- CABECERA (MODIFICADA) --- */
+        header {
+            padding: 100px 20px;
+            text-align: center;
+            border-bottom: var(--pixel);
+            background: var(--blanco);
+        }
+
+        .header-top {
+            font-weight: bold;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+        }
+
+        .main-logo {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -5px;
+            line-height: 0.8;
+        }
+
+        .warning-strip {
+            background: var(--negro);
+            color: var(--blanco);
+            padding: 5px;
+            margin-top: 40px;
+            font-size: 0.7rem;
+        }
+
+        /* --- CONTADORES --- */
+        .counter-container {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 255, 0, 0.05);
+            border-left: 3px solid #0f0;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .counter-number {
+            color: #0f0;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .glitch-text {
+            color: #000000;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        /* Contador de jugadores en vivo (simulado) */
+        .live-counter-container {
+            background: rgba(0, 20, 0, 0.8);
+            border: 1px solid #0f0;
+            padding: 10px 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        .counter-label {
+            color: #0f0;
+            font-size: 0.9rem;
+            margin-right: 10px;
+            letter-spacing: 2px;
+        }
+
+        .counter-divider {
+            color: #444;
+            margin: 0 5px;
+        }
+
+        .counter-total {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* --- IP BLOQUEADA --- */
+        .ip-block {
+            margin: 30px 0;
+            padding: 15px;
+            border: var(--pixel);
+            background: #000;
+            color: #fff;
+            text-align: center;
+        }
+
+        .ip-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            color: #0f0;
+        }
+
+        #ip-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            background: transparent;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(0,255,0,0.5);
+            user-select: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #ip-display.revealed {
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .ip-hint {
+            font-size: 0.6rem;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            display: flex;
+            overflow-x: auto;
+            background: var(--negro);
+            position: sticky;
+            top: 0;
+            z-index: 5000;
+            scrollbar-width: none;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-btn {
+            color: var(--blanco);
+            padding: 20px 30px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            border-right: 1px solid #333;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            background: var(--verde);
+            color: var(--negro);
+        }
+
+        /* --- SECCIONES --- */
+        section {
+            padding: 80px 40px;
+            border-bottom: var(--pixel-thin);
+        }
+
+        .section-header {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            border-left: 15px solid #000;
+            padding-left: 20px;
+        }
+
+        /* --- INFO CARDS --- */
+        .lore-card {
+            border: var(--pixel);
+            padding: 40px;
+            margin-bottom: 30px;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .lore-card:hover {
+            transform: scale(1.02);
+        }
+
+        .lore-card::after {
+            content: "PUBLICO";
+            position: absolute;
+            top: 20px;
+            right: -40px;
+            background: #000;
+            color: #fff;
+            padding: 5px 100px;
+            transform: rotate(45deg);
+            font-size: 0.6rem;
+        }
+
+        .lore-num {
+            font-size: 3rem;
+            font-weight: 900;
+            opacity: 0.1;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+        }
+
+        .lore-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-decoration: underline;
+        }
+
+        .lore-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #222;
+        }
+
+        /* --- SECCIÓN DE JUGADORES (PRÓXIMAMENTE) --- */
+        .subject-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .coming-soon-card {
+            background: #f5f5f5;
+            border: var(--pixel);
+            padding: 80px 20px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #000;
+            letter-spacing: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coming-soon-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,0,0.1), transparent);
+            animation: scan 3s infinite;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        .subject-status {
+            font-size: 0.55rem;
+            color: #0f0;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .platform-tag {
+            display: inline-block;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            margin-left: 5px;
+            border-radius: 2px;
+            text-transform: uppercase;
+        }
+
+        .platform-tag.java {
+            background: #0f0;
+            color: #000;
+        }
+
+        .platform-tag.bedrock {
+            background: #00aaff;
+            color: #fff;
+        }
+
+        /* Estado del servidor (simulado) */
+        .server-status-panel {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 20px 0 30px;
+            padding: 15px 25px;
+            border: 2px solid #000;
+            background: #f9f9f9;
+        }
+
+        .status-led {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0f0;
+            box-shadow: 0 0 10px #0f0;
+        }
+
+        .status-led.offline {
+            background: #ff0000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        .status-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 100px 20px;
+            background: #000;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 768px) {
+            .master-archive {
+                border: none;
+            }
+
+            header {
+                padding: 60px 20px;
+            }
+
+            section {
+                padding: 40px 15px;
+            }
+
+            .section-header {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+
+            .nav-btn {
+                padding: 15px 20px;
+                font-size: 0.6rem;
+            }
+
+            .lore-card {
+                padding: 25px 20px;
+            }
+
+            .server-status-panel {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .coming-soon-card {
+                font-size: 1.5rem;
+                letter-spacing: 5px;
+                padding: 60px 20px;
+            }
+        }
+
+        .custom-logo {
+            max-width: 300px;
+            height: auto;
+            filter: grayscale(1) brightness(1.2);
+            image-rendering: pixelated;
+            transition: 0.3s;
+        }
+
+        .custom-logo:hover {
+            filter: grayscale(0) drop-shadow(0 0 10px var(--verde));
+        }
+
+        @media (max-width: 760px) {
+            .custom-logo {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loading-screen">
+        <div class="main-logo" style="color:white">BSMP</div>
+        <div class="boot-text" id="boot-text"></div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="load-bar"></div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+
+    <div class="master-archive">
+        <header>
+            <div class="header-top">SISTEMA CENTRAL DE ARCHIVOS PUBLICOS</div>
+            <h1 class="main-logo">
+                <img src="https://i.ibb.co/SwDhHzYx/Proyecto-nuevo-33.png" alt="BSMP PUBLICO" class="custom-logo">
+            </h1>
+            <div class="warning-strip">CONEXIÓN ABIERTA - JAVA + BEDROCK</div>
+            <div id="countdown" style="margin-top: 20px; font-weight: bold; font-size: 1.2rem;">CALCULANDO...</div>
+        </header>
+
+        <nav>
+            <a href="#info" class="nav-btn">INFO</a>
+            <a href="#sujetos" class="nav-btn">JUGADORES</a>
+            <a href="#estado" class="nav-btn">ESTADO</a>
+            <a href="#conexion" class="nav-btn">CONEXIÓN</a>
+        </nav>
+
+        <!-- IP BLOQUEADA -->
+        <div class="ip-block">
+            <div class="ip-label">DIRECCIÓN DEL SERVIDOR</div>
+            <div id="ip-display" onclick="copyIP()">████████████████</div>
+            <div class="ip-hint" id="ip-hint">[ BLOQUEADO HASTA APERTURA ]</div>
+        </div>
+
+        <section id="info" data-aos>
+            <h2 class="section-header">INFORMACIÓN</h2>
+            <div class="lore-card">
+                <span class="lore-num">01</span>
+                <div class="lore-title">BSMP PUBLICO</div>
+                <div class="lore-desc">Servidor survival cross-play (Java + Bedrock). Protección de áreas, eventos semanales y comunidad activa. La IP se revelará cuando termine el contador.</div>
+            </div>
+            <div class="lore-card">
+                <span class="lore-num">02</span>
+                <div class="lore-title">REQUISITOS</div>
+                <div class="lore-desc">Java Edition 1.20+ o Bedrock Edition. No se requiere whitelist. Acceso libre para todos.</div>
+            </div>
+        </section>
+
+        <section id="sujetos" data-aos>
+            <!-- ESTADO DEL SERVIDOR (SIMULADO) -->
+            <div class="server-status-panel" id="serverStatus">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="status-led" id="statusLed"></div>
+                    <span class="status-text" id="statusText">VERIFICANDO...</span>
+                </div>
+                <div>
+                    <span class="counter-label">JUGADORES:</span>
+                    <span id="live-count" class="counter-number">--</span>
+                    <span class="counter-divider">/</span>
+                    <span id="total-subjects" class="counter-total">--</span>
+                </div>
+            </div>
+
+            <h2 class="section-header">JUGADORES CONECTADOS</h2>
+            
+            <!-- PRÓXIMAMENTE (en lugar de simulación) -->
+            <div class="subject-grid" id="grid_sujetos">
+                <div class="coming-soon-card">
+                    PRÓXIMAMENTE
+                </div>
+            </div>
+            
+            <div id="btn-container-registros" style="text-align: center; margin-top: 30px;">
+                <button class="load-more-btn" onclick="revealAllSubjects()" disabled style="opacity: 0.4; cursor: not-allowed;">
+                    [ PRÓXIMAMENTE ]
+                </button>
+            </div>
+        </section>
+
+        <section id="estado" data-aos>
+            <h2 class="section-header">ESTADO EN VIVO</h2>
+            <div class="lore-card">
+                <span class="lore-num">●</span>
+                <div class="lore-title">PLATAFORMAS SOPORTADAS</div>
+                <div class="lore-desc">
+                    <span style="background: #0f0; color: #000; padding: 5px 15px; margin-right: 10px;">JAVA</span>
+                    <span style="background: #00aaff; color: #fff; padding: 5px 15px;">BEDROCK</span>
+                </div>
+            </div>
+            <div class="lore-card">
+                <span class="lore-num">⚡</span>
+                <div class="lore-title">LATENCIA</div>
+                <div class="lore-desc" id="ping-display">20ms - 40ms (estimado)</div>
+            </div>
+        </section>
+
+        <section id="conexion" data-aos>
+            <h2 class="section-header">CÓMO CONECTARSE</h2>
+            <div class="lore-card">
+                <span class="lore-num">J</span>
+                <div class="lore-title">JAVA EDITION</div>
+                <div class="lore-desc">1. Abre Minecraft<br>2. Multijugador > Añadir servidor<br>3. Espera a que la IP se revele arriba</div>
+            </div>
+            <div class="lore-card">
+                <span class="lore-num">B</span>
+                <div class="lore-title">BEDROCK EDITION</div>
+                <div class="lore-desc">1. Abre Minecraft<br>2. Servidores > Añadir servidor<br>3. Puerto: 25565 (estándar)</div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-logo">BSMP PUBLIC</div>
+            <p>BRAUU STUDIOS</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- PANTALLA DE CARGA ---
+        const logs = [
+            "Iniciando monitor de servidor...",
+            "Cargando configuración...",
+            "Verificando plataformas...",
+            "Sincronizando estado...",
+            "Acceso concedido."
+        ];
+        let logIdx = 0;
+        const logContainer = document.getElementById('boot-text');
+        const loadBar = document.getElementById('load-bar');
+
+        const interval = setInterval(() => {
+            if (logIdx < logs.length) {
+                logContainer.innerHTML += `> ${logs[logIdx]}<br>`;
+                loadBar.style.width = ((logIdx + 1) * 20) + "%";
+                logIdx++;
+            } else {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    initAOS();
+                }, 500);
+            }
+        }, 400);
+
+        // --- CONFIGURACIÓN ---
+        const targetDate = new Date("July 1, 2026 00:00:00").getTime();
+        const serverIP = "play.bsmpublico.com";
+        const ipDisplay = document.getElementById('ip-display');
+        const ipHint = document.getElementById('ip-hint');
+
+        // --- SIMULACIÓN MÍNIMA (solo para el LED y texto, sin jugadores) ---
+        function getServerStatus() {
+            const isOnline = Math.random() < 0.85; // 85% online
+            return {
+                online: isOnline
+            };
+        }
+
+        // --- ACTUALIZAR SOLO EL LED (sin jugadores) ---
+        function updateServerStatus() {
+            const status = getServerStatus();
+            
+            // Actualizar LED y texto
+            const statusLed = document.getElementById('statusLed');
+            const statusText = document.getElementById('statusText');
+            
+            if (status.online) {
+                statusLed.className = 'status-led';
+                statusText.textContent = 'SERVIDOR EN LÍNEA';
+            } else {
+                statusLed.className = 'status-led offline';
+                statusText.textContent = 'SERVIDOR APAGADO';
+            }
+        }
+
+        // --- ACTUALIZAR CONTADOR Y CONTROL DE IP ---
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "SERVIDOR ABIERTO";
+                
+                // Revelar IP
+                ipDisplay.textContent = serverIP;
+                ipDisplay.classList.add('revealed');
+                ipHint.innerHTML = '[ HAZ CLICK PARA COPIAR LA IP ]';
+            } else {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown').innerHTML = 
+                    `${days.toString().padStart(2, '0')}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+            }
+        }
+
+        // --- COPIAR IP ---
+        function copyIP() {
+            const distance = targetDate - new Date().getTime();
+            if (distance < 0) {
+                navigator.clipboard.writeText(serverIP);
+                alert('IP copiada al portapapeles');
+            } else {
+                alert('La IP se revelará cuando el contador llegue a 0');
+            }
+        }
+
+        // --- REVELAR TODOS (deshabilitado) ---
+        function revealAllSubjects() {
+            alert('Función disponible PRÓXIMAMENTE');
+        }
+
+        // --- ANIMACIONES ---
+        function initAOS() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('appear');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
+        }
+
+        // --- INICIALIZAR ---
+        setInterval(updateCountdown, 1000);
+        updateServerStatus();
+        setInterval(updateServerStatus, 30000); // Actualizar cada 30 segundos
+
+        // Exponer funciones globales
+        window.copyIP = copyIP;
+        window.revealAllSubjects = revealAllSubjects;
+
+        // Valores fijos para los contadores (placeholder)
+        document.getElementById('live-count').innerText = '--';
+        document.getElementById('total-subjects').innerText = '--';
+    </script>
+
+    <style>
+        /* Estilos adicionales */
+        #ip-display {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        #ip-display.revealed {
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0;
+            cursor: pointer;
+        }
+
+        .coming-soon-card {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+    </style>
+</body>
+
+</html>

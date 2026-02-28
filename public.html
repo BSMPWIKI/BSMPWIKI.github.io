@@ -1024,12 +1024,15 @@
             document.getElementById('nonpremium-instructions').style.display = 'block';
         }
 
-        // --- DESCARGA MODPACK (simulado) ---
-        function downloadModpack() {
-            window.location.href = 'https://files.catbox.moe/ao19j5.zip'
-            // Aquí puedes poner el enlace real después:
-            // window.location.href = 'URL_DEL_ARCHIVO.zip';
-        }
+        // --- DESCARGA MODPACK con nombre personalizado ---
+function downloadModpack() {
+    const link = document.createElement('a');
+    link.href = 'https://files.catbox.moe/ao19j5.zip';
+    link.download = 'modpack-bsmp.zip'; // El nombre que quieras
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
         // --- REVELAR TODOS (deshabilitado) ---
         function revealAllSubjects() {
@@ -1121,4 +1124,3 @@
 </body>
 
 </html>
-

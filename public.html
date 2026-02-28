@@ -11,6 +11,7 @@
             --blanco: #ffffff;
             --negro: #000000;
             --verde: #00ff00;
+            --azul: #0066ff;
             --gris-falla: #d1d1d1;
             --pixel: 4px solid #000;
             --pixel-thin: 2px solid #000;
@@ -57,6 +58,54 @@
         .load-more-btn:hover {
             background: rgba(0, 255, 0, 0.1);
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        /* Botón de descarga */
+        .download-btn {
+            background: #000;
+            color: #fff;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        .download-btn:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        /* Botones de selector */
+        .selector-btn {
+            padding: 8px 20px;
+            border: 2px solid #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .selector-btn.premium {
+            background: #0f0;
+            color: #000;
+        }
+
+        .selector-btn.nonpremium {
+            background: #00aaff;
+            color: #fff;
+        }
+
+        .selector-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px currentColor;
         }
 
         /* Animación de entrada */
@@ -184,59 +233,7 @@
             font-size: 0.7rem;
         }
 
-        /* --- CONTADORES --- */
-        .counter-container {
-            font-family: 'Courier New', monospace;
-            background: rgba(0, 255, 0, 0.05);
-            border-left: 3px solid #0f0;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        .counter-number {
-            color: #0f0;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        }
-
-        .glitch-text {
-            color: #000000;
-            letter-spacing: 2px;
-            font-size: 0.9rem;
-        }
-
-        /* Contador de jugadores en vivo (simulado) */
-        .live-counter-container {
-            background: rgba(0, 20, 0, 0.8);
-            border: 1px solid #0f0;
-            padding: 10px 20px;
-            display: inline-block;
-            margin-bottom: 20px;
-            font-family: 'Courier New', Courier, monospace;
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
-        }
-
-        .counter-label {
-            color: #0f0;
-            font-size: 0.9rem;
-            margin-right: 10px;
-            letter-spacing: 2px;
-        }
-
-        .counter-divider {
-            color: #444;
-            margin: 0 5px;
-        }
-
-        .counter-total {
-            color: #666;
-            font-size: 1rem;
-        }
-
-        /* --- IP BLOQUEADA --- */
+        /* --- IPS REVELADAS --- */
         .ip-block {
             margin: 30px 0;
             padding: 15px;
@@ -246,35 +243,102 @@
             text-align: center;
         }
 
+        .ip-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .ip-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px;
+            border: 1px solid #333;
+            background: #111;
+        }
+
         .ip-label {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .ip-label.java {
             color: #0f0;
         }
 
-        #ip-display {
-            font-size: 1.8rem;
+        .ip-label.bedrock {
+            color: #00aaff;
+        }
+
+        #ip-display-java, #ip-display-bedrock {
+            font-size: 1.5rem;
             font-weight: bold;
             font-family: 'Courier New', monospace;
-            background: transparent;
-            color: transparent;
-            text-shadow: 0 0 8px rgba(0,255,0,0.5);
-            user-select: none;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        #ip-display.revealed {
             color: #0f0;
             text-shadow: 0 0 10px #0f0;
+            cursor: pointer;
+            word-break: break-all;
+            transition: 0.3s;
+        }
+
+        #ip-display-bedrock {
+            color: #00aaff;
+            text-shadow: 0 0 10px #00aaff;
+        }
+
+        #ip-display-java:hover, #ip-display-bedrock:hover {
+            transform: scale(1.05);
         }
 
         .ip-hint {
             font-size: 0.6rem;
             color: #666;
+            margin-top: 20px;
+        }
+
+        /* --- IMAGEN CON HOVER --- */
+        .hover-image-container {
+            margin: 40px auto;
+            max-width: 400px;
+            text-align: center;
+            border: var(--pixel);
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .hover-image {
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .hover-image.primary {
+            display: block;
+        }
+
+        .hover-image.secondary {
+            display: none;
+        }
+
+        .hover-image-container:hover .hover-image.primary {
+            display: none;
+        }
+
+        .hover-image-container:hover .hover-image.secondary {
+            display: block;
+        }
+
+        .image-caption {
             margin-top: 10px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #444;
         }
 
         /* --- NAVEGACIÓN --- */
@@ -370,6 +434,47 @@
             font-size: 0.9rem;
             line-height: 1.6;
             color: #222;
+        }
+
+        /* Instrucciones paso a paso */
+        .steps-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .steps-list li {
+            counter-increment: step-counter;
+            margin-bottom: 20px;
+            padding-left: 50px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .steps-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 35px;
+            height: 35px;
+            background: #000;
+            color: #0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #0f0;
+        }
+
+        .code-block {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #0f0;
+            font-family: monospace;
+            overflow-x: auto;
         }
 
         /* --- SECCIÓN DE JUGADORES (PRÓXIMAMENTE) --- */
@@ -513,6 +618,15 @@
                 letter-spacing: 5px;
                 padding: 60px 20px;
             }
+
+            .ip-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            #ip-display-java, #ip-display-bedrock {
+                font-size: 1.2rem;
+            }
         }
 
         .custom-logo {
@@ -554,7 +668,6 @@
                 <img src="https://i.ibb.co/SwDhHzYx/Proyecto-nuevo-33.png" alt="BSMP PUBLICO" class="custom-logo">
             </h1>
             <div class="warning-strip">CONEXIÓN ABIERTA - JAVA + BEDROCK</div>
-            <div id="countdown" style="margin-top: 20px; font-weight: bold; font-size: 1.2rem;">CALCULANDO...</div>
         </header>
 
         <nav>
@@ -562,13 +675,33 @@
             <a href="#sujetos" class="nav-btn">JUGADORES</a>
             <a href="#estado" class="nav-btn">ESTADO</a>
             <a href="#conexion" class="nav-btn">CONEXIÓN</a>
+            <a href="#modpack" class="nav-btn">MODPACK</a>
+            <a href="#bedrock" class="nav-btn">BEDROCK</a>
         </nav>
 
-        <!-- IP BLOQUEADA -->
+        <!-- IPS REVELADAS DIRECTAMENTE (CON LAS NUEVAS IPs) -->
         <div class="ip-block">
-            <div class="ip-label">DIRECCIÓN DEL SERVIDOR</div>
-            <div id="ip-display" onclick="copyIP()">████████████████</div>
-            <div class="ip-hint" id="ip-hint">[ BLOQUEADO HASTA APERTURA ]</div>
+            <div class="ip-label">DIRECCIONES DEL SERVIDOR</div>
+            <div class="ip-container">
+                <div class="ip-item">
+                    <div class="ip-label java">JAVA EDITION</div>
+                    <div id="ip-display-java" onclick="copyIP('java')">bsmpoficialtwo.sdlf.fun</div>
+                    <div style="color: #666; font-size: 0.8rem; margin-top: 5px;">Cualquier versión 1.8 - 1.20+</div>
+                </div>
+                <div class="ip-item">
+                    <div class="ip-label bedrock">BEDROCK EDITION</div>
+                    <div id="ip-display-bedrock" onclick="copyIP('bedrock')">ns566750.seedloaf.com:49315</div>
+                    <div style="color: #666; font-size: 0.8rem; margin-top: 5px;">Puerto incluido: 49315</div>
+                </div>
+            </div>
+            <div class="ip-hint">[ HAZ CLICK EN CADA IP PARA COPIAR ]</div>
+        </div>
+
+        <!-- IMAGEN CON CAMBIO AL HOVER -->
+        <div class="hover-image-container">
+            <img src="https://i.ibb.co/d0wgwRM6/2026-02-28-11-19-36.png" alt="BSMP PRIMARY" class="hover-image primary" id="primary-image">
+            <img src="https://i.ibb.co/JWfp7xzB/2026-02-28-11-19-20.png" alt="BSMP SECONDARY" class="hover-image secondary" id="secondary-image">
+            <div class="image-caption">[WELCOME]</div>
         </div>
 
         <section id="info" data-aos>
@@ -576,60 +709,213 @@
             <div class="lore-card">
                 <span class="lore-num">01</span>
                 <div class="lore-title">BSMP PUBLICO</div>
-                <div class="lore-desc">Servidor survival cross-play (Java + Bedrock). La IP se revelará cuando termine el contador.</div>
+                <div class="lore-desc">Servidor survival cross-play (Java + Bedrock). Protección de áreas, eventos semanales y comunidad activa. Las IPs están visibles arriba.</div>
             </div>
             <div class="lore-card">
                 <span class="lore-num">02</span>
-                <div class="lore-title">REQUISITOS</div>
-                <div class="lore-desc">Java Edition 1.20+ o Bedrock Edition. No se requiere whitelist. Acceso libre para todos.</div>
-            </div>
-        </section>
-
-        <section id="sujetos" data-aos>
-            <!-- ESTADO DEL SERVIDOR (SIMULADO) -->
-            <div class="server-status-panel" id="serverStatus">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <div class="status-led" id="statusLed"></div>
-                    <span class="status-text" id="statusText">VERIFICANDO...</span>
-                </div>
-                <div>
-                    <span class="counter-label">JUGADORES:</span>
-                    <span id="live-count" class="counter-number">--</span>
-                    <span class="counter-divider">/</span>
-                    <span id="total-subjects" class="counter-total">--</span>
-                </div>
-            </div>
-
-            <h2 class="section-header">JUGADORES CONECTADOS</h2>
-            
-            <!-- PRÓXIMAMENTE (en lugar de simulación) -->
-            <div class="subject-grid" id="grid_sujetos">
-                <div class="coming-soon-card">
-                    PRÓXIMAMENTE
-                </div>
-            </div>
-            
-            <div id="btn-container-registros" style="text-align: center; margin-top: 30px;">
-                <button class="load-more-btn" onclick="revealAllSubjects()" disabled style="opacity: 0.4; cursor: not-allowed;">
-                    [ PRÓXIMAMENTE ]
-                </button>
-            </div>
-        </section>
-
-        <section id="estado" data-aos>
-            <h2 class="section-header">ESTADO EN VIVO</h2>
-            <div class="lore-card">
-                <span class="lore-num">●</span>
-                <div class="lore-title">PLATAFORMAS SOPORTADAS</div>
+                <div class="lore-title">VERSIONES COMPATIBLES</div>
                 <div class="lore-desc">
-                    <span style="background: #0f0; color: #000; padding: 5px 15px; margin-right: 10px;">JAVA</span>
-                    <span style="background: #00aaff; color: #fff; padding: 5px 15px;">BEDROCK</span>
+                    <p><strong>JAVA:</strong> Cualquier versión desde la 1.8 hasta la más reciente. El servidor adapta la conexión automáticamente.</p>
+                    <p><strong>BEDROCK:</strong> Versiones 1.20.0 - 1.21.0 (recomendado usar la última estable)</p>
+                    <p style="margin-top: 10px; color: #0f0;">⚡ El modpack es OPCIONAL y solo mejora la experiencia visual/de rendimiento, no es necesario para jugar.</p>
                 </div>
             </div>
+        </section>
+
+
+        </section>
+
+        <!-- SECCIÓN MODPACK COMPLETA (CON MENSAJE DE OPCIONAL) -->
+        <section id="modpack" data-aos>
+            <h2 class="section-header">MODPACK BSMP</h2>
             <div class="lore-card">
-                <span class="lore-num">⚡</span>
-                <div class="lore-title">LATENCIA</div>
-                <div class="lore-desc" id="ping-display">20ms - 40ms (estimado)</div>
+                <span class="lore-num">📦</span>
+                <div class="lore-title">DESCARGA EL MODPACK (OPCIONAL)</div>
+                <div class="lore-desc">
+                    <p style="background: #000; color: #0f0; padding: 15px; margin-bottom: 20px;">
+                        ⚠️ EL MODPACK ES COMPLETAMENTE OPCIONAL<br>
+                        Puedes jugar sin mods en cualquier versión de Java (1.8 hasta la más reciente).<br>
+                        El modpack solo añade optimización, funciones de GUI, shaders y mejoras visuales.
+                    </p>
+                    
+                    <a href="#" class="download-btn" onclick="downloadModpack()">⬇ DESCARGAR MODPACK (OPCIONAL)</a>
+                    
+                    <!-- SELECTOR DE PLATAFORMA (PREMIUM / NO-PREMIUM) -->
+                    <div style="margin: 30px 0 20px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <span class="selector-btn premium" onclick="showPremiumInstructions()"> CURSEFORGE (PREMIUM)</span>
+                        <span class="selector-btn nonpremium" onclick="showNonPremiumInstructions()"> SKLAUNCHER (NO-PREMIUM)</span>
+                    </div>
+
+                    <!-- INSTRUCCIONES PARA CURSEFORGE (PREMIUM) -->
+                    <div id="premium-instructions" style="margin-top: 20px;">
+                        <h3 class="lore-title">INSTRUCCIONES PARA CURSEFORGE (PREMIUM)</h3>
+                        <ol class="steps-list">
+                            <li><strong>Descarga CurseForge</strong> - Si no lo tienes, descarga el launcher desde <a href="https://www.curseforge.com/download/app" target="_blank" style="color:#0f0;">curseforge.com</a></li>
+                            <li><strong>Abre CurseForge</strong> y selecciona Minecraft Java Edition</li>
+                            <li><strong>Importa el modpack</strong>:
+                                <div class="code-block">Botón "Import" > Seleccionar archivo .zip descargado</div>
+                            </li>
+                            <li><strong>Verifica la versión</strong> - Asegúrate de que diga "Forge 1.20.1"</li>
+                            <li><strong>Asigna RAM</strong> (recomendado 4GB):
+                                <div class="code-block">Configuración > Perfil > Asignar memoria: 4096 MB</div>
+                            </li>
+                            <li><strong>Lanza el modpack</strong> y espera a que carguen todos los mods</li>
+                            <li><strong>Conecta al servidor</strong> usando la IP de JAVA: <strong>bsmpoficialtwo.sdlf.fun</strong></li>
+                        </ol>
+                        <p style="margin-top: 15px; color: #666;">Recuerda: No es obligatorio usar el modpack, puedes entrar con cualquier versión de Java directamente.</p>
+                    </div>
+
+                   
+                    <div id="nonpremium-instructions" style="margin-top: 20px; display: none;">
+                        <h3 class="lore-title">INSTRUCCIONES PARA SKLAUNCHER (NO-PREMIUM)</h3>
+                        
+                        <div style="margin-bottom: 25px; padding: 15px; border: 2px solid #00aaff; background: rgba(0,170,255,0.1);">
+                            <p style="color: #00aaff; font-weight: bold;">⚡ VERSIÓN PARA NO-PREMIUM</p>
+                            <p>Estas instrucciones son solo si quieres usar el modpack. Puedes jugar sin mods directamente en SKlauncher con cualquier versión de Java.</p>
+                        </div>
+
+                        <ol class="steps-list">
+                            <li>
+                                <strong>Descarga SKlauncher</strong> - Obtén la última versión desde 
+                                <a href="https://skmedix.pl/download" target="_blank" style="color:#00aaff;">skmedix.pl/download</a>
+                                <div class="code-block">Instalador SKlauncher.exe (versión recomendada: 2.2+)</div>
+                            </li>
+                            
+                            <li>
+                                <strong>Instala SKlauncher</strong> - Ejecuta el instalador y sigue los pasos.
+                            </li>
+                            
+                            <li>
+                                <strong>Abre SKlauncher</strong> y configura tu cuenta no-premium:
+                                <div class="code-block">
+                                    1. Ve a "Cuentas" > "Añadir cuenta"<br>
+                                    2. Selecciona "Cuenta no-premium"<br>
+                                    3. Ingresa el nombre de usuario que quieras usar<br>
+                                    4. Guarda la cuenta
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <strong>Instala Forge 1.20.1</strong>:
+                                <div class="code-block">
+                                    1. Ve a "Instalaciones"<br>
+                                    2. "Nueva instalación" > Versión "release 1.20.1"<br>
+                                    3. Marca "Instalar Forge"<br>
+                                    4. Espera a que descargue
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <strong>Importa los mods</strong>:
+                                <div class="code-block">
+                                    1. Abre SKlauncher > "Gestionar mods"<br>
+                                    2. Haz clic en "Abrir carpeta de mods"<br>
+                                    3. Extrae el contenido del .zip descargado en esa carpeta
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <strong>Configura la RAM</strong> (4GB mínimo):
+                                <div class="code-block">
+                                    SKlauncher > Configuración > Java ><br>
+                                    Argumentos: -Xms4G -Xmx4G
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <strong>Lanza el juego</strong> con la versión de Forge 1.20.1
+                            </li>
+                            
+                            <li>
+                                <strong>Conecta al servidor</strong> usando la IP de JAVA:
+                                <div class="code-block" style="background: #00aaff; color: #000;">
+                                    bsmpoficialtwo.sdlf.fun
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div style="margin-top: 25px; padding: 20px; background: #000; border: 2px solid #00aaff;">
+                            <p style="color: #00aaff; font-weight: bold;">⚠️ NOTAS PARA NO-PREMIUM:</p>
+                            <ul style="color: #fff; margin-left: 20px;">
+                                <li>El servidor soporta jugadores no-premium (cracked)</li>
+                                <li>Tu nombre será el que elijas en SKlauncher</li>
+                                <li>Puedes entrar sin mods con cualquier versión de Java</li>
+                                <li>El modpack es solo para mejorar la experiencia.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px; padding: 20px; background: #000; color: #0f0;">
+                        <p style="font-weight: bold;">🔧 REQUISITOS MÍNIMOS (SOLO SI USAS MODPACK):</p>
+                        <p>RAM: 4GB asignados al juego<br>
+                        Java 17 o superior<br>
+                        Espacio en disco: 2GB para mods<br>
+                        Conexión a internet estable</p>
+                        <p style="margin-top: 10px; color: #666;">Sin mods no hay requisitos especiales, cualquier PC puede entrar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: TUTORIAL PARA BEDROCK -->
+        <section id="bedrock" data-aos>
+            <h2 class="section-header">TUTORIAL BEDROCK</h2>
+            <div class="lore-card">
+                <span class="lore-num">📱</span>
+                <div class="lore-title">CÓMO CONECTARSE DESDE BEDROCK</div>
+                <div class="lore-desc">
+                    <p>Versión compatible: 1.20.0 - 1.21.0 (recomendado usar la última versión estable)</p>
+                    
+                    <ol class="steps-list">
+                        <li>
+                            <strong>Abre Minecraft Bedrock</strong> en tu dispositivo (PC, móvil o consola)
+                        </li>
+                        
+                        <li>
+                            <strong>Ve a la sección "Servidores"</strong>:
+                            <div class="code-block">
+                                Desde el menú principal > Jugar > Servidores
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <strong>Añade un servidor nuevo</strong>:
+                            <div class="code-block">
+                                Botón "Añadir servidor" (generalmente al final de la lista)
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <strong>Completa los datos</strong>:
+                            <div class="code-block">
+                                Nombre del servidor: BSMP PUBLICO (puedes poner cualquier nombre)<br>
+                                Dirección del servidor: <strong>ns566750.seedloaf.com</strong><br>
+                                Puerto: <strong>49315</strong> (OBLIGATORIO)
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <strong>Guarda y conecta</strong> - Selecciona el servidor de la lista y haz clic en "Unirse al servidor"
+                        </li>
+                    </ol>
+
+                    <div style="margin-top: 30px; padding: 20px; background: #000; border: 2px solid #00aaff;">
+                        <p style="color: #00aaff; font-weight: bold;">📌 NOTAS PARA BEDROCK:</p>
+                        <ul style="color: #fff; margin-left: 20px;">
+                            <li>No necesitas mods en Bedrock, el servidor es compatible nativamente</li>
+                            <li>Puedes jugar desde: Windows 10/11, Xbox, PlayStation, Nintendo Switch, iOS y Android</li>
+                            <li>El inventario y progreso se sincroniza con Java (cross-play)</li>
+                            <li><strong>PUERTO OBLIGATORIO:</strong> 49315 (debe incluirse al añadir el servidor)</li>
+                            <li>En consolas puede que necesites Xbox Live Gold o PlayStation Plus</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 30px; padding: 20px; background: #000; color: #0f0;">
+                        <p style="font-weight: bold;">⚡ DATOS DE CONEXIÓN:</p>
+                        <p>IP: <strong>ns566750.seedloaf.com</strong><br>
+                        Puerto: <strong>49315</strong></p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -638,12 +924,24 @@
             <div class="lore-card">
                 <span class="lore-num">J</span>
                 <div class="lore-title">JAVA EDITION</div>
-                <div class="lore-desc">1. Abre Minecraft<br>2. Multijugador > Añadir servidor<br>3. Espera a que la IP se revele arriba</div>
+                <div class="lore-desc">
+                    1. Abre Minecraft (cualquier versión 1.8 - 1.20+)<br>
+                    2. Multijugador > Añadir servidor<br>
+                    3. IP: <strong>bsmpoficialtwo.sdlf.fun</strong><br>
+                    4. El servidor adaptará tu versión automáticamente<br>
+                    5. El modpack es opcional (mejora visual/de rendimiento)
+                </div>
             </div>
             <div class="lore-card">
                 <span class="lore-num">B</span>
                 <div class="lore-title">BEDROCK EDITION</div>
-                <div class="lore-desc">1. Abre Minecraft<br>2. Servidores > Añadir servidor<br>3. Puerto:(estándar)</div>
+                <div class="lore-desc">
+                    1. Abre Minecraft Bedrock<br>
+                    2. Servidores > Añadir servidor<br>
+                    3. IP: <strong>ns566750.seedloaf.com</strong><br>
+                    4. Puerto: <strong>49315</strong> (obligatorio)<br>
+                    5. Versiones compatibles: 1.20.0 - 1.21.0
+                </div>
             </div>
         </section>
 
@@ -680,25 +978,22 @@
             }
         }, 400);
 
-        // --- CONFIGURACIÓN ---
-        const targetDate = new Date("February 28, 2026 00:00:00").getTime();
-        const serverIP = "";
-        const ipDisplay = document.getElementById('ip-display');
-        const ipHint = document.getElementById('ip-hint');
+        // --- CONFIGURACIÓN DE IPS ---
+        const serverIPJava = "bsmpoficialtwo.sdlf.fun";
+        const serverIPBedrock = "ns566750.seedloaf.com:49315";
 
-        // --- SIMULACIÓN MÍNIMA (solo para el LED y texto, sin jugadores) ---
+        // --- CAMBIAR IMÁGENES (cambia la URL de secondary-image por la que quieras) ---
+        document.getElementById('primary-image').src = "https://i.ibb.co/d0wgwRM6/2026-02-28-11-19-36.png";
+        document.getElementById('secondary-image').src = "https://i.ibb.co/JWfp7xzB/2026-02-28-11-19-20.png"; // Cambia esta URL por tu segunda imagen
+
+        // --- SIMULACIÓN MÍNIMA (LED y texto) ---
         function getServerStatus() {
             const isOnline = Math.random() < 0.85; // 85% online
-            return {
-                online: isOnline
-            };
+            return { online: isOnline };
         }
 
-        // --- ACTUALIZAR SOLO EL LED (sin jugadores) ---
         function updateServerStatus() {
             const status = getServerStatus();
-            
-            // Actualizar LED y texto
             const statusLed = document.getElementById('statusLed');
             const statusText = document.getElementById('statusText');
             
@@ -711,38 +1006,29 @@
             }
         }
 
-        // --- ACTUALIZAR CONTADOR Y CONTROL DE IP ---
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance < 0) {
-                document.getElementById('countdown').innerHTML = "SERVIDOR ABIERTO";
-                
-                // Revelar IP
-                ipDisplay.textContent = serverIP;
-                ipDisplay.classList.add('revealed');
-                ipHint.innerHTML = '[ HAZ CLICK PARA COPIAR LA IP ]';
-            } else {
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                document.getElementById('countdown').innerHTML = 
-                    `${days.toString().padStart(2, '0')}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-            }
+        // --- COPIAR IP ---
+        function copyIP(platform) {
+            const ip = platform === 'java' ? serverIPJava : serverIPBedrock;
+            navigator.clipboard.writeText(ip);
+            alert(`IP de ${platform.toUpperCase()} copiada al portapapeles: ${ip}`);
         }
 
-        // --- COPIAR IP ---
-        function copyIP() {
-            const distance = targetDate - new Date().getTime();
-            if (distance < 0) {
-                navigator.clipboard.writeText(serverIP);
-                alert('IP copiada al portapapeles');
-            } else {
-                alert('La IP se revelará cuando el contador llegue a 0');
-            }
+        // --- FUNCIONES PARA SELECTOR DE INSTRUCCIONES ---
+        function showPremiumInstructions() {
+            document.getElementById('premium-instructions').style.display = 'block';
+            document.getElementById('nonpremium-instructions').style.display = 'none';
+        }
+
+        function showNonPremiumInstructions() {
+            document.getElementById('premium-instructions').style.display = 'none';
+            document.getElementById('nonpremium-instructions').style.display = 'block';
+        }
+
+        // --- DESCARGA MODPACK (simulado) ---
+        function downloadModpack() {
+            window.location.href = 'BSMP public.zip'
+            // Aquí puedes poner el enlace real después:
+            // window.location.href = 'URL_DEL_ARCHIVO.zip';
         }
 
         // --- REVELAR TODOS (deshabilitado) ---
@@ -761,31 +1047,34 @@
         }
 
         // --- INICIALIZAR ---
-        setInterval(updateCountdown, 1000);
         updateServerStatus();
-        setInterval(updateServerStatus, 30000); // Actualizar cada 30 segundos
+        setInterval(updateServerStatus, 30000);
+
+        // Valores fijos para los contadores
+        document.getElementById('live-count').innerText = '--';
+        document.getElementById('total-subjects').innerText = '--';
 
         // Exponer funciones globales
         window.copyIP = copyIP;
+        window.showPremiumInstructions = showPremiumInstructions;
+        window.showNonPremiumInstructions = showNonPremiumInstructions;
+        window.downloadModpack = downloadModpack;
         window.revealAllSubjects = revealAllSubjects;
-
-        // Valores fijos para los contadores (placeholder)
-        document.getElementById('live-count').innerText = '--';
-        document.getElementById('total-subjects').innerText = '--';
     </script>
 
     <style>
         /* Estilos adicionales */
-        #ip-display {
-            font-size: 2rem;
+        #ip-display-java, #ip-display-bedrock {
+            font-size: 1.5rem;
             font-weight: bold;
             letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
         }
         
-        #ip-display.revealed {
-            color: #0f0;
-            text-shadow: 0 0 10px #0f0;
-            cursor: pointer;
+        #ip-display-java:hover, #ip-display-bedrock:hover {
+            transform: scale(1.05);
+            text-decoration: underline;
         }
 
         .coming-soon-card {
@@ -797,9 +1086,38 @@
             50% { opacity: 0.8; }
             100% { opacity: 1; }
         }
+
+        .download-btn {
+            border: 2px solid #0f0;
+            background: #000;
+            color: #0f0;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            background: #0f0;
+            color: #000;
+        }
+
+        a {
+            color: #0f0;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .selector-btn.premium {
+            background: #0f0;
+            color: #000;
+        }
+
+        .selector-btn.nonpremium {
+            background: #00aaff;
+            color: #fff;
+        }
     </style>
 </body>
 
-
 </html>
-
